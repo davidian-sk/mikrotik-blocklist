@@ -40,12 +40,12 @@ Copy the blacklist.rsc file from this repository to the root directory of the Mi
 Use the MikroTik Terminal to import the file.
 
 \# WARNING: This command first removes the old list completely to prevent stale entries.  
-/ip firewall address-list remove \[find list=pwlgrzs-blacklist\]
+/ip firewall address-list remove \[find list=davidian-sk-blocklist\]
 
 \# This command imports the new list of CIDR ranges.  
 /import file=blacklist.rsc
 
-The new, optimized list will be available under /ip firewall address-list with the name pwlgrzs-blacklist.
+The new, optimized list will be available under /ip firewall address-list with the name **davidian-sk-blocklist**.
 
 ### **3\. Apply the List to Firewall Rules (Performance Critical)**
 
@@ -56,14 +56,14 @@ For managing large, external blocklists, it is **highly recommended** to use the
 This rule drops incoming connections destined for devices behind the router using the most efficient table.
 
 /ip firewall raw  
-add action=drop chain=prerouting comment="DROP Automated Threat List (RAW)" src-address-list=pwlgrzs-blacklist
+add action=drop chain=prerouting comment="DROP Automated Threat List (RAW)" src-address-list=davidian-sk-blocklist
 
 #### **Option B: Standard Filter Rule**
 
 If the standard filter chain is preferred:
 
 /ip firewall filter  
-add action=drop chain=forward comment="DROP Automated Threat List (FILTER)" src-address-list=pwlgrzs-blacklist
+add action=drop chain=forward comment="DROP Automated Threat List (FILTER)" src-address-list=davidian-sk-blocklist
 
 ## **💻 Automation Setup (Linux Host)**
 
@@ -72,4 +72,4 @@ The script is designed for hands-off operation on a Linux host using a scheduled
 1. **Git Setup:** Ensure the Git author information (git config \--global user.name and user.email) is set and that a secure **SSH key** is configured and linked to the GitHub account for automatic pushes.  
 2. **Cron Job:** Schedule the script to run periodically (e.g., every 6 hours) using cron or a similar scheduling tool:  
    \# Example: Run every 6 hours and log output  
-   0 \*/6 \* \* \* /path/to/ip\_aggregator\_git.sh \> /var/log/threatfeed.log 2\>&1
+   0 \*/6 \* \* \* /path/to/ip\_aggregator\_git.sh \> /var/log/threatfeed.log 2\>&1  
