@@ -73,5 +73,3 @@ The script is designed for hands-off operation on a Linux host using a scheduled
 2. **Cron Job:** Schedule the script to run periodically (e.g., every 6 hours) using cron or a similar scheduling tool:  
    \# Example: Run every 6 hours and log output  
    0 \*/6 \* \* \* /path/to/ip\_aggregator\_git.sh \> /var/log/threatfeed.log 2\>&1
-
-This version is ready to be the face of your public GitHub repository\!
