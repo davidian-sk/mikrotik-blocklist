@@ -22,32 +22,43 @@ The core script, ip\_aggregator\_git.sh, is designed to run on a dedicated Linux
 | sources.txt | The list of public URLs the script uses for data collection. | Plain Text | Defines the input sources. |
 | ip\_aggregator\_git.sh | The Linux shell script responsible for the entire automation process. | Bash Script | Runs on the automation host. |
 
-## **⚙️ MikroTik Usage Guide**
+## **⚙️ MikroTik Usage Guide: Full Automation (Recommended)**
 
-To deploy the generated threat list to your MikroTik router:
+This method sets up the MikroTik router to automatically download the latest **blacklist.rsc** file from your GitHub repository on a repeating schedule, ensuring your firewall is always current.
 
-### **1\. Transfer the Script**
+### **1\. Apply the Automated Scheduler Script**
 
-Copy the blacklist.rsc file from this repository to the root directory of the MikroTik router's storage.
+Copy and paste this entire block into your MikroTik terminal. This creates two scripts (download and import) and two schedulers to run them **every 7 days (weekly)**.
 
-* **Via WinBox/WebFig:** Drag and drop blacklist.rsc into the **Files** menu.  
-* **Via SCP (Linux/macOS):**  
-  \# Replace 'user' and '192.168.88.1' with the router's credentials/IP  
-  scp blacklist.rsc user@192.168.88.1:/
+\# 1\. Define the Download Script  
+/system script  
+add name="davidian-sk-dl" source={  
+  :log info "Starting download of davidian-sk-blocklist from GitHub..."  
+  /tool fetch url="\[https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc\](https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc)" mode=https dst-path=blacklist.rsc;  
+}
 
-### **2\. Import and Load the Address List**
+\# 2\. Define the Import/Replace Script  
+add name="davidian-sk-replace" source={  
+  :log info "Starting import and replacement of davidian-sk-blocklist..."  
+  \# Remove old list entries before importing new ones  
+  /ip firewall address-list remove \[find list=davidian-sk-blocklist\];  
+  \# Import the new script  
+  /import file-name=blacklist.rsc;  
+  \# Clean up the downloaded file  
+  /file remove blacklist.rsc;  
+  :log info "davidian-sk-blocklist successfully updated."  
+}
 
-Use the MikroTik Terminal to import the file.
-
-\# WARNING: This command first removes the old list completely to prevent stale entries.  
-/ip firewall address-list remove \[find list=davidian-sk-blocklist\]
-
-\# This command imports the new list of CIDR ranges.  
-/import file=blacklist.rsc
+\# 3\. Schedule the Run (Every 7 days)  
+/system scheduler  
+\# Download script runs at 00:05:00 every 7 days  
+add name="dl-sk-blacklist" interval=7d start-date=jan/01/1970 start-time=00:05:00 on-event=davidian-sk-dl  
+\# Import script runs 5 minutes later to ensure download is complete  
+add name="ins-sk-blacklist" interval=7d start-date=jan/01/1970 start-time=00:10:00 on-event=davidian-sk-replace
 
 The new, optimized list will be available under /ip firewall address-list with the name **davidian-sk-blocklist**.
 
-### **3\. Apply the List to Firewall Rules (Performance Critical)**
+### **2\. Apply the List to Firewall Rules (Performance Critical)**
 
 For managing large, external blocklists, it is **highly recommended** to use the **raw** firewall table. This table processes traffic *before* connection tracking, preventing known malicious connections from consuming valuable router CPU and memory.
 
@@ -67,9 +78,9 @@ add action=drop chain=forward comment="DROP Automated Threat List (FILTER)" src-
 
 ## **💻 Automation Setup (Linux Host)**
 
-The script is designed for hands-off operation on a Linux host using a scheduled job:
+The script is designed for hands-off operation on a Linux host (like a Raspberry Pi or Proxmox VM) using a scheduled job:
 
 1. **Git Setup:** Ensure the Git author information (git config \--global user.name and user.email) is set and that a secure **SSH key** is configured and linked to the GitHub account for automatic pushes.  
-2. **Cron Job:** Schedule the script to run periodically (e.g., every 6 hours) using cron or a similar scheduling tool:  
-   \# Example: Run every 6 hours and log output  
-   0 \*/6 \* \* \* /path/to/ip\_aggregator\_git.sh \> /var/log/threatfeed.log 2\>&1  
+2. **Cron Job:** Schedule the script to run **daily** using cron or a similar scheduling tool:  
+   \# Example: Run daily at 1:00 AM (01:00) and log output  
+   0 1 \* \* \* /path/to/ip\_aggregator\_git.sh \> /var/log/threatfeed.log 2\>&1  
