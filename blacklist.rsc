@@ -3654,7 +3654,6 @@ add list=davidian-sk-blocklist address=47.121.143.30/32
 add list=davidian-sk-blocklist address=47.121.218.152/32
 add list=davidian-sk-blocklist address=47.122.62.115/32
 add list=davidian-sk-blocklist address=47.122.75.194/32
-add list=davidian-sk-blocklist address=47.128.189.30/32
 add list=davidian-sk-blocklist address=47.149.193.89/32
 add list=davidian-sk-blocklist address=47.180.114.229/32
 add list=davidian-sk-blocklist address=47.199.41.229/32

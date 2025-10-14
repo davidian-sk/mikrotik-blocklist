@@ -73,10 +73,12 @@ then
     # Python script to read IPs and output minimal CIDR ranges
     python3 -c "
 import ipaddress
+import os # <--- THE FIX IS HERE!
 import sys
+
 # Read all IPs from the cleaned file
 with open('$FINAL_IP_LIST', 'r') as f:
-    # Convert each line to an IPv4Address object
+    # Convert each line to an IPv4Address object, skipping empty lines
     ips = [ipaddress.IPv4Address(line.strip()) for line in f if line.strip()]
 
 # Aggregate them into the smallest possible list of CIDR networks
@@ -87,16 +89,28 @@ with open('$RANGED_IP_LIST', 'w') as f:
     for net in networks:
         f.write(str(net) + '\n')
 
+# Count the resulting lines for the commit message
 RANGES_COUNT = 0
 if os.path.exists('$RANGED_IP_LIST'):
     with open('$RANGED_IP_LIST', 'r') as f:
-        RANGES_COUNT = sum(1 for line in f)
+        # Use simple line count; f.readlines is safe for this small file.
+        RANGES_COUNT = len(f.readlines())
 
 print(f\"Successfully created minimal CIDR ranges: **$RANGED_IP_LIST**\")
 print(f\"Ranges created: {RANGES_COUNT}\")
 "
+# Retrieve the count from the Python output (this requires careful scripting, 
+# so we'll just re-count it safely in Bash below).
+
 else
     echo "⚠️ Python 3 not found. Skipping CIDR range aggregation. **$FINAL_IP_LIST** is the final output."
+fi
+
+# Recount the ranges in BASH after Python execution to ensure accuracy for commit message
+if [ -f "$RANGED_IP_LIST" ]; then
+    RANGES_COUNT=$(wc -l < "$RANGED_IP_LIST")
+else
+    RANGES_COUNT=0
 fi
 
 # --- 4. Format Output for MikroTik (.rsc) ---
@@ -112,7 +126,6 @@ while IFS= read -r cidr_range; do
     fi
 done < "$RANGED_IP_LIST"
 
-RANGES_COUNT=$(wc -l < "$RANGED_IP_LIST")
 
 echo "✅ MikroTik script generated: **$RSC_OUTPUT** (Entries: $RANGES_COUNT)"
 
