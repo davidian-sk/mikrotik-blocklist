@@ -1,3 +1,5 @@
+https://raw.githubusercontent.com/pwlgrzs/Mikrotik-Blacklist/master/blacklist.rsc
+
 https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
 https://blocklist.greensnow.co/greensnow.txt
