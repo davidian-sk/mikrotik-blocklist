@@ -46,44 +46,47 @@ crontab \-e
 
 This method uses your custom script logic, which saves the file to the reliable USB mount (usb2/blacklist/) and includes robust file size verification to prevent importing corrupted data.
 
-To set up the scripts and the scheduler, use the following commands on your **MikroTik terminal**:
 
-\# \-----------------------------------------------------------------------------  
-\# 1\. SCRIPT DEFINITIONS (Download and Replace Logic)  
-\# \-----------------------------------------------------------------------------  
+To set up the scripts and the scheduler, use the following commands on your MikroTik terminal:
+
+```routeros
+# -----------------------------------------------------------------------------
+# 1. SCRIPT DEFINITIONS (Download and Replace Logic)
+# -----------------------------------------------------------------------------
 /system script
 
-\# Script to remove the old list and import the new data (davidian-sk-blacklist-replace)  
-add name="davidian-sk-blacklist-replace" source={  
-    :log info "Importing new threat feed and cleaning old list."  
-    /ip firewall address-list remove \[find where list="davidian-sk-blocklist"\];   
-    /import file-name=usb2/blacklist/blacklist.rsc;   
-    /file remove usb2/blacklist/blacklist.rsc  
-    :log info "Threat list imported and files cleaned."  
+# Script to remove the old list and import the new data (davidian-sk-blacklist-replace)
+add name="davidian-sk-blacklist-replace" source={
+    :log info "Importing new threat feed and cleaning old list."
+    /ip firewall address-list remove [find where list="davidian-sk-blocklist"];
+    /import file-name=usb2/blacklist/blacklist.rsc;
+    /file remove usb2/blacklist/blacklist.rsc
+    :log info "Threat list imported and files cleaned."
 }
 
-\# Script to download the latest blocklist from GitHub (davidian-sk-blacklist-dl)  
-add name="davidian-sk-blacklist-dl" source={  
-    :log info "Starting threat feed download from GitHub."  
-    /tool fetch url="\[https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc\](https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc)" mode=https dst-path=usb2/blacklist/blacklist.rsc verify-certificate=yes  
-      
-    \# Verify the file exists and has non-zero size  
-    :local f \[/file find name="usb2/blacklist/blacklist.rsc"\]  
-    :if (\[:len $f\] \> 0\) do={  
-        :local size \[/file get $f size\]  
-        :if ($size \> 0\) do={  
-            :log info "File downloaded successfully ($size bytes). Running import script."  
-            /system script run davidian-sk-blacklist-replace  
-        } else={  
-            :log error "File exists but is empty. Aborting import."  
-        }  
-    } else={  
-        :log error "File download failed or not found."  
-    }  
+# Script to download the latest blocklist from GitHub (davidian-sk-blacklist-dl)
+add name="davidian-sk-blacklist-dl" source={
+    :log info "Starting threat feed download from GitHub."
+    /tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc" mode=https dst-path=usb2/blacklist/blacklist.rsc verify-certificate=yes
+
+    # Verify the file exists and has non-zero size
+    :local f [/file find name="usb2/blacklist/blacklist.rsc"]
+    :if ([:len $f] > 0) do={
+        :local size [/file get $f size]
+        :if ($size > 0) do={
+            :log info "File downloaded successfully ($size bytes). Running import script."
+            /system script run davidian-sk-blacklist-replace
+        } else={
+            :log error "File exists but is empty. Aborting import."
+        }
+    } else={
+        :log error "File download failed or not found."
+    }
 }
 
-\# \-----------------------------------------------------------------------------  
-\# 2\. SCHEDULER SETUP (Weekly Run)  
-\# \-----------------------------------------------------------------------------  
-/system scheduler  
-add interval=7d name="dl-ins-mt-blacklist" start-time=00:05:00 on-event=davidian-sk-blacklist-dl comment="Weekly update for GitHub threat blocklist"  
+# -----------------------------------------------------------------------------
+# 2. SCHEDULER SETUP (Weekly Run)
+# -----------------------------------------------------------------------------
+/system scheduler
+add interval=7d name="dl-ins-mt-blacklist" start-time=00:05:00 on-event=davidian-sk-blacklist-dl comment="Weekly update for GitHub threat blocklist"
+
