@@ -14,7 +14,7 @@ TEMP_IP_LIST="temp_ips.txt"
 TEMP_SOURCE_FILE="temp_source.txt"
 FINAL_IP_LIST="aggregated_ips.txt"
 RANGED_IP_LIST="aggregated_cidr_ranges.txt"
-RSC_OUTPUT="blacklist.rsc"
+RSC_OUTPUT="blocklist.rsc"
 SOURCES_FILE="sources.txt"
 ROUTEROS_LIST_NAME="davidian-sk-blocklist" # The name of the address-list on your MikroTik
 

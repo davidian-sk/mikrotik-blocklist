@@ -5,7 +5,7 @@ SOURCES_FILE="sources.txt"
 TEMP_IP_LIST="temp_ips.txt"
 FINAL_IP_LIST="aggregated_ips.txt"
 RANGED_IP_LIST="aggregated_cidr_ranges.txt"
-RSC_OUTPUT="blacklist.rsc"
+RSC_OUTPUT="blocklist.rsc"
 ADDRESS_LIST_NAME="davidian-sk-blocklist"
 
 # --- Function to clean up on exit ---

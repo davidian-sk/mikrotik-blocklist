@@ -6,7 +6,7 @@ This repository provides a self-updating, high-performance MikroTik Address List
 
 * **Source Aggregation:** Pulls IP data from various public threat feeds (sources.txt).  
 * **Optimal Compression:** Uses the Python ipaddress library to aggregate thousands of individual IPs and ranges (like /22, /17) into the **minimal list of CIDR blocks**.  
-* **High Performance:** Generates a RouterOS script (blacklist.rsc) designed for import into the **raw** firewall table.  
+* **High Performance:** Generates a RouterOS script (blocklist.rsc) designed for import into the **raw** firewall table.  
 * **Dual Automation:** Includes two scripts for flexible deployment (local host or GitHub-driven).
 
 ## **📝 Output Files**
@@ -15,7 +15,7 @@ The Linux script generates the following files:
 
 | File Name | Content | Purpose |
 | :---- | :---- | :---- |
-| **blacklist.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs. |
+| **blocklist.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs. |
 | **aggregated\_cidr\_ranges.txt** | List of final, optimized IP/CIDR ranges (e.g., 1.2.3.0/24). | **Essential:** Used for direct audit or consumption by other tools. |
 | **aggregated\_ips.txt** | List of unique, non-compressed IPs/Ranges. | **Audit Log:** Used for debugging and tracing false positives. |
 | **ip\_aggregator\_git.sh** | The script that generated the files. | **Source Control:** Tracks the logic used for the push. |
@@ -44,7 +44,7 @@ crontab \-e
 
 ### **2\. MikroTik RouterOS Scheduler (The Foolproof Method)**
 
-This method uses your custom script logic, which saves the file to the reliable USB mount (usb2/blacklist/) and includes robust file size verification to prevent importing corrupted data.
+This method uses your custom script logic, which saves the file to the reliable USB mount (usb2/blocklist/) and includes robust file size verification to prevent importing corrupted data.
 
 
 To set up the scripts and the scheduler, use the following commands on your MikroTik terminal:
@@ -55,27 +55,27 @@ To set up the scripts and the scheduler, use the following commands on your Mikr
 # -----------------------------------------------------------------------------
 /system script
 
-# Script to remove the old list and import the new data (davidian-sk-blacklist-replace)
-add name="davidian-sk-blacklist-replace" source={
+# Script to remove the old list and import the new data (davidian-sk-blocklist-replace)
+add name="davidian-sk-blocklist-replace" source={
     :log info "Importing new threat feed and cleaning old list."
     /ip firewall address-list remove [find where list="davidian-sk-blocklist"];
-    /import file-name=usb2/blacklist/blacklist.rsc;
-    /file remove usb2/blacklist/blacklist.rsc
+    /import file-name=usb2/blocklist/blocklist.rsc;
+    /file remove usb2/blocklist/blocklist.rsc
     :log info "Threat list imported and files cleaned."
 }
 
-# Script to download the latest blocklist from GitHub (davidian-sk-blacklist-dl)
-add name="davidian-sk-blacklist-dl" source={
+# Script to download the latest blocklist from GitHub (davidian-sk-blocklist-dl)
+add name="davidian-sk-blocklist-dl" source={
     :log info "Starting threat feed download from GitHub."
-    /tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc" mode=https dst-path=usb2/blacklist/blacklist.rsc verify-certificate=yes
+    /tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist.rsc" mode=https dst-path=usb2/blocklist/blocklist.rsc verify-certificate=yes
 
     # Verify the file exists and has non-zero size
-    :local f [/file find name="usb2/blacklist/blacklist.rsc"]
+    :local f [/file find name="usb2/blocklist/blocklist.rsc"]
     :if ([:len $f] > 0) do={
         :local size [/file get $f size]
         :if ($size > 0) do={
             :log info "File downloaded successfully ($size bytes). Running import script."
-            /system script run davidian-sk-blacklist-replace
+            /system script run davidian-sk-blocklist-replace
         } else={
             :log error "File exists but is empty. Aborting import."
         }
@@ -88,5 +88,5 @@ add name="davidian-sk-blacklist-dl" source={
 # 2. SCHEDULER SETUP (Weekly Run)
 # -----------------------------------------------------------------------------
 /system scheduler
-add interval=7d name="dl-ins-mt-blacklist" start-time=00:05:00 on-event=davidian-sk-blacklist-dl comment="Weekly update for GitHub threat blocklist"
+add interval=7d name="dl-ins-mt-blocklist" start-time=00:05:00 on-event=davidian-sk-blocklist-dl comment="Weekly update for GitHub threat blocklist"
 
