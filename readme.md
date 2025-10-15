@@ -46,10 +46,14 @@ crontab \-e
 
 This method uses your custom script logic, which saves the file to the reliable USB mount (usb2/blacklist/) and includes robust file size verification to prevent importing corrupted data.
 
-Run the following commands on your **MikroTik terminal** (or import the single install-mt-scripts.rsc file) to define the two scripts and the weekly scheduler:
+To set up the scripts and the scheduler, use the following commands on your **MikroTik terminal**:
 
-/system script  
-\# Script to remove the old list and import the new data (MUST BE DEFINED FIRST)  
+\# \-----------------------------------------------------------------------------  
+\# 1\. SCRIPT DEFINITIONS (Download and Replace Logic)  
+\# \-----------------------------------------------------------------------------  
+/system script
+
+\# Script to remove the old list and import the new data (davidian-sk-blacklist-replace)  
 add name="davidian-sk-blacklist-replace" source={  
     :log info "Importing new threat feed and cleaning old list."  
     /ip firewall address-list remove \[find where list="davidian-sk-blocklist"\];   
@@ -58,7 +62,7 @@ add name="davidian-sk-blacklist-replace" source={
     :log info "Threat list imported and files cleaned."  
 }
 
-\# Script to download the latest blocklist from GitHub to the USB mount  
+\# Script to download the latest blocklist from GitHub (davidian-sk-blacklist-dl)  
 add name="davidian-sk-blacklist-dl" source={  
     :log info "Starting threat feed download from GitHub."  
     /tool fetch url="\[https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc\](https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc)" mode=https dst-path=usb2/blacklist/blacklist.rsc verify-certificate=yes  
@@ -78,6 +82,8 @@ add name="davidian-sk-blacklist-dl" source={
     }  
 }
 
+\# \-----------------------------------------------------------------------------  
+\# 2\. SCHEDULER SETUP (Weekly Run)  
+\# \-----------------------------------------------------------------------------  
 /system scheduler  
-\# Schedule the download and import process to run once a week  
 add interval=7d name="dl-ins-mt-blacklist" start-time=00:05:00 on-event=davidian-sk-blacklist-dl comment="Weekly update for GitHub threat blocklist"  
