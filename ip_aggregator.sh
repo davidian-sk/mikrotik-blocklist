@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # --- CONFIGURATION ---
 SOURCES_FILE="sources.txt"
