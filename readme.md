@@ -42,6 +42,11 @@ crontab -e
 ```
 
 **Add this line to run the script every day at 3:00 AM (Ensure path is correct\!):**
+
+```bash
+0 3 * * * /path/to/project/ip_aggregator_git.sh
+```
+
 ```bash
 0 3 * * * /path/to/project/ip_aggregator_local.sh
 ```
