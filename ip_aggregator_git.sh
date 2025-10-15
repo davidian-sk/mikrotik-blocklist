@@ -11,7 +11,7 @@
 # --- Configuration ---
 FINAL_IP_LIST="aggregated_ips.txt"
 RANGED_IP_LIST="aggregated_cidr_ranges.txt"
-RSC_OUTPUT="blacklist.rsc"
+RSC_OUTPUT="blocklist.rsc"
 SOURCES_FILE="sources.txt"
 LIST_NAME="davidian-sk-blocklist"
 
