@@ -1,20 +1,17 @@
 #!/bin/bash
 
-# --- CONFIGURATION ---
+# --- Configuration ---
 SOURCES_FILE="sources.txt"
-LIST_NAME="davidian-sk-blocklist"
-# Define the output files
 TEMP_IP_LIST="temp_ips.txt"
 FINAL_IP_LIST="aggregated_ips.txt"
 RANGED_IP_LIST="aggregated_cidr_ranges.txt"
 RSC_OUTPUT="blacklist.rsc"
+ADDRESS_LIST_NAME="davidian-sk-blocklist"
 
 # --- Function to clean up on exit ---
 cleanup() {
-    # We leave the local output files (rsc, txt) for MikroTik to download/use,
-    # but remove the temporary raw list.
-    rm -f "$TEMP_IP_LIST"
-    echo "Cleanup complete. Temporary files removed. 👋"
+    rm -f "$TEMP_IP_LIST" temp_source.txt
+    echo -e "\nCleanup complete. Temporary files removed. 👋"
 }
 
 # Trap signals for proper cleanup
@@ -23,31 +20,35 @@ trap cleanup EXIT
 # Clear the temporary file before starting
 > "$TEMP_IP_LIST"
 
-echo "Starting IP aggregation and cleanup (LOCAL RUN)... 🚀"
+echo "Starting IP aggregation and cleanup... 🚀"
+current_time=$(date +"%Y-%m-%d %H:%M:%S")
 
-# --- 1. Download and Extract IPs from Sources ---
+# --- 1. Download and Extract IPs/Ranges from Sources ---
 while IFS= read -r url; do
-    if [[ -z "$url" ]]; then
+    if [ -z "$url" ]; then # Checks if the URL is empty (using compatible syntax)
         continue # Skip empty lines
     fi
 
     echo "Processing $url..."
-
-    # Use curl to download and pipe directly to processing.
-    # Extracts all valid IPv4 addresses.
-    curl -sL "$url" | \
-    grep -oP '((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)' >> "$TEMP_IP_LIST"
+    
+    # Download content to a temporary file
+    curl -sL "$url" > temp_source.txt
+    
+    # ROBUST EXTRACTION: Captures both raw IPs (1.1.1.1) and full CIDR ranges (1.1.1.0/24)
+    # The new regex ensures that large ranges from .rsc files are preserved for optimization.
+    grep -oP '((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/\d{1,2})?' temp_source.txt >> "$TEMP_IP_LIST"
 
 done < "$SOURCES_FILE"
 
 # --- 2. Deduplication and Initial Cleanup ---
-echo -e "\nExtraction complete. Raw IPs collected: $(wc -l < "$TEMP_IP_LIST")"
-echo "Deduplicating and filtering private IPs..."
+raw_ip_count=$(wc -l < "$TEMP_IP_LIST" 2>/dev/null || echo 0)
+echo -e "\nExtraction complete. Total raw IP/Ranges collected: $raw_ip_count"
 
-# Sort and unique to remove duplicates
+echo "Deduplicating and filtering IPs/Ranges..."
+# Sort and unique the temporary file to remove duplicates
 sort -h "$TEMP_IP_LIST" | uniq > "$FINAL_IP_LIST"
 
-# Filter out common private/reserved ranges (10/8, 172.16/12, 192.168/16, 127/8, 0/8)
+# Optionally, remove common private/reserved ranges (recommended)
 grep -vE '^10\.' "$FINAL_IP_LIST" | \
 grep -vE '^172\.(1[6-9]|2[0-9]|3[0-1])\.' | \
 grep -vE '^192\.168\.' | \
@@ -55,12 +56,14 @@ grep -vE '^127\.' | \
 grep -vE '^0\.' > temp_clean.txt
 mv temp_clean.txt "$FINAL_IP_LIST"
 
-echo "Final unique and cleaned IPs: $(wc -l < "$FINAL_IP_LIST")"
+cleaned_ip_count=$(wc -l < "$FINAL_IP_LIST" 2>/dev/null || echo 0)
+echo "Final unique and cleaned IPs/Ranges: $cleaned_ip_count written to **$FINAL_IP_LIST**"
 
 # --- 2.5. Fix Leading Zeros (CRITICAL FIX for Python) ---
 echo "Removing problematic leading zeros for Python compatibility..."
-# Use sed to remove leading zeros from each octet (e.g., .001 becomes .1)
+# This converts 1.1.1.007 to 1.1.1.7, which is required by Python's ipaddress module.
 sed -i -E 's/\.0+([0-9]+)/\.\1/g' "$FINAL_IP_LIST"
+echo "Leading zero fix applied."
 
 # --- 3. Range Aggregation (Using Python) ---
 echo -e "\nStarting CIDR range aggregation for better clutter avoidance..."
@@ -69,61 +72,59 @@ if command -v python3 &> /dev/null
 then
     echo "Python 3 found. Running range aggregation..."
     
-    # Python script to read IPs and output minimal CIDR ranges
+    # The Python script reads all IPs/ranges and outputs the minimal set of CIDR blocks.
+    # We pipe stderr (Python's error output) to /dev/null to keep the console clean.
     python3 -c "
 import ipaddress
-import os
 import sys
+import os
 
-# Read all IPs from the cleaned file
+# 1. Read all IPs/Ranges from the cleaned file
+input_list = []
 with open('$FINAL_IP_LIST', 'r') as f:
-    # Convert each line to an IPv4Address object, skipping empty lines
-    ips = [ipaddress.IPv4Address(line.strip()) for line in f if line.strip()]
+    for line in f:
+        line = line.strip()
+        if not line:
+            continue
+        
+        try:
+            # ip_network handles both single addresses and CIDR notation (1.1.1.0/24).
+            ip_obj = ipaddress.ip_network(line, strict=False)
+        except ValueError as e:
+            # Handle any remaining invalid formats and skip them
+            print(f\"Skipping invalid IP/Range: {line} ({e})\", file=sys.stderr)
+            continue
+        
+        input_list.append(ip_obj)
 
-# Aggregate them into the smallest possible list of CIDR networks
-networks = ipaddress.collapse_addresses(ips)
+# 2. Aggregate them into the smallest possible list of CIDR networks
+networks = ipaddress.collapse_addresses(input_list)
 
-# Write the resulting CIDR networks (ranges) to the final file
+# 3. Write the resulting CIDR networks (ranges) to the final file
 with open('$RANGED_IP_LIST', 'w') as f:
     for net in networks:
         f.write(str(net) + '\n')
 
-# Count the resulting lines for the output message
-RANGES_COUNT = 0
-if os.path.exists('$RANGED_IP_LIST'):
-    with open('$RANGED_IP_LIST', 'r') as f:
-        RANGES_COUNT = len(f.readlines())
-
-print(f\"Successfully created minimal CIDR ranges: **$RANGED_IP_LIST**\")
-print(f\"Ranges created: {RANGES_COUNT}\")
-"
+print(f\"Successfully created minimal CIDR ranges: **$RANGED_IP_LIST**\", file=sys.stderr)
+" 2> /dev/null
 else
     echo "⚠️ Python 3 not found. Skipping CIDR range aggregation. **$FINAL_IP_LIST** is the final output."
+    cp "$FINAL_IP_LIST" "$RANGED_IP_LIST"
 fi
 
-# Recount the ranges in BASH after Python execution to ensure accuracy for output
-if [ -f "$RANGED_IP_LIST" ]; then
-    RANGES_COUNT=$(wc -l < "$RANGED_IP_LIST")
-else
-    RANGES_COUNT=0
-fi
+# Get the count of ranges generated
+range_count=$(wc -l < "$RANGED_IP_LIST" 2>/dev/null || echo 0)
 
-# --- 4. Format Output for MikroTik (.rsc) ---
+# --- 4. Format Output for MikroTik RouterOS ---
 echo -e "\nFormatting output for MikroTik RouterOS..."
 
-# Start the .rsc file with the command context
 echo "/ip firewall address-list" > "$RSC_OUTPUT"
 
-# Read the compressed CIDR ranges and format them for the RouterOS script
-while IFS= read -r cidr_range; do
-    if [[ -n "$cidr_range" ]]; then
-        echo "add list=$LIST_NAME address=$cidr_range" >> "$RSC_OUTPUT"
-    fi
+while IFS= read -r range; do
+    echo "add list=$ADDRESS_LIST_NAME address=$range" >> "$RSC_OUTPUT"
 done < "$RANGED_IP_LIST"
 
-echo "✅ MikroTik script generated: **$RSC_OUTPUT** (Entries: $RANGES_COUNT)"
+echo "✅ MikroTik script generated: **$RSC_OUTPUT** (Entries: $range_count)"
 
-# No Git pushing in this version!
-
-# The 'cleanup' trap will execute automatically now.
+# Note: Step 5 (Git Push) is omitted in this local version.
 
