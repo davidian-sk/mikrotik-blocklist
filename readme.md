@@ -44,11 +44,11 @@ crontab -e
 **Add this line to run the script every day at 3:00 AM (Ensure path is correct\!):**
 
 ```bash
-0 3 * * * /path/to/project/ip_aggregator_git.sh
+0 3 * * * /path/to/project/ip_aggregator_git.sh > /path/to/log/threatfeed_git.log 2>&1
 ```
 
 ```bash
-0 3 * * * /path/to/project/ip_aggregator_local.sh
+0 3 * * * /path/to/project/ip_aggregator_local.sh > /path/to/log/threatfeed_local.log 2>&1
 ```
 
 #  2. MikroTik RouterOS Scheduler 
