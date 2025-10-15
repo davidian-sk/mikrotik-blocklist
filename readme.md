@@ -55,7 +55,7 @@ To set up the scripts and the scheduler, use the following commands on your Mikr
 
 
 
-### 1. SCRIPT DEFINITIONS (Download and Replace Logic)
+### I. SCRIPT DEFINITIONS (Download and Replace Logic)
 
 ```routeros
 /system script
@@ -90,7 +90,7 @@ add name="davidian-sk-blocklist-dl" source={
 }
 ```
 
-### 2. SCHEDULER SETUP (Weekly Run)
+### II. SCHEDULER SETUP (Weekly Run)
 
 ```routeros
 /system scheduler
