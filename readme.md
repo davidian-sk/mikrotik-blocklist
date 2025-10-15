@@ -25,7 +25,7 @@ The Linux script generates the following files:
 
 This setup assumes the aggregation script runs on a Linux host (e.g., your **Raspberry Pi 5** running a daily cron job) and the MikroTik fetches the result from this repository on a weekly schedule.
 
-### **1\. Host Setup (Linux Cron Job)**
+# **1. Host Setup (Linux Cron Job)**
 
 Choose one of the two aggregator scripts to run based on your needs:
 
@@ -36,23 +36,28 @@ Choose one of the two aggregator scripts to run based on your needs:
 
 To run the script daily using cron (e.g., for the local version):
 
-\# Edit the cron schedule  
-crontab \-e
+**Edit the cron schedule:**
+```bash
+crontab -e
+```
 
-\# Add this line to run the script every day at 3:00 AM (Ensure path is correct\!)  
-0 3 \* \* \* /path/to/project/ip\_aggregator\_local.sh
+**Add this line to run the script every day at 3:00 AM (Ensure path is correct\!):**
+```bash
+0 3 * * * /path/to/project/ip_aggregator_local.sh
+```
 
-### **2\. MikroTik RouterOS Scheduler (The Foolproof Method)**
+#  2. MikroTik RouterOS Scheduler 
 
 This method uses your custom script logic, which saves the file to the reliable USB mount (usb2/blocklist/) and includes robust file size verification to prevent importing corrupted data.
 
 
 To set up the scripts and the scheduler, use the following commands on your MikroTik terminal:
 
+
+
+### 1. SCRIPT DEFINITIONS (Download and Replace Logic)
+
 ```routeros
-# -----------------------------------------------------------------------------
-# 1. SCRIPT DEFINITIONS (Download and Replace Logic)
-# -----------------------------------------------------------------------------
 /system script
 
 # Script to remove the old list and import the new data (davidian-sk-blocklist-replace)
@@ -83,10 +88,48 @@ add name="davidian-sk-blocklist-dl" source={
         :log error "File download failed or not found."
     }
 }
+```
 
-# -----------------------------------------------------------------------------
-# 2. SCHEDULER SETUP (Weekly Run)
-# -----------------------------------------------------------------------------
+### 2. SCHEDULER SETUP (Weekly Run)
+
+```routeros
 /system scheduler
 add interval=7d name="dl-ins-mt-blocklist" start-time=00:05:00 on-event=davidian-sk-blocklist-dl comment="Weekly update for GitHub threat blocklist"
+```
 
+
+# **3\. Add Firewall Rule (Router OS)**
+
+
+### **Option A: *(Recommended Method)* High-Performance Raw Rule (for Large Lists)**
+
+This drops incoming traffic destined for devices behind your router using the most efficient table.
+This is the most efficient method. This rule runs before connection tracking, which is highly efficient and saves CPU cycles on your router.
+Add the firewall rule to your raw table to drop all incoming traffic from sources in your new address list. 
+
+```routeros
+/ip firewall raw
+add action=drop chain=input src-address-list=davidian-sk-blocklist comment="Drop traffic from Davidian-SK Blocklist"
+```
+### **Option B: Standard Filter Rule**
+
+While using the raw table is recommended for the best performance, you can also use this blocklist with the classic firewall filter rules.
+Important Note on CPU Usage: The primary difference is that filter rules are processed after connection tracking. 
+This means every packet from a new connection will be checked against the address list, resulting in a higher CPU load. 
+On a powerful device like the RB5009, this may be negligible, but on less powerful routers, it could significantly impact performance.
+
+*If you prefer to use the standard filter chain instead:*
+
+**Protect your router itself (input chain):**
+
+```routeros
+/ip firewall filter
+add action=drop chain=input src-address-list=davidian-sk-blocklist comment="Drop traffic from Davidian-SK Blocklist"
+```
+
+**Protect your LAN clients (forward chain):**
+
+```routeros
+/ip firewall filter
+add action=drop chain=forward src-address-list=davidian-sk-blocklist comment="Drop traffic from Davidian-SK Blocklist"
+```
