@@ -42,22 +42,31 @@ crontab \-e
 \# Add this line to run the script every day at 3:00 AM (Ensure path is correct\!)  
 0 3 \* \* \* /path/to/project/ip\_aggregator\_local.sh
 
-### **2\. MikroTik RouterOS Scheduler**
+### **2\. MikroTik RouterOS Scheduler (Foolproof Setup)**
 
-Use the following commands on your **MikroTik RouterOS** device to set up the automated weekly download and import. This uses the raw firewall table for maximum performance.
+Use the following commands on your **MikroTik RouterOS** device to set up the automated weekly download and import. This includes necessary logging and checks for reliability.
 
-**Note:** You must replace davidian-sk/mikrotik-blocklist with the correct repository path if it changes.
+**Note:** The URL below points to the main branch of your repository and uses your defined list name, davidian-sk-blocklist.
 
 /system script  
+\# Script to download the latest blocklist from GitHub  
 add name="davidian-sk-blacklist-dl" source={  
     :log info "Starting threat feed download from GitHub."  
-    /tool fetch url="\[https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc\](https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc)" mode=https dst-path=blacklist.rsc  
+    /tool fetch url="\[https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc\](https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blacklist.rsc)" mode=https dst-path=blacklist.rsc verify-certificate=yes  
+      
+    :if (\[:len \[/file find name="blacklist.rsc"\]\] \> 0\) do={  
+        :log info "File downloaded successfully. Running import script."  
+        /system script run davidian-sk-blacklist-replace  
+    } else={  
+        :log error "File download failed. Skipping import."  
+    }  
 }
 
+\# Script to remove the old list and import the new data  
 add name="davidian-sk-blacklist-replace" source={  
     :log info "Importing new threat feed and cleaning old list."  
       
-    \# 1\. Clean the Address List before importing new data  
+    \# 1\. Clean the Address List before importing new data (essential cleanup step)  
     /ip firewall address-list remove \[find where list="davidian-sk-blocklist"\];   
       
     \# 2\. Import the new list  
@@ -65,11 +74,16 @@ add name="davidian-sk-blacklist-replace" source={
       
     \# 3\. Clean up the file  
     /file remove blacklist.rsc  
+    :log info "Threat list imported and files cleaned."  
 }
 
 /system scheduler  
-\# Schedule the download every 7 days (Weekly)  
-add interval=7d name="dl-mt-blacklist" start-time=00:05:00 on-event=davidian-sk-blacklist-dl
+\# Schedule the download and import process to run once a week  
+add interval=7d name="dl-ins-mt-blacklist" start-time=00:05:00 on-event=davidian-sk-blacklist-dl
 
-\# Schedule the import 5 minutes later  
-add interval=7d name="ins-mt-blacklist" start-time=00:10:00 on-event=davidian-sk-blacklist-replace  
+### **3\. Final Firewall Rule (Performance)**
+
+To activate the blocklist, add a single, high-priority rule to your **/ip firewall raw** table. This ensures traffic is dropped immediately, bypassing connection tracking for optimal router performance.
+
+\# Check your chain (prerouting is best for simple blocking)  
+/ip firewall raw add action=drop chain=prerouting src-address-list=davidian-sk-blocklist comment="DROP Automated Threat List (RAW)"  
