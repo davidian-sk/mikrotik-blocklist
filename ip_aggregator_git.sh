@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Threat Feed Aggregator (Git Version)
+# Threat Feed Aggregator (Git Version) by davidian-sk
 # Purpose: Downloads multiple threat feeds, dedupes, removes private ranges,
 #          compresses to minimal CIDR ranges, generates three RouterOS .rsc files,
 #          and commits/pushes the results to a Git repository.
