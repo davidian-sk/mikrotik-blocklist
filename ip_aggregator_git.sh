@@ -2,21 +2,26 @@
 #
 # Threat Feed Aggregator (Git Version)
 # Purpose: Downloads multiple threat feeds, dedupes, removes private ranges,
-#          compresses to minimal CIDR ranges, generates a RouterOS .rsc script,
+#          compresses to minimal CIDR ranges, generates three RouterOS .rsc files,
 #          and commits/pushes the results to a Git repository.
 #
-# Fix Notes: Uses 'ipaddress.ip_network(..., strict=False)' for robustly handling
-#            mixed IP/CIDR inputs and ensures the script is runnable via cron.
+# Fix Notes: Uses 'ipaddress.ip_network(..., strict=False)' for robust CIDR parsing.
 
 # --- Configuration ---
 FINAL_IP_LIST="aggregated_ips.txt"
 RANGED_IP_LIST="aggregated_cidr_ranges.txt"
-RSC_OUTPUT="blocklist.rsc"
-SOURCES_FILE="sources.txt"
-LIST_NAME="davidian-sk-blocklist"
 
-# Get current time for commit message
-CURRENT_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+# Output files and their corresponding MikroTik list names
+RSC_OUTPUT_ACTIVE="blocklist.rsc"
+LIST_NAME_ACTIVE="davidian-sk-active-blocklist"
+
+RSC_OUTPUT_A="blocklist_a.rsc"
+LIST_NAME_A="davidian-sk-blocklist_a"
+
+RSC_OUTPUT_B="blocklist_b.rsc"
+LIST_NAME_B="davidian-sk-blocklist_b"
+
+SOURCES_FILE="sources.txt"
 
 # --- Function to clean up on exit ---
 cleanup() {
@@ -51,15 +56,9 @@ while IFS= read -r url; do
 
     echo "Processing $url..."
 
-    # Use curl to download and pipe directly to processing.
-    # The regex is now highly permissive to catch:
-    # 1. IPv4 addresses (e.g., 1.2.3.4)
-    # 2. IPv4 ranges (e.g., 1.2.3.0/24)
-    # 3. Clean up leading/trailing junk from MikroTik commands or JSON data
+    # Robust regex to capture full IPv4 address AND optional CIDR range (/XX)
     curl -sL "$url" | \
-    grep -oP '((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/\d{1,2})?' | \
-    sed -E 's/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\/\//\1/g' | \
-    sed -E 's/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\/([0-9]+).*/\1\/\2/g' >> temp_raw.txt
+    grep -oP '((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/\d{1,2})?' >> temp_raw.txt
 
 done < "$SOURCES_FILE"
 
@@ -87,18 +86,17 @@ echo "Final unique and cleaned IP/Ranges: $TOTAL_CLEAN_LINES written to **$FINAL
 # --- 3. Range Aggregation (Using Python) ---
 echo -e "\nStarting CIDR range aggregation for minimal clutter..."
 
-# Requires the 'ipaddress' module (standard since Python 3.3)
+# Check if Python is available (required for range aggregation)
 if command -v python3 &> /dev/null
 then
     echo "Python 3 found. Running range aggregation..."
 
-    # Simple Python script to read IPs/Ranges and output minimal CIDR ranges
+    # Python script to read IPs/Ranges and output minimal CIDR networks
     python3 -c "
 import ipaddress
 import sys
 import os
 
-# Set of all network objects (ranges or IPs)
 networks = set()
 invalid_lines = 0
 
@@ -108,11 +106,10 @@ with open('$FINAL_IP_LIST', 'r') as f:
         line = line.strip()
         if not line: continue
         try:
-            # ip_network handles both 1.2.3.4 (as /32) and 1.2.3.0/24 correctly
+            # ip_network handles both single addresses and CIDR notation (1.1.1.0/24).
             networks.add(ipaddress.ip_network(line, strict=False))
         except ValueError:
             invalid_lines += 1
-            # print(f'Skipping invalid IP/range: {line}', file=sys.stderr)
 
 # Collapse them into the smallest possible list of CIDR networks
 minimized_networks = ipaddress.collapse_addresses(networks)
@@ -129,41 +126,59 @@ print(f\"Total invalid lines skipped: {invalid_lines}\")
 "
 else
     echo "⚠️ Python 3 not found. Skipping CIDR range aggregation."
-    exit 1
+    cp "$FINAL_IP_LIST" "$RANGED_IP_LIST"
 fi
 
 RANGES_CREATED=$(wc -l < "$RANGED_IP_LIST" 2>/dev/null || echo 0)
 echo "Ranges created: $RANGES_CREATED"
 
-# --- 4. Format Output for MikroTik RouterOS ---
+# --- 4. Format Output for MikroTik RouterOS (Triple Output) ---
 echo "Formatting output for MikroTik RouterOS..."
-{
-    echo "/ip firewall address-list"
-    # Use awk to prepend the MikroTik command to every line in the minimized list
-    awk -v list="$LIST_NAME" '{print "add list=" list " address=" $1}' "$RANGED_IP_LIST"
-} > "$RSC_OUTPUT"
 
-FINAL_RSC_ENTRIES=$(wc -l < "$RSC_OUTPUT" 2>/dev/null || echo 0)
-echo "✅ MikroTik script generated: **$RSC_OUTPUT** (Entries: $FINAL_RSC_ENTRIES)"
+# Function to generate the RSC file
+generate_rsc() {
+    local output_file=$1
+    local list_name=$2
+    {
+        echo "/ip firewall address-list"
+        # Use awk to prepend the MikroTik command to every line in the minimized list
+        awk -v list="$list_name" '{print "add list=" list " address=" $1}' "$RANGED_IP_LIST"
+    } > "$output_file"
+    local entries=$(wc -l < "$output_file" 2>/dev/null || echo 0)
+    echo "✅ MikroTik script generated: **$output_file** (List: $list_name, Entries: $entries)"
+}
+
+# 4a. Generate the main ACTIVE blocklist
+generate_rsc "$RSC_OUTPUT_ACTIVE" "$LIST_NAME_ACTIVE"
+
+# 4b. Generate Blocklist A
+generate_rsc "$RSC_OUTPUT_A" "$LIST_NAME_A"
+
+# 4c. Generate Blocklist B
+generate_rsc "$RSC_OUTPUT_B" "$LIST_NAME_B"
 
 # --- 5. AUTOMATIC GIT PUSH ---
 echo -e "\nAttempting to push files to Git repository..."
 
-# Check if the generated output files (and sources.txt) differ from the last commit.
-# If nothing has changed, we skip the commit to keep history clean.
-if ! git diff --quiet --exit-code "$RSC_OUTPUT" "$RANGED_IP_LIST" "$FINAL_IP_LIST" "$SOURCES_FILE" "$0" &>/dev/null; then
+# Array of files to check and push
+FILES_TO_PUSH=("$RSC_OUTPUT_ACTIVE" "$RSC_OUTPUT_A" "$RSC_OUTPUT_B" "$RANGED_IP_LIST" "$FINAL_IP_LIST" "$SOURCES_FILE" "$0")
 
-    # Files have changed. Stage all relevant files.
-    git add "$RSC_OUTPUT" "$RANGED_IP_LIST" "$FINAL_IP_LIST" "$SOURCES_FILE" "$0"
+# Check if the output files are different from the last commit
+if ! git diff --quiet --exit-code "${FILES_TO_PUSH[@]}"; then
 
-    # Commit the changes (using the number of final ranges in the message)
+    CURRENT_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+
+    # Stage the output files and the script itself
+    git add "${FILES_TO_PUSH[@]}"
+
+    # Commit the changes
     if git commit -m "Auto-update: Threat feeds aggregated. CIDR Ranges: $RANGES_CREATED. Run at $CURRENT_TIME."; then
 
-        # Push to the remote repository
+        # Push the commit
         if git push origin main; then
             echo "✅ Successfully pushed new feeds to GitHub."
         else
-            echo "❌ ERROR: Git push failed. Ensure your SSH key or credentials are set up for GitHub."
+            echo "❌ ERROR: Git push failed. Ensure your SSH key is authorized and your branch is in sync (try 'git pull --rebase')."
         fi
     else
         echo "ℹ️ Failed to create commit. Check for pending conflicts."
@@ -172,3 +187,4 @@ else
     echo "ℹ️ No changes to commit. Feeds were identical to the last run."
 fi
 
+# The 'cleanup' trap will execute automatically now.
