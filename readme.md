@@ -15,7 +15,9 @@ The Linux script generates the following files:
 
 | File Name | Content | Purpose |
 | :---- | :---- | :---- |
-| **blocklist.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs. |
+| **blocklist.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs if a remove and replace method is used (not recommended for zero downtime expectations). |
+| **blocklist_a.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs in case of a two list method(Recommended). |
+| **blocklist_b.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs in case of a two list method(Recommended). |
 | **aggregated\_cidr\_ranges.txt** | List of final, optimized IP/CIDR ranges (e.g., 1.2.3.0/24). | **Essential:** Used for direct audit or consumption by other tools. |
 | **aggregated\_ips.txt** | List of unique, non-compressed IPs/Ranges. | **Audit Log:** Used for debugging and tracing false positives. |
 | **ip\_aggregator\_git.sh** | The script that generated the files. | **Source Control:** Tracks the logic used for the push. |
@@ -32,7 +34,7 @@ Choose one of the two aggregator scripts to run based on your needs:
 | Script Name | Use Case | Frequency |
 | :---- | :---- | :---- |
 | **ip\_aggregator\_local.sh** | **Daily Runs** (Fastest local update). | Recommended: **Daily** (e.g., 03:00) |
-| **ip\_aggregator\_git.sh** | **GitHub Push** (For public repository updates). | Recommended: **Weekly** (e.g., Sunday @ 03:00) |
+| **ip\_aggregator\_git.sh** | **GitHub Push** (For public repository updates). | Recommended: **Daily** (e.g., Sunday @ 03:00) |
 
 To run the script daily using cron (e.g., for the local version):
 
@@ -56,50 +58,151 @@ crontab -e
 This method uses your custom script logic, which saves the file to the reliable USB mount (usb2/blocklist/) and includes robust file size verification to prevent importing corrupted data.
 
 
-To set up the scripts and the scheduler, use the following commands on your MikroTik terminal:
+The logic of zero downtime relies on the two list method.
 
+Prereqs:
 
-
-### I. SCRIPT DEFINITIONS (Download and Replace Logic)
+You create an address list in Router OS: **davidian-sk-blocklist_a** (add some dummy address to it: e.g. 10.0.0.1)
+then you create a raw firewal rule which drops everything from this list in the prerouting chain .
 
 ```routeros
-/system script
+/ip firewall raw
+add action=drop chain=input src-address-list=davidian-sk-blocklist_a comment="Drop traffic from Davidian-SK Blocklist"
+```
+## You need to create 4 Scripts in RouterOS (System > Scripts)
 
-# Script to remove the old list and import the new data (davidian-sk-blocklist-replace)
-add name="davidian-sk-blocklist-replace" source={
-    :log info "Importing new threat feed and cleaning old list."
-    /ip firewall address-list remove [find where list="davidian-sk-blocklist"];
-    /import file-name=usb2/blocklist/blocklist.rsc;
-    /file remove usb2/blocklist/blocklist.rsc
-    :log info "Threat list imported and files cleaned."
-}
+1. blocklist_a-download (this name is optional)
+2. blocklist_b-download (this name is optional)
+3. blocklist_a_to_blocklist_b (this name is being used in the script, so if you choose a different name, make sure to adapt the scripts as well)
+4. blocklist_b_to_blocklist_a (this name is being used in the script, so if you choose a different name, make sure to adapt the scripts as well)
 
-# Script to download the latest blocklist from GitHub (davidian-sk-blocklist-dl)
-add name="davidian-sk-blocklist-dl" source={
-    :log info "Starting threat feed download from GitHub."
-    /tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist.rsc" mode=https dst-path=usb2/blocklist/blocklist.rsc verify-certificate=yes
 
-    # Verify the file exists and has non-zero size
-    :local f [/file find name="usb2/blocklist/blocklist.rsc"]
-    :if ([:len $f] > 0) do={
-        :local size [/file get $f size]
-        :if ($size > 0) do={
-            :log info "File downloaded successfully ($size bytes). Running import script."
-            /system script run davidian-sk-blocklist-replace
-        } else={
-            :log error "File exists but is empty. Aborting import."
-        }
+
+### I. SCRIPT DEFINITIONS (Download)
+
+#### Blocklist A - download
+
+```routeros
+
+:log info "Starting threat feed download from GitHub."
+
+# Download blocklist.rsc from GitHub to USB storage
+/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_a.rsc" mode=https dst-path="usb2/blocklist/blocklist_a.rsc"
+
+# Verify the file exists and has non-zero size
+:local f [/file find name="usb2/blocklist/blocklist_a.rsc"]
+:if ([:len $f] > 0) do={
+    :local size [/file get $f size]
+    :if ($size > 0) do={
+        :log info "File downloaded successfully ($size bytes). Running import script."
+        /system script run blocklist_b_to_blocklist_a
     } else={
-        :log error "File download failed or not found."
+        :log error "File exists but is empty. Aborting import."
     }
+} else={
+    :log error "File download failed or not found."
 }
 ```
 
-### II. SCHEDULER SETUP (Weekly Run)
+#### Blocklist B - download
+
+```routeros
+
+:log info "Starting threat feed download from GitHub."
+
+# Download blocklist.rsc from GitHub to USB storage
+/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_b.rsc" mode=https dst-path="usb2/blocklist/blocklist_b.rsc"
+
+# Verify the file exists and has non-zero size
+:local f [/file find name="usb2/blocklist/blocklist_b.rsc"]
+:if ([:len $f] > 0) do={
+    :local size [/file get $f size]
+    :if ($size > 0) do={
+        :log info "File downloaded successfully ($size bytes). Running import script."
+        /system script run blocklist_a_to_blocklist_b
+    } else={
+        :log error "File exists but is empty. Aborting import."
+    }
+} else={
+    :log error "File download failed or not found."
+}
+
+```
+### II. SCRIPT DEFINITIONS (import lists)
+
+#### blocklist_a_to_blocklist_b
+```routeros
+#/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_b.rsc" mode=https dst-path="usb2/blocklist/blocklist_b.rsc"
+:log info "blocklist-REP: started"
+:log info "blocklist-REP: Begining to import BLOCKLIST B - disabling info"
+/system logging disable 0
+:local duration [/system clock get time]
+/import file-name=usb2/blocklist/blocklist_b.rsc; 
+
+/system logging enable 0
+:log info "blocklist-REP: finished - enabled info"
+
+/ip firewall raw set [find comment="Drop All Packets, From the davidian-sk Blocklist, before prerouting."] src-address-list=davidian-sk-blocklist_b
+:set duration ([/system clock get time] - $duration)
+:log info "blocklist-REP: finished -  in $duration."
+
+:log info "blocklist-REM: started old list removal - disabling info"
+/system logging disable 0
+:local duration [/system clock get time]
+/ip firewall address-list remove [find where list="davidian-sk-blocklist_a"]; 
+
+/system logging enable 0
+
+:set duration ([/system clock get time] - $duration)
+:log info "blocklist-REM: Old list removal finished -  in $duration."
+/file remove usb2/blocklist/blocklist_b.rsc
+:log info "Threat list davidian-sk-blocklist_b imported successfully and files cleaned."
+
+:log info "BLOCKLIST - B is now active"
+```
+
+#### blocklist_a_to_blocklist_b
+```routeros
+#/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_a.rsc" mode=https dst-path="usb2/blocklist/blocklist_a.rsc"
+:log info "blocklist-REP: Started"
+:log info "blocklist-REP: Begining to import BLOCKLIST A - disabling info"
+/system logging disable 0
+:local duration [/system clock get time]
+
+/import file-name=usb2/blocklist/blocklist_a.rsc; 
+
+
+/system logging enable 0
+:log info "blocklist-REP: finished - enabled info"
+
+/ip firewall raw set [find comment="Drop All Packets, From the davidian-sk Blocklist, before prerouting."] src-address-list=davidian-sk-blocklist_a
+:set duration ([/system clock get time] - $duration)
+:log info "blocklist-REP: finished -  in $duration."
+
+:log info "blocklist-REM: started old list removal - disabling info"
+/system logging disable 0
+:local duration [/system clock get time]
+
+/ip firewall address-list remove [find where list="davidian-sk-blocklist_b"]; 
+
+/system logging enable 0
+
+:set duration ([/system clock get time] - $duration)
+:log info "blocklist-REM: Old list removal finished -  in $duration."
+
+/file remove usb2/blocklist/blocklist_a.rsc
+:log info "Threat list davidian-sk-blocklist_a imported successfully and files cleaned."
+
+:log info "BLOCKLIST - A is now active"
+```
+
+
+### III. SCHEDULER SETUP (Daily Run - you will need to add the start dates, I suggest starting with Activating blocklist B, since we created our dummy rule for blocklist_a)
 
 ```routeros
 /system scheduler
-add interval=7d name="dl-ins-mt-blocklist" start-time=00:05:00 on-event=davidian-sk-blocklist-dl comment="Weekly update for GitHub threat blocklist"
+add interval=2d name="Activate Blocklist A" start-time=00:05:00 on-event=blocklist_a-download comment="Bi-Daily update for GitHub threat blocklist"
+add interval=2d name="Activate Blocklist B" start-time=00:05:00 on-event=blocklist_b-download comment="Bi-Daily update for GitHub threat blocklist"
 ```
 
 
@@ -114,9 +217,9 @@ Add the firewall rule to your raw table to drop all incoming traffic from source
 
 ```routeros
 /ip firewall raw
-add action=drop chain=input src-address-list=davidian-sk-blocklist comment="Drop traffic from Davidian-SK Blocklist"
+add action=drop chain=input src-address-list=davidian-sk-blocklist_a comment="Drop traffic from Davidian-SK Blocklist"
 ```
-### **Option B: Standard Filter Rule**
+### **Option B: Standard Filter Rule** (scripts don't consider this option)
 
 While using the raw table is recommended for the best performance, you can also use this blocklist with the classic firewall filter rules.
 Important Note on CPU Usage: The primary difference is that filter rules are processed after connection tracking. 
