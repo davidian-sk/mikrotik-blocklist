@@ -221,6 +221,7 @@ add list=davidian-sk-active-blocklist address=3.98.92.87/32
 add list=davidian-sk-active-blocklist address=3.98.92.88/32
 add list=davidian-sk-active-blocklist address=3.98.92.100/32
 add list=davidian-sk-active-blocklist address=3.108.167.233/32
+add list=davidian-sk-active-blocklist address=3.109.153.237/32
 add list=davidian-sk-active-blocklist address=3.109.178.110/32
 add list=davidian-sk-active-blocklist address=3.120.134.230/32
 add list=davidian-sk-active-blocklist address=3.121.56.238/32
@@ -308,6 +309,7 @@ add list=davidian-sk-active-blocklist address=4.194.58.148/32
 add list=davidian-sk-active-blocklist address=4.194.144.102/32
 add list=davidian-sk-active-blocklist address=4.194.187.134/32
 add list=davidian-sk-active-blocklist address=4.196.105.180/32
+add list=davidian-sk-active-blocklist address=4.197.57.28/32
 add list=davidian-sk-active-blocklist address=4.197.60.90/32
 add list=davidian-sk-active-blocklist address=4.197.152.47/32
 add list=davidian-sk-active-blocklist address=4.197.238.69/32
@@ -578,7 +580,6 @@ add list=davidian-sk-active-blocklist address=8.138.174.161/32
 add list=davidian-sk-active-blocklist address=8.138.202.35/32
 add list=davidian-sk-active-blocklist address=8.138.219.65/32
 add list=davidian-sk-active-blocklist address=8.138.221.126/32
-add list=davidian-sk-active-blocklist address=8.138.226.170/32
 add list=davidian-sk-active-blocklist address=8.138.240.173/32
 add list=davidian-sk-active-blocklist address=8.140.18.151/32
 add list=davidian-sk-active-blocklist address=8.140.206.174/32
@@ -640,6 +641,7 @@ add list=davidian-sk-active-blocklist address=8.210.179.103/32
 add list=davidian-sk-active-blocklist address=8.210.179.134/32
 add list=davidian-sk-active-blocklist address=8.210.180.179/32
 add list=davidian-sk-active-blocklist address=8.210.196.125/32
+add list=davidian-sk-active-blocklist address=8.210.199.104/32
 add list=davidian-sk-active-blocklist address=8.210.203.68/32
 add list=davidian-sk-active-blocklist address=8.210.221.149/32
 add list=davidian-sk-active-blocklist address=8.210.226.73/32
@@ -1506,6 +1508,7 @@ add list=davidian-sk-active-blocklist address=14.103.127.240/32
 add list=davidian-sk-active-blocklist address=14.103.127.243/32
 add list=davidian-sk-active-blocklist address=14.103.128.118/32
 add list=davidian-sk-active-blocklist address=14.103.129.174/32
+add list=davidian-sk-active-blocklist address=14.103.130.89/32
 add list=davidian-sk-active-blocklist address=14.103.135.94/32
 add list=davidian-sk-active-blocklist address=14.103.137.213/32
 add list=davidian-sk-active-blocklist address=14.103.138.116/32
@@ -1613,6 +1616,7 @@ add list=davidian-sk-active-blocklist address=14.116.156.100/32
 add list=davidian-sk-active-blocklist address=14.116.156.134/32
 add list=davidian-sk-active-blocklist address=14.116.189.74/32
 add list=davidian-sk-active-blocklist address=14.116.213.102/32
+add list=davidian-sk-active-blocklist address=14.116.251.29/32
 add list=davidian-sk-active-blocklist address=14.135.74.64/32
 add list=davidian-sk-active-blocklist address=14.135.74.105/32
 add list=davidian-sk-active-blocklist address=14.135.74.142/32
@@ -2581,7 +2585,6 @@ add list=davidian-sk-active-blocklist address=34.75.34.169/32
 add list=davidian-sk-active-blocklist address=34.76.44.148/32
 add list=davidian-sk-active-blocklist address=34.76.134.123/32
 add list=davidian-sk-active-blocklist address=34.78.29.97/32
-add list=davidian-sk-active-blocklist address=34.78.138.90/32
 add list=davidian-sk-active-blocklist address=34.78.224.116/32
 add list=davidian-sk-active-blocklist address=34.79.159.68/32
 add list=davidian-sk-active-blocklist address=34.79.182.243/32
@@ -2598,6 +2601,7 @@ add list=davidian-sk-active-blocklist address=34.87.99.89/32
 add list=davidian-sk-active-blocklist address=34.88.77.255/32
 add list=davidian-sk-active-blocklist address=34.91.0.68/32
 add list=davidian-sk-active-blocklist address=34.92.62.225/32
+add list=davidian-sk-active-blocklist address=34.92.146.210/32
 add list=davidian-sk-active-blocklist address=34.93.17.96/32
 add list=davidian-sk-active-blocklist address=34.93.128.179/32
 add list=davidian-sk-active-blocklist address=34.93.203.208/32
@@ -2649,6 +2653,7 @@ add list=davidian-sk-active-blocklist address=34.174.50.90/32
 add list=davidian-sk-active-blocklist address=34.175.0.236/32
 add list=davidian-sk-active-blocklist address=34.175.118.185/32
 add list=davidian-sk-active-blocklist address=34.175.139.9/32
+add list=davidian-sk-active-blocklist address=34.179.177.28/32
 add list=davidian-sk-active-blocklist address=34.180.65.136/32
 add list=davidian-sk-active-blocklist address=34.186.46.96/32
 add list=davidian-sk-active-blocklist address=34.186.133.149/32
@@ -2704,7 +2709,6 @@ add list=davidian-sk-active-blocklist address=35.193.212.206/32
 add list=davidian-sk-active-blocklist address=35.194.0.176/32
 add list=davidian-sk-active-blocklist address=35.195.64.27/32
 add list=davidian-sk-active-blocklist address=35.195.144.166/32
-add list=davidian-sk-active-blocklist address=35.195.185.167/32
 add list=davidian-sk-active-blocklist address=35.196.53.1/32
 add list=davidian-sk-active-blocklist address=35.197.63.11/32
 add list=davidian-sk-active-blocklist address=35.197.232.17/32
@@ -2929,6 +2933,7 @@ add list=davidian-sk-active-blocklist address=36.108.214.78/32
 add list=davidian-sk-active-blocklist address=36.110.172.218/32
 add list=davidian-sk-active-blocklist address=36.111.32.231/32
 add list=davidian-sk-active-blocklist address=36.111.32.232/30
+add list=davidian-sk-active-blocklist address=36.111.32.236/32
 add list=davidian-sk-active-blocklist address=36.111.32.238/32
 add list=davidian-sk-active-blocklist address=36.111.32.240/32
 add list=davidian-sk-active-blocklist address=36.111.34.233/32
@@ -3271,6 +3276,7 @@ add list=davidian-sk-active-blocklist address=39.103.169.109/32
 add list=davidian-sk-active-blocklist address=39.103.229.172/32
 add list=davidian-sk-active-blocklist address=39.104.21.116/32
 add list=davidian-sk-active-blocklist address=39.104.134.58/32
+add list=davidian-sk-active-blocklist address=39.104.174.233/32
 add list=davidian-sk-active-blocklist address=39.105.15.222/32
 add list=davidian-sk-active-blocklist address=39.105.36.71/32
 add list=davidian-sk-active-blocklist address=39.105.112.128/32
@@ -3409,6 +3415,7 @@ add list=davidian-sk-active-blocklist address=41.85.185.42/32
 add list=davidian-sk-active-blocklist address=41.90.100.147/32
 add list=davidian-sk-active-blocklist address=41.93.112.2/32
 add list=davidian-sk-active-blocklist address=41.94.88.49/32
+add list=davidian-sk-active-blocklist address=41.110.183.57/32
 add list=davidian-sk-active-blocklist address=41.111.162.34/32
 add list=davidian-sk-active-blocklist address=41.111.178.165/32
 add list=davidian-sk-active-blocklist address=41.128.181.199/32
@@ -3449,7 +3456,6 @@ add list=davidian-sk-active-blocklist address=41.153.30.124/32
 add list=davidian-sk-active-blocklist address=41.155.34.90/32
 add list=davidian-sk-active-blocklist address=41.184.94.75/32
 add list=davidian-sk-active-blocklist address=41.185.8.55/32
-add list=davidian-sk-active-blocklist address=41.185.8.149/32
 add list=davidian-sk-active-blocklist address=41.185.26.213/32
 add list=davidian-sk-active-blocklist address=41.185.65.29/32
 add list=davidian-sk-active-blocklist address=41.185.65.86/32
@@ -3949,7 +3955,7 @@ add list=davidian-sk-active-blocklist address=45.78.194.47/32
 add list=davidian-sk-active-blocklist address=45.78.194.53/32
 add list=davidian-sk-active-blocklist address=45.78.194.57/32
 add list=davidian-sk-active-blocklist address=45.78.194.58/31
-add list=davidian-sk-active-blocklist address=45.78.194.63/32
+add list=davidian-sk-active-blocklist address=45.78.194.62/31
 add list=davidian-sk-active-blocklist address=45.78.194.71/32
 add list=davidian-sk-active-blocklist address=45.78.194.78/32
 add list=davidian-sk-active-blocklist address=45.78.194.85/32
@@ -3963,11 +3969,13 @@ add list=davidian-sk-active-blocklist address=45.78.194.178/32
 add list=davidian-sk-active-blocklist address=45.78.194.186/31
 add list=davidian-sk-active-blocklist address=45.78.194.189/32
 add list=davidian-sk-active-blocklist address=45.78.194.199/32
+add list=davidian-sk-active-blocklist address=45.78.194.204/32
 add list=davidian-sk-active-blocklist address=45.78.194.212/31
 add list=davidian-sk-active-blocklist address=45.78.194.215/32
 add list=davidian-sk-active-blocklist address=45.78.194.222/32
 add list=davidian-sk-active-blocklist address=45.78.194.230/32
 add list=davidian-sk-active-blocklist address=45.78.194.232/31
+add list=davidian-sk-active-blocklist address=45.78.194.236/32
 add list=davidian-sk-active-blocklist address=45.78.194.242/31
 add list=davidian-sk-active-blocklist address=45.78.194.245/32
 add list=davidian-sk-active-blocklist address=45.78.194.246/32
@@ -4061,6 +4069,7 @@ add list=davidian-sk-active-blocklist address=45.78.207.78/32
 add list=davidian-sk-active-blocklist address=45.78.207.126/32
 add list=davidian-sk-active-blocklist address=45.78.207.134/32
 add list=davidian-sk-active-blocklist address=45.78.207.204/32
+add list=davidian-sk-active-blocklist address=45.78.207.207/32
 add list=davidian-sk-active-blocklist address=45.78.207.230/32
 add list=davidian-sk-active-blocklist address=45.78.207.236/32
 add list=davidian-sk-active-blocklist address=45.78.207.238/32
@@ -4108,8 +4117,7 @@ add list=davidian-sk-active-blocklist address=45.78.217.17/32
 add list=davidian-sk-active-blocklist address=45.78.217.19/32
 add list=davidian-sk-active-blocklist address=45.78.217.20/31
 add list=davidian-sk-active-blocklist address=45.78.217.22/32
-add list=davidian-sk-active-blocklist address=45.78.217.25/32
-add list=davidian-sk-active-blocklist address=45.78.217.26/31
+add list=davidian-sk-active-blocklist address=45.78.217.24/30
 add list=davidian-sk-active-blocklist address=45.78.217.28/32
 add list=davidian-sk-active-blocklist address=45.78.217.32/32
 add list=davidian-sk-active-blocklist address=45.78.217.34/32
@@ -4126,7 +4134,7 @@ add list=davidian-sk-active-blocklist address=45.78.217.67/32
 add list=davidian-sk-active-blocklist address=45.78.217.68/30
 add list=davidian-sk-active-blocklist address=45.78.217.75/32
 add list=davidian-sk-active-blocklist address=45.78.217.77/32
-add list=davidian-sk-active-blocklist address=45.78.217.78/32
+add list=davidian-sk-active-blocklist address=45.78.217.78/31
 add list=davidian-sk-active-blocklist address=45.78.217.80/30
 add list=davidian-sk-active-blocklist address=45.78.217.85/32
 add list=davidian-sk-active-blocklist address=45.78.217.86/31
@@ -4134,6 +4142,7 @@ add list=davidian-sk-active-blocklist address=45.78.217.88/31
 add list=davidian-sk-active-blocklist address=45.78.217.93/32
 add list=davidian-sk-active-blocklist address=45.78.217.95/32
 add list=davidian-sk-active-blocklist address=45.78.217.97/32
+add list=davidian-sk-active-blocklist address=45.78.217.98/32
 add list=davidian-sk-active-blocklist address=45.78.217.102/32
 add list=davidian-sk-active-blocklist address=45.78.217.106/31
 add list=davidian-sk-active-blocklist address=45.78.217.116/32
@@ -4151,6 +4160,7 @@ add list=davidian-sk-active-blocklist address=45.78.217.148/32
 add list=davidian-sk-active-blocklist address=45.78.217.152/32
 add list=davidian-sk-active-blocklist address=45.78.217.158/32
 add list=davidian-sk-active-blocklist address=45.78.217.160/31
+add list=davidian-sk-active-blocklist address=45.78.217.167/32
 add list=davidian-sk-active-blocklist address=45.78.217.170/32
 add list=davidian-sk-active-blocklist address=45.78.217.174/32
 add list=davidian-sk-active-blocklist address=45.78.217.176/31
@@ -4176,7 +4186,7 @@ add list=davidian-sk-active-blocklist address=45.78.217.238/31
 add list=davidian-sk-active-blocklist address=45.78.217.240/30
 add list=davidian-sk-active-blocklist address=45.78.217.244/32
 add list=davidian-sk-active-blocklist address=45.78.217.247/32
-add list=davidian-sk-active-blocklist address=45.78.217.251/32
+add list=davidian-sk-active-blocklist address=45.78.217.250/31
 add list=davidian-sk-active-blocklist address=45.78.217.252/31
 add list=davidian-sk-active-blocklist address=45.78.217.255/32
 add list=davidian-sk-active-blocklist address=45.78.218.10/31
@@ -4186,6 +4196,7 @@ add list=davidian-sk-active-blocklist address=45.78.218.100/31
 add list=davidian-sk-active-blocklist address=45.78.218.104/31
 add list=davidian-sk-active-blocklist address=45.78.218.108/31
 add list=davidian-sk-active-blocklist address=45.78.218.111/32
+add list=davidian-sk-active-blocklist address=45.78.218.113/32
 add list=davidian-sk-active-blocklist address=45.78.218.116/32
 add list=davidian-sk-active-blocklist address=45.78.218.119/32
 add list=davidian-sk-active-blocklist address=45.78.218.120/32
@@ -4243,6 +4254,7 @@ add list=davidian-sk-active-blocklist address=45.78.219.140/32
 add list=davidian-sk-active-blocklist address=45.78.219.142/32
 add list=davidian-sk-active-blocklist address=45.78.219.144/32
 add list=davidian-sk-active-blocklist address=45.78.219.147/32
+add list=davidian-sk-active-blocklist address=45.78.219.148/32
 add list=davidian-sk-active-blocklist address=45.78.219.151/32
 add list=davidian-sk-active-blocklist address=45.78.219.154/32
 add list=davidian-sk-active-blocklist address=45.78.219.157/32
@@ -4478,7 +4490,6 @@ add list=davidian-sk-active-blocklist address=45.82.78.102/31
 add list=davidian-sk-active-blocklist address=45.82.109.136/32
 add list=davidian-sk-active-blocklist address=45.83.31.46/32
 add list=davidian-sk-active-blocklist address=45.83.104.246/32
-add list=davidian-sk-active-blocklist address=45.84.107.55/32
 add list=davidian-sk-active-blocklist address=45.84.107.97/32
 add list=davidian-sk-active-blocklist address=45.84.107.222/32
 add list=davidian-sk-active-blocklist address=45.86.18.0/23
@@ -4495,6 +4506,7 @@ add list=davidian-sk-active-blocklist address=45.89.53.223/32
 add list=davidian-sk-active-blocklist address=45.89.247.0/24
 add list=davidian-sk-active-blocklist address=45.90.2.146/32
 add list=davidian-sk-active-blocklist address=45.91.250.107/32
+add list=davidian-sk-active-blocklist address=45.93.20.34/32
 add list=davidian-sk-active-blocklist address=45.93.169.154/32
 add list=davidian-sk-active-blocklist address=45.94.4.184/32
 add list=davidian-sk-active-blocklist address=45.94.31.41/32
@@ -5164,6 +5176,7 @@ add list=davidian-sk-active-blocklist address=47.84.79.167/32
 add list=davidian-sk-active-blocklist address=47.84.81.51/32
 add list=davidian-sk-active-blocklist address=47.84.82.64/32
 add list=davidian-sk-active-blocklist address=47.84.91.242/32
+add list=davidian-sk-active-blocklist address=47.84.116.153/32
 add list=davidian-sk-active-blocklist address=47.84.120.47/32
 add list=davidian-sk-active-blocklist address=47.84.122.72/32
 add list=davidian-sk-active-blocklist address=47.84.129.153/32
@@ -5241,6 +5254,7 @@ add list=davidian-sk-active-blocklist address=47.93.55.97/32
 add list=davidian-sk-active-blocklist address=47.93.97.12/32
 add list=davidian-sk-active-blocklist address=47.93.125.85/32
 add list=davidian-sk-active-blocklist address=47.93.142.191/32
+add list=davidian-sk-active-blocklist address=47.93.147.226/32
 add list=davidian-sk-active-blocklist address=47.93.181.8/32
 add list=davidian-sk-active-blocklist address=47.93.246.119/32
 add list=davidian-sk-active-blocklist address=47.94.3.194/32
@@ -5940,6 +5954,7 @@ add list=davidian-sk-active-blocklist address=47.254.0.169/32
 add list=davidian-sk-active-blocklist address=47.254.15.174/32
 add list=davidian-sk-active-blocklist address=47.254.19.241/32
 add list=davidian-sk-active-blocklist address=47.254.31.77/32
+add list=davidian-sk-active-blocklist address=47.254.64.210/32
 add list=davidian-sk-active-blocklist address=47.254.65.238/32
 add list=davidian-sk-active-blocklist address=47.254.69.130/32
 add list=davidian-sk-active-blocklist address=47.254.73.188/32
@@ -6192,7 +6207,6 @@ add list=davidian-sk-active-blocklist address=50.212.27.150/32
 add list=davidian-sk-active-blocklist address=50.215.95.14/32
 add list=davidian-sk-active-blocklist address=50.217.40.11/32
 add list=davidian-sk-active-blocklist address=50.217.255.171/32
-add list=davidian-sk-active-blocklist address=50.218.233.90/32
 add list=davidian-sk-active-blocklist address=50.225.176.238/32
 add list=davidian-sk-active-blocklist address=50.232.189.209/32
 add list=davidian-sk-active-blocklist address=50.232.236.58/32
@@ -6239,7 +6253,6 @@ add list=davidian-sk-active-blocklist address=51.79.180.179/32
 add list=davidian-sk-active-blocklist address=51.79.197.104/32
 add list=davidian-sk-active-blocklist address=51.81.14.24/32
 add list=davidian-sk-active-blocklist address=51.81.222.62/32
-add list=davidian-sk-active-blocklist address=51.81.245.138/32
 add list=davidian-sk-active-blocklist address=51.83.2.220/32
 add list=davidian-sk-active-blocklist address=51.83.46.40/32
 add list=davidian-sk-active-blocklist address=51.83.71.110/32
@@ -7065,6 +7078,7 @@ add list=davidian-sk-active-blocklist address=61.171.106.9/32
 add list=davidian-sk-active-blocklist address=61.171.109.118/32
 add list=davidian-sk-active-blocklist address=61.171.113.15/32
 add list=davidian-sk-active-blocklist address=61.173.158.203/32
+add list=davidian-sk-active-blocklist address=61.173.172.16/32
 add list=davidian-sk-active-blocklist address=61.177.25.26/32
 add list=davidian-sk-active-blocklist address=61.177.172.0/23
 add list=davidian-sk-active-blocklist address=61.177.238.130/32
@@ -7138,6 +7152,7 @@ add list=davidian-sk-active-blocklist address=62.60.135.137/32
 add list=davidian-sk-active-blocklist address=62.60.135.148/32
 add list=davidian-sk-active-blocklist address=62.60.135.171/32
 add list=davidian-sk-active-blocklist address=62.60.146.177/32
+add list=davidian-sk-active-blocklist address=62.60.177.81/32
 add list=davidian-sk-active-blocklist address=62.60.193.188/32
 add list=davidian-sk-active-blocklist address=62.60.210.82/32
 add list=davidian-sk-active-blocklist address=62.60.217.189/32
@@ -7960,7 +7975,6 @@ add list=davidian-sk-active-blocklist address=64.225.78.96/32
 add list=davidian-sk-active-blocklist address=64.225.101.76/32
 add list=davidian-sk-active-blocklist address=64.225.110.44/32
 add list=davidian-sk-active-blocklist address=64.225.113.2/32
-add list=davidian-sk-active-blocklist address=64.225.114.100/32
 add list=davidian-sk-active-blocklist address=64.225.154.175/32
 add list=davidian-sk-active-blocklist address=64.226.65.160/32
 add list=davidian-sk-active-blocklist address=64.226.66.165/32
@@ -8956,6 +8970,7 @@ add list=davidian-sk-active-blocklist address=68.183.124.132/32
 add list=davidian-sk-active-blocklist address=68.183.149.228/32
 add list=davidian-sk-active-blocklist address=68.183.170.83/32
 add list=davidian-sk-active-blocklist address=68.183.174.76/32
+add list=davidian-sk-active-blocklist address=68.183.181.15/32
 add list=davidian-sk-active-blocklist address=68.183.196.127/32
 add list=davidian-sk-active-blocklist address=68.183.200.75/32
 add list=davidian-sk-active-blocklist address=68.183.201.115/32
@@ -9245,6 +9260,7 @@ add list=davidian-sk-active-blocklist address=69.165.68.209/32
 add list=davidian-sk-active-blocklist address=69.165.78.31/32
 add list=davidian-sk-active-blocklist address=69.166.132.246/32
 add list=davidian-sk-active-blocklist address=69.167.10.107/32
+add list=davidian-sk-active-blocklist address=69.167.11.28/32
 add list=davidian-sk-active-blocklist address=69.170.135.92/32
 add list=davidian-sk-active-blocklist address=69.171.232.148/31
 add list=davidian-sk-active-blocklist address=69.171.232.151/32
@@ -9972,7 +9988,6 @@ add list=davidian-sk-active-blocklist address=76.145.10.140/32
 add list=davidian-sk-active-blocklist address=76.151.32.99/32
 add list=davidian-sk-active-blocklist address=76.181.73.73/32
 add list=davidian-sk-active-blocklist address=76.223.115.194/32
-add list=davidian-sk-active-blocklist address=77.0.69.202/32
 add list=davidian-sk-active-blocklist address=77.2.41.245/32
 add list=davidian-sk-active-blocklist address=77.2.129.39/32
 add list=davidian-sk-active-blocklist address=77.2.132.86/32
@@ -10036,7 +10051,6 @@ add list=davidian-sk-active-blocklist address=77.90.148.2/32
 add list=davidian-sk-active-blocklist address=77.90.185.10/31
 add list=davidian-sk-active-blocklist address=77.90.185.30/32
 add list=davidian-sk-active-blocklist address=77.90.185.43/32
-add list=davidian-sk-active-blocklist address=77.90.185.59/32
 add list=davidian-sk-active-blocklist address=77.90.185.143/32
 add list=davidian-sk-active-blocklist address=77.90.185.228/32
 add list=davidian-sk-active-blocklist address=77.90.185.231/32
@@ -10081,6 +10095,7 @@ add list=davidian-sk-active-blocklist address=77.109.169.195/32
 add list=davidian-sk-active-blocklist address=77.109.169.200/32
 add list=davidian-sk-active-blocklist address=77.110.104.220/32
 add list=davidian-sk-active-blocklist address=77.110.108.188/32
+add list=davidian-sk-active-blocklist address=77.110.126.73/32
 add list=davidian-sk-active-blocklist address=77.139.149.88/32
 add list=davidian-sk-active-blocklist address=77.179.159.169/32
 add list=davidian-sk-active-blocklist address=77.179.199.158/32
@@ -10680,6 +10695,7 @@ add list=davidian-sk-active-blocklist address=82.27.201.13/32
 add list=davidian-sk-active-blocklist address=82.29.40.100/32
 add list=davidian-sk-active-blocklist address=82.29.71.63/32
 add list=davidian-sk-active-blocklist address=82.30.88.238/32
+add list=davidian-sk-active-blocklist address=82.53.166.184/32
 add list=davidian-sk-active-blocklist address=82.59.199.142/32
 add list=davidian-sk-active-blocklist address=82.60.169.187/32
 add list=davidian-sk-active-blocklist address=82.65.43.136/32
@@ -11629,7 +11645,6 @@ add list=davidian-sk-active-blocklist address=90.156.201.84/32
 add list=davidian-sk-active-blocklist address=90.156.201.90/32
 add list=davidian-sk-active-blocklist address=90.156.201.96/32
 add list=davidian-sk-active-blocklist address=90.156.201.124/32
-add list=davidian-sk-active-blocklist address=90.158.160.18/32
 add list=davidian-sk-active-blocklist address=90.164.107.3/32
 add list=davidian-sk-active-blocklist address=90.165.29.218/32
 add list=davidian-sk-active-blocklist address=90.166.57.15/32
@@ -11836,6 +11851,7 @@ add list=davidian-sk-active-blocklist address=91.217.39.30/32
 add list=davidian-sk-active-blocklist address=91.218.66.160/32
 add list=davidian-sk-active-blocklist address=91.219.236.101/32
 add list=davidian-sk-active-blocklist address=91.219.238.221/32
+add list=davidian-sk-active-blocklist address=91.219.239.50/32
 add list=davidian-sk-active-blocklist address=91.220.163.51/32
 add list=davidian-sk-active-blocklist address=91.221.127.248/32
 add list=davidian-sk-active-blocklist address=91.221.134.80/32
@@ -12270,6 +12286,7 @@ add list=davidian-sk-active-blocklist address=93.188.131.153/32
 add list=davidian-sk-active-blocklist address=93.188.135.42/32
 add list=davidian-sk-active-blocklist address=93.190.69.146/32
 add list=davidian-sk-active-blocklist address=93.194.102.75/32
+add list=davidian-sk-active-blocklist address=93.198.177.215/32
 add list=davidian-sk-active-blocklist address=93.200.236.186/32
 add list=davidian-sk-active-blocklist address=93.202.191.223/32
 add list=davidian-sk-active-blocklist address=93.203.58.201/32
@@ -12788,6 +12805,7 @@ add list=davidian-sk-active-blocklist address=101.47.49.206/32
 add list=davidian-sk-active-blocklist address=101.47.49.210/32
 add list=davidian-sk-active-blocklist address=101.47.49.217/32
 add list=davidian-sk-active-blocklist address=101.47.49.224/32
+add list=davidian-sk-active-blocklist address=101.47.49.237/32
 add list=davidian-sk-active-blocklist address=101.47.49.255/32
 add list=davidian-sk-active-blocklist address=101.47.50.8/32
 add list=davidian-sk-active-blocklist address=101.47.50.21/32
@@ -12915,6 +12933,7 @@ add list=davidian-sk-active-blocklist address=101.47.161.24/32
 add list=davidian-sk-active-blocklist address=101.47.161.32/32
 add list=davidian-sk-active-blocklist address=101.47.161.41/32
 add list=davidian-sk-active-blocklist address=101.47.161.42/32
+add list=davidian-sk-active-blocklist address=101.47.161.49/32
 add list=davidian-sk-active-blocklist address=101.47.161.56/32
 add list=davidian-sk-active-blocklist address=101.47.161.65/32
 add list=davidian-sk-active-blocklist address=101.47.161.72/32
@@ -13441,6 +13460,7 @@ add list=davidian-sk-active-blocklist address=103.48.182.138/32
 add list=davidian-sk-active-blocklist address=103.48.192.48/32
 add list=davidian-sk-active-blocklist address=103.48.201.0/24
 add list=davidian-sk-active-blocklist address=103.49.70.235/32
+add list=davidian-sk-active-blocklist address=103.49.131.39/32
 add list=davidian-sk-active-blocklist address=103.49.238.51/32
 add list=davidian-sk-active-blocklist address=103.49.238.104/32
 add list=davidian-sk-active-blocklist address=103.49.238.134/32
@@ -14206,6 +14226,7 @@ add list=davidian-sk-active-blocklist address=103.185.54.0/23
 add list=davidian-sk-active-blocklist address=103.185.56.0/21
 add list=davidian-sk-active-blocklist address=103.185.64.0/21
 add list=davidian-sk-active-blocklist address=103.185.72.0/23
+add list=davidian-sk-active-blocklist address=103.185.74.193/32
 add list=davidian-sk-active-blocklist address=103.185.76.0/23
 add list=davidian-sk-active-blocklist address=103.185.88.0/21
 add list=davidian-sk-active-blocklist address=103.185.96.0/22
@@ -14526,6 +14547,7 @@ add list=davidian-sk-active-blocklist address=103.237.249.202/32
 add list=davidian-sk-active-blocklist address=103.238.71.90/32
 add list=davidian-sk-active-blocklist address=103.238.156.0/23
 add list=davidian-sk-active-blocklist address=103.239.28.0/22
+add list=davidian-sk-active-blocklist address=103.240.8.71/32
 add list=davidian-sk-active-blocklist address=103.241.26.0/24
 add list=davidian-sk-active-blocklist address=103.241.40.0/23
 add list=davidian-sk-active-blocklist address=103.241.45.120/32
@@ -14806,7 +14828,6 @@ add list=davidian-sk-active-blocklist address=106.13.183.26/32
 add list=davidian-sk-active-blocklist address=106.14.135.217/32
 add list=davidian-sk-active-blocklist address=106.14.175.235/32
 add list=davidian-sk-active-blocklist address=106.14.211.205/32
-add list=davidian-sk-active-blocklist address=106.14.215.111/32
 add list=davidian-sk-active-blocklist address=106.14.218.135/32
 add list=davidian-sk-active-blocklist address=106.15.90.75/32
 add list=davidian-sk-active-blocklist address=106.15.106.196/32
@@ -14884,6 +14905,7 @@ add list=davidian-sk-active-blocklist address=107.1.218.112/32
 add list=davidian-sk-active-blocklist address=107.9.57.100/32
 add list=davidian-sk-active-blocklist address=107.10.167.70/32
 add list=davidian-sk-active-blocklist address=107.11.4.35/32
+add list=davidian-sk-active-blocklist address=107.20.72.33/32
 add list=davidian-sk-active-blocklist address=107.20.140.119/32
 add list=davidian-sk-active-blocklist address=107.20.144.200/32
 add list=davidian-sk-active-blocklist address=107.20.150.214/32
@@ -14946,10 +14968,10 @@ add list=davidian-sk-active-blocklist address=107.170.54.167/32
 add list=davidian-sk-active-blocklist address=107.170.232.33/32
 add list=davidian-sk-active-blocklist address=107.172.1.98/32
 add list=davidian-sk-active-blocklist address=107.172.15.139/32
+add list=davidian-sk-active-blocklist address=107.172.31.102/32
 add list=davidian-sk-active-blocklist address=107.172.44.137/32
 add list=davidian-sk-active-blocklist address=107.172.57.49/32
 add list=davidian-sk-active-blocklist address=107.172.61.206/32
-add list=davidian-sk-active-blocklist address=107.172.75.201/32
 add list=davidian-sk-active-blocklist address=107.172.146.104/32
 add list=davidian-sk-active-blocklist address=107.172.148.168/32
 add list=davidian-sk-active-blocklist address=107.172.151.218/32
@@ -15344,7 +15366,6 @@ add list=davidian-sk-active-blocklist address=111.88.4.68/32
 add list=davidian-sk-active-blocklist address=111.90.156.0/23
 add list=davidian-sk-active-blocklist address=111.92.180.0/22
 add list=davidian-sk-active-blocklist address=111.92.224.0/20
-add list=davidian-sk-active-blocklist address=111.122.211.212/32
 add list=davidian-sk-active-blocklist address=111.160.133.62/32
 add list=davidian-sk-active-blocklist address=111.160.139.4/32
 add list=davidian-sk-active-blocklist address=111.162.152.221/32
@@ -16277,7 +16298,6 @@ add list=davidian-sk-active-blocklist address=119.15.67.0/24
 add list=davidian-sk-active-blocklist address=119.15.70.9/32
 add list=davidian-sk-active-blocklist address=119.15.156.0/22
 add list=davidian-sk-active-blocklist address=119.17.222.95/32
-add list=davidian-sk-active-blocklist address=119.18.48.168/32
 add list=davidian-sk-active-blocklist address=119.18.52.105/32
 add list=davidian-sk-active-blocklist address=119.18.147.187/32
 add list=davidian-sk-active-blocklist address=119.24.163.205/32
@@ -16822,6 +16842,7 @@ add list=davidian-sk-active-blocklist address=123.56.141.52/32
 add list=davidian-sk-active-blocklist address=123.56.225.134/32
 add list=davidian-sk-active-blocklist address=123.56.231.177/32
 add list=davidian-sk-active-blocklist address=123.56.238.120/32
+add list=davidian-sk-active-blocklist address=123.56.247.81/32
 add list=davidian-sk-active-blocklist address=123.57.1.6/32
 add list=davidian-sk-active-blocklist address=123.57.30.239/32
 add list=davidian-sk-active-blocklist address=123.57.47.111/32
@@ -17408,6 +17429,7 @@ add list=davidian-sk-active-blocklist address=131.253.33.200/32
 add list=davidian-sk-active-blocklist address=131.255.183.6/32
 add list=davidian-sk-active-blocklist address=132.145.193.32/32
 add list=davidian-sk-active-blocklist address=132.145.213.106/32
+add list=davidian-sk-active-blocklist address=132.148.74.71/32
 add list=davidian-sk-active-blocklist address=132.148.75.116/32
 add list=davidian-sk-active-blocklist address=132.148.179.26/32
 add list=davidian-sk-active-blocklist address=132.148.181.38/32
@@ -17461,6 +17483,7 @@ add list=davidian-sk-active-blocklist address=134.199.145.207/32
 add list=davidian-sk-active-blocklist address=134.199.146.190/32
 add list=davidian-sk-active-blocklist address=134.199.149.7/32
 add list=davidian-sk-active-blocklist address=134.199.149.29/32
+add list=davidian-sk-active-blocklist address=134.199.158.68/32
 add list=davidian-sk-active-blocklist address=134.199.170.131/32
 add list=davidian-sk-active-blocklist address=134.199.172.84/32
 add list=davidian-sk-active-blocklist address=134.199.193.254/32
@@ -17512,6 +17535,7 @@ add list=davidian-sk-active-blocklist address=134.209.95.128/32
 add list=davidian-sk-active-blocklist address=134.209.96.41/32
 add list=davidian-sk-active-blocklist address=134.209.102.224/32
 add list=davidian-sk-active-blocklist address=134.209.105.13/32
+add list=davidian-sk-active-blocklist address=134.209.106.138/32
 add list=davidian-sk-active-blocklist address=134.209.109.23/32
 add list=davidian-sk-active-blocklist address=134.209.115.101/32
 add list=davidian-sk-active-blocklist address=134.209.119.110/32
@@ -17992,6 +18016,7 @@ add list=davidian-sk-active-blocklist address=142.93.101.215/32
 add list=davidian-sk-active-blocklist address=142.93.104.93/32
 add list=davidian-sk-active-blocklist address=142.93.107.206/32
 add list=davidian-sk-active-blocklist address=142.93.113.26/32
+add list=davidian-sk-active-blocklist address=142.93.120.13/32
 add list=davidian-sk-active-blocklist address=142.93.126.22/32
 add list=davidian-sk-active-blocklist address=142.93.129.226/32
 add list=davidian-sk-active-blocklist address=142.93.131.125/32
@@ -18550,7 +18575,6 @@ add list=davidian-sk-active-blocklist address=148.135.107.245/32
 add list=davidian-sk-active-blocklist address=148.135.138.40/32
 add list=davidian-sk-active-blocklist address=148.153.56.62/32
 add list=davidian-sk-active-blocklist address=148.153.56.174/32
-add list=davidian-sk-active-blocklist address=148.153.56.178/32
 add list=davidian-sk-active-blocklist address=148.153.178.2/32
 add list=davidian-sk-active-blocklist address=148.153.184.82/32
 add list=davidian-sk-active-blocklist address=148.153.184.246/32
@@ -18578,7 +18602,6 @@ add list=davidian-sk-active-blocklist address=149.30.248.36/31
 add list=davidian-sk-active-blocklist address=149.30.248.40/32
 add list=davidian-sk-active-blocklist address=149.30.248.42/31
 add list=davidian-sk-active-blocklist address=149.30.248.44/31
-add list=davidian-sk-active-blocklist address=149.30.248.48/32
 add list=davidian-sk-active-blocklist address=149.30.248.50/31
 add list=davidian-sk-active-blocklist address=149.30.248.52/31
 add list=davidian-sk-active-blocklist address=149.30.248.54/32
@@ -18925,7 +18948,6 @@ add list=davidian-sk-active-blocklist address=152.53.106.19/32
 add list=davidian-sk-active-blocklist address=152.53.125.212/32
 add list=davidian-sk-active-blocklist address=152.53.148.66/32
 add list=davidian-sk-active-blocklist address=152.53.150.12/32
-add list=davidian-sk-active-blocklist address=152.53.179.92/32
 add list=davidian-sk-active-blocklist address=152.53.184.147/32
 add list=davidian-sk-active-blocklist address=152.53.184.161/32
 add list=davidian-sk-active-blocklist address=152.53.186.30/32
@@ -18996,6 +19018,7 @@ add list=davidian-sk-active-blocklist address=154.53.182.5/32
 add list=davidian-sk-active-blocklist address=154.53.182.27/32
 add list=davidian-sk-active-blocklist address=154.57.216.74/32
 add list=davidian-sk-active-blocklist address=154.62.16.0/20
+add list=davidian-sk-active-blocklist address=154.64.244.154/32
 add list=davidian-sk-active-blocklist address=154.70.40.215/32
 add list=davidian-sk-active-blocklist address=154.70.87.52/32
 add list=davidian-sk-active-blocklist address=154.72.160.231/32
@@ -19651,7 +19674,6 @@ add list=davidian-sk-active-blocklist address=162.0.235.216/32
 add list=davidian-sk-active-blocklist address=162.4.0.0/16
 add list=davidian-sk-active-blocklist address=162.14.125.120/32
 add list=davidian-sk-active-blocklist address=162.19.11.69/32
-add list=davidian-sk-active-blocklist address=162.19.58.174/32
 add list=davidian-sk-active-blocklist address=162.19.70.61/32
 add list=davidian-sk-active-blocklist address=162.19.80.7/32
 add list=davidian-sk-active-blocklist address=162.19.80.39/32
@@ -19821,10 +19843,12 @@ add list=davidian-sk-active-blocklist address=162.241.224.128/32
 add list=davidian-sk-active-blocklist address=162.241.224.140/32
 add list=davidian-sk-active-blocklist address=162.241.224.215/32
 add list=davidian-sk-active-blocklist address=162.241.224.221/32
+add list=davidian-sk-active-blocklist address=162.241.225.18/32
 add list=davidian-sk-active-blocklist address=162.241.225.183/32
 add list=davidian-sk-active-blocklist address=162.241.225.213/32
 add list=davidian-sk-active-blocklist address=162.241.226.40/32
 add list=davidian-sk-active-blocklist address=162.241.226.46/32
+add list=davidian-sk-active-blocklist address=162.241.230.74/32
 add list=davidian-sk-active-blocklist address=162.243.68.238/32
 add list=davidian-sk-active-blocklist address=162.243.90.163/32
 add list=davidian-sk-active-blocklist address=162.243.103.246/32
@@ -19868,6 +19892,7 @@ add list=davidian-sk-active-blocklist address=163.171.141.118/32
 add list=davidian-sk-active-blocklist address=163.171.198.187/32
 add list=davidian-sk-active-blocklist address=163.172.41.115/32
 add list=davidian-sk-active-blocklist address=163.172.128.123/32
+add list=davidian-sk-active-blocklist address=163.172.153.224/32
 add list=davidian-sk-active-blocklist address=163.172.158.237/32
 add list=davidian-sk-active-blocklist address=163.172.176.65/32
 add list=davidian-sk-active-blocklist address=163.172.212.88/32
@@ -20090,6 +20115,7 @@ add list=davidian-sk-active-blocklist address=165.154.231.140/32
 add list=davidian-sk-active-blocklist address=165.154.233.77/32
 add list=davidian-sk-active-blocklist address=165.154.235.139/32
 add list=davidian-sk-active-blocklist address=165.154.235.179/32
+add list=davidian-sk-active-blocklist address=165.154.242.7/32
 add list=davidian-sk-active-blocklist address=165.154.252.0/24
 add list=davidian-sk-active-blocklist address=165.193.78.137/32
 add list=davidian-sk-active-blocklist address=165.193.78.159/32
@@ -20156,7 +20182,6 @@ add list=davidian-sk-active-blocklist address=165.232.165.203/32
 add list=davidian-sk-active-blocklist address=165.232.174.64/32
 add list=davidian-sk-active-blocklist address=165.232.178.163/32
 add list=davidian-sk-active-blocklist address=165.232.178.234/32
-add list=davidian-sk-active-blocklist address=165.232.180.50/32
 add list=davidian-sk-active-blocklist address=165.232.180.78/32
 add list=davidian-sk-active-blocklist address=165.232.183.3/32
 add list=davidian-sk-active-blocklist address=165.232.187.67/32
@@ -20247,7 +20272,6 @@ add list=davidian-sk-active-blocklist address=167.71.208.120/32
 add list=davidian-sk-active-blocklist address=167.71.217.3/32
 add list=davidian-sk-active-blocklist address=167.71.227.125/32
 add list=davidian-sk-active-blocklist address=167.71.230.230/32
-add list=davidian-sk-active-blocklist address=167.71.235.197/32
 add list=davidian-sk-active-blocklist address=167.71.249.8/32
 add list=davidian-sk-active-blocklist address=167.71.255.29/32
 add list=davidian-sk-active-blocklist address=167.71.255.35/32
@@ -21452,6 +21476,7 @@ add list=davidian-sk-active-blocklist address=177.22.122.154/32
 add list=davidian-sk-active-blocklist address=177.23.184.136/32
 add list=davidian-sk-active-blocklist address=177.23.191.166/32
 add list=davidian-sk-active-blocklist address=177.27.76.210/32
+add list=davidian-sk-active-blocklist address=177.36.16.148/32
 add list=davidian-sk-active-blocklist address=177.36.170.157/32
 add list=davidian-sk-active-blocklist address=177.38.85.59/32
 add list=davidian-sk-active-blocklist address=177.38.210.43/32
@@ -21571,6 +21596,8 @@ add list=davidian-sk-active-blocklist address=178.16.55.198/32
 add list=davidian-sk-active-blocklist address=178.16.80.185/32
 add list=davidian-sk-active-blocklist address=178.17.50.184/32
 add list=davidian-sk-active-blocklist address=178.17.58.173/32
+add list=davidian-sk-active-blocklist address=178.17.58.251/32
+add list=davidian-sk-active-blocklist address=178.17.59.55/32
 add list=davidian-sk-active-blocklist address=178.17.170.23/32
 add list=davidian-sk-active-blocklist address=178.17.170.144/32
 add list=davidian-sk-active-blocklist address=178.17.170.225/32
@@ -21758,6 +21785,7 @@ add list=davidian-sk-active-blocklist address=178.250.0.87/32
 add list=davidian-sk-active-blocklist address=178.250.191.189/32
 add list=davidian-sk-active-blocklist address=178.251.140.3/32
 add list=davidian-sk-active-blocklist address=178.252.190.114/32
+add list=davidian-sk-active-blocklist address=178.253.43.167/32
 add list=davidian-sk-active-blocklist address=179.0.249.14/32
 add list=davidian-sk-active-blocklist address=179.0.249.26/32
 add list=davidian-sk-active-blocklist address=179.0.249.35/32
@@ -22213,7 +22241,6 @@ add list=davidian-sk-active-blocklist address=182.43.31.128/32
 add list=davidian-sk-active-blocklist address=182.43.64.3/32
 add list=davidian-sk-active-blocklist address=182.43.64.21/32
 add list=davidian-sk-active-blocklist address=182.43.64.48/32
-add list=davidian-sk-active-blocklist address=182.43.65.17/32
 add list=davidian-sk-active-blocklist address=182.43.65.168/32
 add list=davidian-sk-active-blocklist address=182.43.69.56/32
 add list=davidian-sk-active-blocklist address=182.43.69.179/32
@@ -22698,6 +22725,7 @@ add list=davidian-sk-active-blocklist address=185.65.134.168/32
 add list=davidian-sk-active-blocklist address=185.65.201.0/24
 add list=davidian-sk-active-blocklist address=185.65.202.184/32
 add list=davidian-sk-active-blocklist address=185.65.247.253/32
+add list=davidian-sk-active-blocklist address=185.66.250.51/32
 add list=davidian-sk-active-blocklist address=185.67.82.114/32
 add list=davidian-sk-active-blocklist address=185.68.108.108/32
 add list=davidian-sk-active-blocklist address=185.68.178.59/32
@@ -22831,7 +22859,6 @@ add list=davidian-sk-active-blocklist address=185.180.141.68/32
 add list=davidian-sk-active-blocklist address=185.182.9.219/32
 add list=davidian-sk-active-blocklist address=185.182.56.174/32
 add list=davidian-sk-active-blocklist address=185.182.56.226/32
-add list=davidian-sk-active-blocklist address=185.182.184.134/32
 add list=davidian-sk-active-blocklist address=185.183.159.40/32
 add list=davidian-sk-active-blocklist address=185.185.69.114/32
 add list=davidian-sk-active-blocklist address=185.185.82.181/32
@@ -23467,6 +23494,7 @@ add list=davidian-sk-active-blocklist address=189.30.117.80/32
 add list=davidian-sk-active-blocklist address=189.45.45.154/32
 add list=davidian-sk-active-blocklist address=189.45.207.103/32
 add list=davidian-sk-active-blocklist address=189.47.10.39/32
+add list=davidian-sk-active-blocklist address=189.47.10.237/32
 add list=davidian-sk-active-blocklist address=189.48.255.108/32
 add list=davidian-sk-active-blocklist address=189.50.142.82/32
 add list=davidian-sk-active-blocklist address=189.55.171.84/32
@@ -23858,6 +23886,7 @@ add list=davidian-sk-active-blocklist address=192.136.39.0/24
 add list=davidian-sk-active-blocklist address=192.136.59.0/24
 add list=davidian-sk-active-blocklist address=192.136.141.0/24
 add list=davidian-sk-active-blocklist address=192.136.142.0/23
+add list=davidian-sk-active-blocklist address=192.140.174.85/32
 add list=davidian-sk-active-blocklist address=192.140.174.242/32
 add list=davidian-sk-active-blocklist address=192.140.216.0/22
 add list=davidian-sk-active-blocklist address=192.140.236.0/22
@@ -24007,6 +24036,7 @@ add list=davidian-sk-active-blocklist address=192.227.134.67/32
 add list=davidian-sk-active-blocklist address=192.227.134.77/32
 add list=davidian-sk-active-blocklist address=192.227.134.78/32
 add list=davidian-sk-active-blocklist address=192.227.134.90/32
+add list=davidian-sk-active-blocklist address=192.227.140.120/32
 add list=davidian-sk-active-blocklist address=192.227.144.47/32
 add list=davidian-sk-active-blocklist address=192.227.194.112/32
 add list=davidian-sk-active-blocklist address=192.227.209.48/32
@@ -24711,6 +24741,7 @@ add list=davidian-sk-active-blocklist address=195.20.249.19/32
 add list=davidian-sk-active-blocklist address=195.22.10.107/32
 add list=davidian-sk-active-blocklist address=195.24.236.20/32
 add list=davidian-sk-active-blocklist address=195.24.236.57/32
+add list=davidian-sk-active-blocklist address=195.24.236.68/32
 add list=davidian-sk-active-blocklist address=195.24.236.80/32
 add list=davidian-sk-active-blocklist address=195.24.236.93/32
 add list=davidian-sk-active-blocklist address=195.24.236.104/32
@@ -25205,6 +25236,7 @@ add list=davidian-sk-active-blocklist address=198.167.206.237/32
 add list=davidian-sk-active-blocklist address=198.172.81.32/32
 add list=davidian-sk-active-blocklist address=198.172.81.42/32
 add list=davidian-sk-active-blocklist address=198.172.202.250/32
+add list=davidian-sk-active-blocklist address=198.176.61.71/32
 add list=davidian-sk-active-blocklist address=198.176.61.178/32
 add list=davidian-sk-active-blocklist address=198.187.31.44/32
 add list=davidian-sk-active-blocklist address=198.199.67.21/32
@@ -27750,6 +27782,7 @@ add list=davidian-sk-active-blocklist address=205.188.165.57/32
 add list=davidian-sk-active-blocklist address=205.188.165.121/32
 add list=davidian-sk-active-blocklist address=205.188.165.185/32
 add list=davidian-sk-active-blocklist address=205.188.165.249/32
+add list=davidian-sk-active-blocklist address=205.196.209.198/32
 add list=davidian-sk-active-blocklist address=205.196.217.56/32
 add list=davidian-sk-active-blocklist address=205.197.48.0/21
 add list=davidian-sk-active-blocklist address=205.201.167.135/32
@@ -28317,7 +28350,6 @@ add list=davidian-sk-active-blocklist address=208.84.101.154/32
 add list=davidian-sk-active-blocklist address=208.84.101.251/32
 add list=davidian-sk-active-blocklist address=208.84.102.151/32
 add list=davidian-sk-active-blocklist address=208.84.102.192/32
-add list=davidian-sk-active-blocklist address=208.84.102.201/32
 add list=davidian-sk-active-blocklist address=208.84.102.244/32
 add list=davidian-sk-active-blocklist address=208.84.244.62/32
 add list=davidian-sk-active-blocklist address=208.86.61.76/32
@@ -28345,7 +28377,7 @@ add list=davidian-sk-active-blocklist address=208.87.203.24/31
 add list=davidian-sk-active-blocklist address=208.87.203.28/31
 add list=davidian-sk-active-blocklist address=208.87.203.31/32
 add list=davidian-sk-active-blocklist address=208.87.203.33/32
-add list=davidian-sk-active-blocklist address=208.87.203.34/31
+add list=davidian-sk-active-blocklist address=208.87.203.34/32
 add list=davidian-sk-active-blocklist address=208.87.203.36/32
 add list=davidian-sk-active-blocklist address=208.87.203.38/32
 add list=davidian-sk-active-blocklist address=208.87.203.41/32
@@ -28357,7 +28389,7 @@ add list=davidian-sk-active-blocklist address=208.87.203.52/32
 add list=davidian-sk-active-blocklist address=208.87.203.55/32
 add list=davidian-sk-active-blocklist address=208.87.203.56/32
 add list=davidian-sk-active-blocklist address=208.87.203.58/32
-add list=davidian-sk-active-blocklist address=208.87.203.60/31
+add list=davidian-sk-active-blocklist address=208.87.203.61/32
 add list=davidian-sk-active-blocklist address=208.87.204.1/32
 add list=davidian-sk-active-blocklist address=208.87.204.5/32
 add list=davidian-sk-active-blocklist address=208.87.204.8/31
@@ -29070,6 +29102,7 @@ add list=davidian-sk-active-blocklist address=212.24.155.211/32
 add list=davidian-sk-active-blocklist address=212.25.35.70/32
 add list=davidian-sk-active-blocklist address=212.27.48.10/32
 add list=davidian-sk-active-blocklist address=212.27.63.127/32
+add list=davidian-sk-active-blocklist address=212.29.215.93/32
 add list=davidian-sk-active-blocklist address=212.30.37.45/32
 add list=davidian-sk-active-blocklist address=212.30.37.60/32
 add list=davidian-sk-active-blocklist address=212.33.235.243/32
@@ -29372,6 +29405,7 @@ add list=davidian-sk-active-blocklist address=213.176.16.80/32
 add list=davidian-sk-active-blocklist address=213.176.16.122/32
 add list=davidian-sk-active-blocklist address=213.176.16.206/32
 add list=davidian-sk-active-blocklist address=213.176.73.27/32
+add list=davidian-sk-active-blocklist address=213.176.79.34/32
 add list=davidian-sk-active-blocklist address=213.177.184.0/21
 add list=davidian-sk-active-blocklist address=213.180.130.201/32
 add list=davidian-sk-active-blocklist address=213.180.132.66/32
