@@ -69,142 +69,23 @@ then you create a raw firewal rule which drops everything from this list in the 
 /ip firewall raw
 add action=drop chain=input src-address-list=davidian-sk-blocklist_a comment="Drop traffic from Davidian-SK Blocklist"
 ```
-## You need to create 4 Scripts in RouterOS (System > Scripts)
-
-1. blocklist_a-download (this name is optional)
-2. blocklist_b-download (this name is optional)
-3. blocklist_a_to_blocklist_b (this name is being used in the script, so if you choose a different name, make sure to adapt the scripts as well)
-4. blocklist_b_to_blocklist_a (this name is being used in the script, so if you choose a different name, make sure to adapt the scripts as well)
-
-
+## 
 
 ### I. SCRIPT DEFINITIONS (Download)
 
-#### Blocklist A - download
+#### Blocklist Rotate
 
 ```routeros
+:log info "BLOCKLIST-ROTATE: === Starting rotation ==="; :local webhook "https://discord.com/api/webhooks/*REDACTED*/*REDACTED*"; :local hs [/ip firewall raw find where comment~"Hacker Shield"]; :local ph [/ip firewall raw find where comment~"Phone-Home Shield"]; :if (([:len $hs] = 0) or ([:len $ph] = 0)) do={ :log error "BLOCKLIST-ROTATE: Required raw rules not found. Aborting."; :error "Missing raw rules"; }; :local activeList [/ip firewall raw get $hs src-address-list]; :local nextList; :local nextFile; :local removeList; :if ($activeList = "davidian-sk-blocklist_a") do={ :set nextList "davidian-sk-blocklist_b"; :set nextFile "blocklist_b.rsc"; :set removeList "davidian-sk-blocklist_a"; } else={ :if ($activeList = "davidian-sk-blocklist_b") do={ :set nextList "davidian-sk-blocklist_a"; :set nextFile "blocklist_a.rsc"; :set removeList "davidian-sk-blocklist_b"; } else={ :log error ("BLOCKLIST-ROTATE: Unexpected active list: " . $activeList . ". Aborting."); :error "Unexpected active list"; }; }; :log info ("BLOCKLIST-ROTATE: Active=" . $activeList . " | Rotating to=" . $nextList); :local dstPath ("usb2/blocklist/" . $nextFile); :local url ("https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/" . $nextFile); :log info ("BLOCKLIST-ROTATE: [1/5] Downloading " . $nextFile . "..."); /tool fetch url=$url mode=https dst-path=$dstPath; :local f [/file find name=$dstPath]; :if ([:len $f] = 0) do={ :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Download failed. Keeping current protection."; :error "Download failed"; }; :local size [/file get $f size]; :if ($size = 0) do={ :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Downloaded file is empty. Keeping current protection."; :error "Empty download"; }; :local sizeKb ($size / 1024); :log info ("BLOCKLIST-ROTATE: [1/5] OK - Downloaded " . $sizeKb . " KB."); :local staleCount [:len [/ip firewall address-list find where list=$nextList]]; :if ($staleCount > 0) do={ :log info ("BLOCKLIST-ROTATE: [2/5] Found " . $staleCount . " stale entries in " . $nextList . " - clearing..."); /system logging disable 0; :foreach i in=[/ip firewall address-list find where list=$nextList] do={ /ip firewall address-list remove $i; }; /system logging enable 0; :log info ("BLOCKLIST-ROTATE: [2/5] OK - Cleared " . $staleCount . " stale entries."); } else={ :log info ("BLOCKLIST-ROTATE: [2/5] OK - No stale entries in " . $nextList . "."); }; :log info ("BLOCKLIST-ROTATE: [3/5] Importing " . $nextList . "..."); :local importOk true; /system logging disable 0; :do { /import file-name=$dstPath; } on-error={ :set importOk false; }; /system logging enable 0; :if ($importOk = false) do={ :log error ("BLOCKLIST-ROTATE: [3/5] FAILED - Import failed. Keeping " . $activeList . " active."); :error "Import failed"; }; :local importedCount [:len [/ip firewall address-list find where list=$nextList]]; :log info ("BLOCKLIST-ROTATE: [3/5] OK - Imported " . $importedCount . " entries into " . $nextList . "."); :log info ("BLOCKLIST-ROTATE: [4/5] Switching raw rules to " . $nextList . "..."); /ip firewall raw set $hs src-address-list=$nextList; /ip firewall raw set $ph dst-address-list=$nextList; :log info ("BLOCKLIST-ROTATE: [4/5] OK - Hacker Shield + Phone-Home Shield now -> " . $nextList . "."); :local removeCount [:len [/ip firewall address-list find where list=$removeList]]; :log info ("BLOCKLIST-ROTATE: [5/5] Purging " . $removeCount . " entries from old list " . $removeList . "..."); /system logging disable 0; :foreach i in=[/ip firewall address-list find where list=$removeList] do={ /ip firewall address-list remove $i; }; /system logging enable 0; /file remove $dstPath; :log info ("BLOCKLIST-ROTATE: [5/5] OK - Purged " . $removeCount . " entries from " . $removeList . "."); :log info ("BLOCKLIST-ROTATE: === Complete: " . $activeList . " -> " . $nextList . " ==="); :local discordJson ("{\"embeds\": [{\"title\": \"Blocklist Rotation Complete\",\"color\": 5763719,\"fields\": [{\"name\": \"Rotation\",\"value\": \"" . $activeList . " -> " . $nextList . "\",\"inline\": false},{\"name\": \"Downloaded\",\"value\": \"" . $sizeKb . " KB\",\"inline\": true},{\"name\": \"Imported\",\"value\": \"" . $importedCount . " entries\",\"inline\": true},{\"name\": \"Purged old\",\"value\": \"" . $removeCount . " entries\",\"inline\": true}]}]}"); /tool fetch url=$webhook http-method=post http-header-field="content-type: application/json" http-data=$discordJson output=none;
 
-:log info "Starting threat feed download from GitHub."
-
-# Download blocklist.rsc from GitHub to USB storage
-/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_a.rsc" mode=https dst-path="usb2/blocklist/blocklist_a.rsc"
-
-# Verify the file exists and has non-zero size
-:local f [/file find name="usb2/blocklist/blocklist_a.rsc"]
-:if ([:len $f] > 0) do={
-    :local size [/file get $f size]
-    :if ($size > 0) do={
-        :log info "File downloaded successfully ($size bytes). Running import script."
-        /system script run blocklist_b_to_blocklist_a
-    } else={
-        :log error "File exists but is empty. Aborting import."
-    }
-} else={
-    :log error "File download failed or not found."
-}
-```
-
-#### Blocklist B - download
-
-```routeros
-
-:log info "Starting threat feed download from GitHub."
-
-# Download blocklist.rsc from GitHub to USB storage
-/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_b.rsc" mode=https dst-path="usb2/blocklist/blocklist_b.rsc"
-
-# Verify the file exists and has non-zero size
-:local f [/file find name="usb2/blocklist/blocklist_b.rsc"]
-:if ([:len $f] > 0) do={
-    :local size [/file get $f size]
-    :if ($size > 0) do={
-        :log info "File downloaded successfully ($size bytes). Running import script."
-        /system script run blocklist_a_to_blocklist_b
-    } else={
-        :log error "File exists but is empty. Aborting import."
-    }
-} else={
-    :log error "File download failed or not found."
-}
-
-```
-### II. SCRIPT DEFINITIONS (import lists)
-
-#### blocklist_a_to_blocklist_b
-```routeros
-#/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_b.rsc" mode=https dst-path="usb2/blocklist/blocklist_b.rsc"
-:log info "blocklist-REP: started"
-:log info "blocklist-REP: Begining to import BLOCKLIST B - disabling info"
-/system logging disable 0
-:local duration [/system clock get time]
-/import file-name=usb2/blocklist/blocklist_b.rsc; 
-
-/system logging enable 0
-:log info "blocklist-REP: finished - enabled info"
-
-/ip firewall raw set [find comment="Drop All Packets, From the davidian-sk Blocklist, before prerouting."] src-address-list=davidian-sk-blocklist_b
-:set duration ([/system clock get time] - $duration)
-:log info "blocklist-REP: finished -  in $duration."
-
-:log info "blocklist-REM: started old list removal - disabling info"
-/system logging disable 0
-:local duration [/system clock get time]
-/ip firewall address-list remove [find where list="davidian-sk-blocklist_a"]; 
-
-/system logging enable 0
-
-:set duration ([/system clock get time] - $duration)
-:log info "blocklist-REM: Old list removal finished -  in $duration."
-/file remove usb2/blocklist/blocklist_b.rsc
-:log info "Threat list davidian-sk-blocklist_b imported successfully and files cleaned."
-
-:log info "BLOCKLIST - B is now active"
-```
-
-#### blocklist_a_to_blocklist_b
-```routeros
-#/tool fetch url="https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/blocklist_a.rsc" mode=https dst-path="usb2/blocklist/blocklist_a.rsc"
-:log info "blocklist-REP: Started"
-:log info "blocklist-REP: Begining to import BLOCKLIST A - disabling info"
-/system logging disable 0
-:local duration [/system clock get time]
-
-/import file-name=usb2/blocklist/blocklist_a.rsc; 
-
-
-/system logging enable 0
-:log info "blocklist-REP: finished - enabled info"
-
-/ip firewall raw set [find comment="Drop All Packets, From the davidian-sk Blocklist, before prerouting."] src-address-list=davidian-sk-blocklist_a
-:set duration ([/system clock get time] - $duration)
-:log info "blocklist-REP: finished -  in $duration."
-
-:log info "blocklist-REM: started old list removal - disabling info"
-/system logging disable 0
-:local duration [/system clock get time]
-
-/ip firewall address-list remove [find where list="davidian-sk-blocklist_b"]; 
-
-/system logging enable 0
-
-:set duration ([/system clock get time] - $duration)
-:log info "blocklist-REM: Old list removal finished -  in $duration."
-
-/file remove usb2/blocklist/blocklist_a.rsc
-:log info "Threat list davidian-sk-blocklist_a imported successfully and files cleaned."
-
-:log info "BLOCKLIST - A is now active"
 ```
 
 
-### III. SCHEDULER SETUP (Daily Run - you will need to add the start dates, I suggest starting with Activating blocklist B, since we created our dummy rule for blocklist_a)
 
-```routeros
-/system scheduler
-add interval=2d name="Activate Blocklist A" start-time=00:05:00 on-event=blocklist_a-download comment="Bi-Daily update for GitHub threat blocklist"
-add interval=2d name="Activate Blocklist B" start-time=00:05:00 on-event=blocklist_b-download comment="Bi-Daily update for GitHub threat blocklist"
-```
 
+### III. SCHEDULER SETUP (Daily Run)
+
+Schedule the script at least every 24 hours
 
 # **3\. Add Firewall Rule (Router OS)**
 
