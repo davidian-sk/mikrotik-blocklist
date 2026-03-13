@@ -4,8 +4,6 @@ https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
 https://blocklist.greensnow.co/greensnow.txt
 
-https://pgl.yoyo.org/adservers/iplist.php?ipformat=&showintro=0&mimetype=plaintext
-
 https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/5.txt
 
 https://rules.emergingthreats.net/blockrules/compromised-ips.txt
@@ -15,5 +13,15 @@ https://threatfox.abuse.ch/export/json/ip-port/recent/
 https://lists.blocklist.de/lists/strongips.txt
 
 https://threatview.io/Downloads/IP-High-Confidence-Feed.txt
+
+https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset
+
+https://www.spamhaus.org/drop/drop.txt
+
+https://www.spamhaus.org/drop/edrop.txt
+
+https://cinsscore.com/list/ci-badguys.txt
+
+https://talosintelligence.com/documents/ip-blacklist
 
 http://192.168.0.7:41412/mikrotik
