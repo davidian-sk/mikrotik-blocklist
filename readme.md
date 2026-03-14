@@ -12,10 +12,6 @@ This repository provides a self-updating MikroTik address list built by aggregat
   
 ## **📝 Output Files**
 
-The Linux script generates the following files:
-
-## 📝 Output Files
-
 The generator creates the following files:
 
 | File Name | Content | Purpose |
