@@ -152,7 +152,168 @@ then you create a raw firewal rule which drops everything from this list in the 
 :log info ("BLOCKLIST-ROTATE: === Complete: " . $activeList . " -> " . $nextList . " ===");
 ```
 
+Here is an (yet) untested version of the Router OS Script
 
+- lock/guard so it won’t run twice at the same time
+
+- download/import sanity check
+
+- minimum imported entry threshold
+
+- do not switch rules if the new list looks suspiciously small
+
+- do not purge old list unless the switch really happened
+
+- cleanup lock on failure
+
+routeros
+```
+:local scriptName "BLOCKLIST-ROTATE";
+:local lockFile "usb2/blocklist/.rotate.lock";
+:local minEntries 1000;
+
+:log info ($scriptName . ": === Starting rotation ===");
+
+# Guard against concurrent runs
+:if ([:len [/file find name=$lockFile]] > 0) do={
+    :log warning ($scriptName . ": Lock file exists, another rotation may already be running. Aborting.");
+    :error "Rotation locked";
+}
+
+/file print file="usb2/blocklist/.rotate.lock";
+
+:do {
+
+    :local hs [/ip firewall raw find where comment~"Hacker Shield"];
+    :local ph [/ip firewall raw find where comment~"Phone-Home Shield"];
+
+    :if (([:len $hs] = 0) or ([:len $ph] = 0)) do={
+        :log error ($scriptName . ": Required raw rules not found. Aborting.");
+        :error "Missing raw rules";
+    };
+
+    :local activeList [/ip firewall raw get $hs src-address-list];
+    :local nextList;
+    :local nextFile;
+    :local removeList;
+
+    :if ($activeList = "davidian-sk-blocklist_a") do={
+        :set nextList "davidian-sk-blocklist_b";
+        :set nextFile "blocklist_b.rsc";
+        :set removeList "davidian-sk-blocklist_a";
+    } else={
+        :if ($activeList = "davidian-sk-blocklist_b") do={
+            :set nextList "davidian-sk-blocklist_a";
+            :set nextFile "blocklist_a.rsc";
+            :set removeList "davidian-sk-blocklist_b";
+        } else={
+            :log error ($scriptName . ": Unexpected active list: " . $activeList . ". Aborting.");
+            :error "Unexpected active list";
+        };
+    };
+
+    :log info ($scriptName . ": Active=" . $activeList . " | Rotating to=" . $nextList);
+
+    :local dstPath ("usb2/blocklist/" . $nextFile);
+    :local url ("https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/" . $nextFile);
+
+    # Remove any leftover file first
+    :if ([:len [/file find name=$dstPath]] > 0) do={
+        /file remove $dstPath;
+    };
+
+    :log info ($scriptName . ": [1/6] Downloading " . $nextFile . "...");
+    /tool fetch url=$url mode=https dst-path=$dstPath;
+
+    :local f [/file find name=$dstPath];
+    :if ([:len $f] = 0) do={
+        :log error ($scriptName . ": [1/6] FAILED - Download failed. Keeping current protection.");
+        :error "Download failed";
+    };
+
+    :local size [/file get $f size];
+    :if ($size = 0) do={
+        :log error ($scriptName . ": [1/6] FAILED - Downloaded file is empty. Keeping current protection.");
+        :error "Empty download";
+    };
+
+    :local sizeKb ($size / 1024);
+    :log info ($scriptName . ": [1/6] OK - Downloaded " . $sizeKb . " KB.");
+
+    # Clear target list only
+    :local staleCount [:len [/ip firewall address-list find where list=$nextList]];
+    :if ($staleCount > 0) do={
+        :log info ($scriptName . ": [2/6] Found " . $staleCount . " stale entries in " . $nextList . " - clearing...");
+        :foreach i in=[/ip firewall address-list find where list=$nextList] do={
+            /ip firewall address-list remove $i;
+        };
+        :log info ($scriptName . ": [2/6] OK - Cleared " . $staleCount . " stale entries.");
+    } else={
+        :log info ($scriptName . ": [2/6] OK - No stale entries in " . $nextList . ".");
+    };
+
+    :log info ($scriptName . ": [3/6] Importing " . $nextList . "...");
+    :local importOk true;
+
+    :do {
+        /import file-name=$dstPath;
+    } on-error={
+        :set importOk false;
+    };
+
+    :if ($importOk = false) do={
+        :log error ($scriptName . ": [3/6] FAILED - Import failed. Keeping " . $activeList . " active.");
+        :error "Import failed";
+    };
+
+    :local importedCount [:len [/ip firewall address-list find where list=$nextList]];
+    :log info ($scriptName . ": [3/6] OK - Imported " . $importedCount . " entries into " . $nextList . ".");
+
+    # Sanity threshold check
+    :if ($importedCount < $minEntries) do={
+        :log error ($scriptName . ": [4/6] FAILED - Imported count " . $importedCount . " is below minimum threshold " . $minEntries . ". Keeping " . $activeList . " active.");
+        :error "Imported list below threshold";
+    };
+
+    # Optional comparison against old active list size
+    :local activeCount [:len [/ip firewall address-list find where list=$activeList]];
+    :if (($activeCount > 0) and ($importedCount < ($activeCount / 2))) do={
+        :log warning ($scriptName . ": [4/6] Imported list is much smaller than active list (" . $importedCount . " vs " . $activeCount . "). Aborting switch.");
+        :error "Imported list suspiciously small";
+    };
+
+    :log info ($scriptName . ": [4/6] OK - Sanity checks passed.");
+
+    :log info ($scriptName . ": [5/6] Switching raw rules to " . $nextList . "...");
+    /ip firewall raw set $hs src-address-list=$nextList;
+    /ip firewall raw set $ph dst-address-list=$nextList;
+    :log info ($scriptName . ": [5/6] OK - Hacker Shield + Phone-Home Shield now -> " . $nextList . ".");
+
+    :local removeCount [:len [/ip firewall address-list find where list=$removeList]];
+    :log info ($scriptName . ": [6/6] Purging " . $removeCount . " entries from old list " . $removeList . "...");
+    :foreach i in=[/ip firewall address-list find where list=$removeList] do={
+        /ip firewall address-list remove $i;
+    };
+    :log info ($scriptName . ": [6/6] OK - Purged " . $removeCount . " entries from " . $removeList . ".");
+
+    # Cleanup downloaded file
+    :if ([:len [/file find name=$dstPath]] > 0) do={
+        /file remove $dstPath;
+    };
+
+    :log info ($scriptName . ": === Complete: " . $activeList . " -> " . $nextList . " ===");
+
+} on-error={
+
+    :log error ($scriptName . ": Rotation aborted due to error. Current active rules were left unchanged unless already switched.");
+
+} 
+
+# Always try to remove lock at the end
+:if ([:len [/file find name=$lockFile]] > 0) do={
+    /file remove $lockFile;
+}
+```
 
 
 ### III. SCHEDULER SETUP (Daily Run)
