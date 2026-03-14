@@ -19,44 +19,11 @@ The Linux script generates the following files:
 | **blocklist_a.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs in case of a two list method(Recommended). |
 | **blocklist_b.rsc** | RouterOS script for import. | **Essential:** This is what the MikroTik downloads and runs in case of a two list method(Recommended). |
 | **aggregated\_cidr\_ranges.txt** | List of final, optimized IP/CIDR ranges (e.g., 1.2.3.0/24). | **Essential:** Used for direct audit or consumption by other tools. |
-| **aggregated\_ips.txt** | List of unique, non-compressed IPs/Ranges. | **Audit Log:** Used for debugging and tracing false positives. |
-| **ip\_aggregator\_git.sh** | The script that generated the files. | **Source Control:** Tracks the logic used for the push. |
 | **sources.txt** | List of all input URLs. | **Configuration:** Tracks the source feeds used. |
-
-## **🛠️ Automation Setup**
-
-This setup assumes the aggregation script runs on a Linux host (e.g., your **Raspberry Pi 5** running a daily cron job) and the MikroTik fetches the result from this repository on a weekly schedule.
-
-# **1. Host Setup (Linux Cron Job)**
-
-Choose one of the two aggregator scripts to run based on your needs:
-
-| Script Name | Use Case | Frequency |
-| :---- | :---- | :---- |
-| **ip\_aggregator\_local.sh** | **Daily Runs** (Fastest local update). | Recommended: **Daily** (e.g., 03:00) |
-| **ip\_aggregator\_git.sh** | **GitHub Push** (For public repository updates). | Recommended: **Daily** (e.g., Sunday @ 03:00) |
-
-To run the script daily using cron (e.g., for the local version):
-
-**Edit the cron schedule:**
-```bash
-crontab -e
-```
-
-**Add this line to run the script every day at 3:00 AM (Ensure path is correct\!):**
-
-```bash
-0 3 * * * /path/to/project/ip_aggregator_git.sh > /path/to/log/threatfeed_git.log 2>&1
-```
-
-```bash
-0 3 * * * /path/to/project/ip_aggregator_local.sh > /path/to/log/threatfeed_local.log 2>&1
-```
 
 #  2. MikroTik RouterOS Scheduler 
 
 This method uses your custom script logic, which saves the file to the reliable USB mount (usb2/blocklist/) and includes robust file size verification to prevent importing corrupted data.
-
 
 The logic of zero downtime relies on the two list method.
 
@@ -65,10 +32,6 @@ Prereqs:
 You create an address list in Router OS: **davidian-sk-blocklist_a** (add some dummy address to it: e.g. 10.0.0.1)
 then you create a raw firewal rule which drops everything from this list in the prerouting chain .
 
-```routeros
-/ip firewall raw
-add action=drop chain=input src-address-list=davidian-sk-blocklist_a comment="Drop traffic from Davidian-SK Blocklist"
-```
 ## 
 
 ### I. SCRIPT DEFINITIONS (Download)
@@ -95,30 +58,10 @@ Schedule the script at least every 24 hours
 This drops incoming traffic destined for devices behind your router using the most efficient table.
 This is the most efficient method. This rule runs before connection tracking, which is highly efficient and saves CPU cycles on your router.
 Add the firewall rule to your raw table to drop all incoming traffic from sources in your new address list. 
+The second rule on the other hand blocks any compromised devices from phonoing home
 
 ```routeros
 /ip firewall raw
-add action=drop chain=input src-address-list=davidian-sk-blocklist_a comment="Drop traffic from Davidian-SK Blocklist"
-```
-### **Option B: Standard Filter Rule** (scripts don't consider this option)
-
-While using the raw table is recommended for the best performance, you can also use this blocklist with the classic firewall filter rules.
-Important Note on CPU Usage: The primary difference is that filter rules are processed after connection tracking. 
-This means every packet from a new connection will be checked against the address list, resulting in a higher CPU load. 
-On a powerful device like the RB5009, this may be negligible, but on less powerful routers, it could significantly impact performance.
-
-*If you prefer to use the standard filter chain instead:*
-
-**Protect your router itself (input chain):**
-
-```routeros
-/ip firewall filter
-add action=drop chain=input src-address-list=davidian-sk-blocklist comment="Drop traffic from Davidian-SK Blocklist"
-```
-
-**Protect your LAN clients (forward chain):**
-
-```routeros
-/ip firewall filter
-add action=drop chain=forward src-address-list=davidian-sk-blocklist comment="Drop traffic from Davidian-SK Blocklist"
+add chain=prerouting in-interface-list=WAN src-address-list=davidian-sk-blocklist_a action=drop comment="RAW-SEC: Drop known malicious WAN source IPs early"
+add chain=prerouting in-interface-list=LAN dst-address-list=davidian-sk-blocklist_a action=drop comment="RAW-SEC: Drop LAN traffic to malicious destinations"
 ```
