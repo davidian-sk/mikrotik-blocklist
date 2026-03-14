@@ -9,6 +9,18 @@ This repository provides a self-updating MikroTik address list built by aggregat
 - **CIDR compression:** Uses Python's `ipaddress` library to aggregate individual IPs and ranges into a compact list of CIDR blocks.
 - **RouterOS output:** Generates RouterOS import scripts for use with MikroTik address lists.
 - **Dual deployment options:** Supports both local generation and GitHub-based delivery workflows.
+
+Sources:
+
+```
+https://feodotracker.abuse.ch/downloads/ipblocklist.txt
+https://blocklist.greensnow.co/greensnow.txt
+https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/5.txt
+https://rules.emergingthreats.net/blockrules/compromised-ips.txt
+https://lists.blocklist.de/lists/strongips.txt
+https://threatview.io/Downloads/IP-High-Confidence-Feed.txt
+https://cinsscore.com/list/ci-badguys.txt
+```
   
 ## **📝 Output Files**
 
