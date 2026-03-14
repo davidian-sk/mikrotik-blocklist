@@ -39,8 +39,117 @@ then you create a raw firewal rule which drops everything from this list in the 
 #### Blocklist Rotate
 
 ```routeros
-:log info "BLOCKLIST-ROTATE: === Starting rotation ==="; :local webhook "https://discord.com/api/webhooks/*REDACTED*/*REDACTED*"; :local hs [/ip firewall raw find where comment~"Hacker Shield"]; :local ph [/ip firewall raw find where comment~"Phone-Home Shield"]; :if (([:len $hs] = 0) or ([:len $ph] = 0)) do={ :log error "BLOCKLIST-ROTATE: Required raw rules not found. Aborting."; :error "Missing raw rules"; }; :local activeList [/ip firewall raw get $hs src-address-list]; :local nextList; :local nextFile; :local removeList; :if ($activeList = "davidian-sk-blocklist_a") do={ :set nextList "davidian-sk-blocklist_b"; :set nextFile "blocklist_b.rsc"; :set removeList "davidian-sk-blocklist_a"; } else={ :if ($activeList = "davidian-sk-blocklist_b") do={ :set nextList "davidian-sk-blocklist_a"; :set nextFile "blocklist_a.rsc"; :set removeList "davidian-sk-blocklist_b"; } else={ :log error ("BLOCKLIST-ROTATE: Unexpected active list: " . $activeList . ". Aborting."); :error "Unexpected active list"; }; }; :log info ("BLOCKLIST-ROTATE: Active=" . $activeList . " | Rotating to=" . $nextList); :local dstPath ("usb2/blocklist/" . $nextFile); :local url ("https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/" . $nextFile); :log info ("BLOCKLIST-ROTATE: [1/5] Downloading " . $nextFile . "..."); /tool fetch url=$url mode=https dst-path=$dstPath; :local f [/file find name=$dstPath]; :if ([:len $f] = 0) do={ :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Download failed. Keeping current protection."; :error "Download failed"; }; :local size [/file get $f size]; :if ($size = 0) do={ :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Downloaded file is empty. Keeping current protection."; :error "Empty download"; }; :local sizeKb ($size / 1024); :log info ("BLOCKLIST-ROTATE: [1/5] OK - Downloaded " . $sizeKb . " KB."); :local staleCount [:len [/ip firewall address-list find where list=$nextList]]; :if ($staleCount > 0) do={ :log info ("BLOCKLIST-ROTATE: [2/5] Found " . $staleCount . " stale entries in " . $nextList . " - clearing..."); /system logging disable 0; :foreach i in=[/ip firewall address-list find where list=$nextList] do={ /ip firewall address-list remove $i; }; /system logging enable 0; :log info ("BLOCKLIST-ROTATE: [2/5] OK - Cleared " . $staleCount . " stale entries."); } else={ :log info ("BLOCKLIST-ROTATE: [2/5] OK - No stale entries in " . $nextList . "."); }; :log info ("BLOCKLIST-ROTATE: [3/5] Importing " . $nextList . "..."); :local importOk true; /system logging disable 0; :do { /import file-name=$dstPath; } on-error={ :set importOk false; }; /system logging enable 0; :if ($importOk = false) do={ :log error ("BLOCKLIST-ROTATE: [3/5] FAILED - Import failed. Keeping " . $activeList . " active."); :error "Import failed"; }; :local importedCount [:len [/ip firewall address-list find where list=$nextList]]; :log info ("BLOCKLIST-ROTATE: [3/5] OK - Imported " . $importedCount . " entries into " . $nextList . "."); :log info ("BLOCKLIST-ROTATE: [4/5] Switching raw rules to " . $nextList . "..."); /ip firewall raw set $hs src-address-list=$nextList; /ip firewall raw set $ph dst-address-list=$nextList; :log info ("BLOCKLIST-ROTATE: [4/5] OK - Hacker Shield + Phone-Home Shield now -> " . $nextList . "."); :local removeCount [:len [/ip firewall address-list find where list=$removeList]]; :log info ("BLOCKLIST-ROTATE: [5/5] Purging " . $removeCount . " entries from old list " . $removeList . "..."); /system logging disable 0; :foreach i in=[/ip firewall address-list find where list=$removeList] do={ /ip firewall address-list remove $i; }; /system logging enable 0; /file remove $dstPath; :log info ("BLOCKLIST-ROTATE: [5/5] OK - Purged " . $removeCount . " entries from " . $removeList . "."); :log info ("BLOCKLIST-ROTATE: === Complete: " . $activeList . " -> " . $nextList . " ==="); :local discordJson ("{\"embeds\": [{\"title\": \"Blocklist Rotation Complete\",\"color\": 5763719,\"fields\": [{\"name\": \"Rotation\",\"value\": \"" . $activeList . " -> " . $nextList . "\",\"inline\": false},{\"name\": \"Downloaded\",\"value\": \"" . $sizeKb . " KB\",\"inline\": true},{\"name\": \"Imported\",\"value\": \"" . $importedCount . " entries\",\"inline\": true},{\"name\": \"Purged old\",\"value\": \"" . $removeCount . " entries\",\"inline\": true}]}]}"); /tool fetch url=$webhook http-method=post http-header-field="content-type: application/json" http-data=$discordJson output=none;
+:log info "BLOCKLIST-ROTATE: === Starting rotation ===";
 
+:local hs [/ip firewall raw find where comment~"Hacker Shield"];
+:local ph [/ip firewall raw find where comment~"Phone-Home Shield"];
+
+:if (([:len $hs] = 0) or ([:len $ph] = 0)) do={
+    :log error "BLOCKLIST-ROTATE: Required raw rules not found. Aborting.";
+    :error "Missing raw rules";
+};
+
+:local activeList [/ip firewall raw get $hs src-address-list];
+:local nextList;
+:local nextFile;
+:local removeList;
+
+:if ($activeList = "davidian-sk-blocklist_a") do={
+    :set nextList "davidian-sk-blocklist_b";
+    :set nextFile "blocklist_b.rsc";
+    :set removeList "davidian-sk-blocklist_a";
+} else={
+    :if ($activeList = "davidian-sk-blocklist_b") do={
+        :set nextList "davidian-sk-blocklist_a";
+        :set nextFile "blocklist_a.rsc";
+        :set removeList "davidian-sk-blocklist_b";
+    } else={
+        :log error ("BLOCKLIST-ROTATE: Unexpected active list: " . $activeList . ". Aborting.");
+        :error "Unexpected active list";
+    };
+};
+
+:log info ("BLOCKLIST-ROTATE: Active=" . $activeList . " | Rotating to=" . $nextList);
+
+:local dstPath ("usb2/blocklist/" . $nextFile);
+:local url ("https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/" . $nextFile);
+
+:log info ("BLOCKLIST-ROTATE: [1/5] Downloading " . $nextFile . "...");
+/tool fetch url=$url mode=https dst-path=$dstPath;
+
+:local f [/file find name=$dstPath];
+
+:if ([:len $f] = 0) do={
+    :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Download failed. Keeping current protection.";
+    :error "Download failed";
+};
+
+:local size [/file get $f size];
+
+:if ($size = 0) do={
+    :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Downloaded file is empty. Keeping current protection.";
+    :error "Empty download";
+};
+
+:local sizeKb ($size / 1024);
+:log info ("BLOCKLIST-ROTATE: [1/5] OK - Downloaded " . $sizeKb . " KB.");
+
+:local staleCount [:len [/ip firewall address-list find where list=$nextList]];
+
+:if ($staleCount > 0) do={
+    :log info ("BLOCKLIST-ROTATE: [2/5] Found " . $staleCount . " stale entries in " . $nextList . " - clearing...");
+    /system logging disable 0
+    :foreach i in=[/ip firewall address-list find where list=$nextList] do={
+        /ip firewall address-list remove $i
+    }
+    /system logging enable 0
+    :log info ("BLOCKLIST-ROTATE: [2/5] OK - Cleared " . $staleCount . " stale entries.");
+} else={
+    :log info ("BLOCKLIST-ROTATE: [2/5] OK - No stale entries in " . $nextList . ".");
+};
+
+:log info ("BLOCKLIST-ROTATE: [3/5] Importing " . $nextList . "...");
+
+:local importOk true;
+
+/system logging disable 0
+:do {
+    /import file-name=$dstPath
+} on-error={
+    :set importOk false
+}
+/system logging enable 0
+
+:if ($importOk = false) do={
+    :log error ("BLOCKLIST-ROTATE: [3/5] FAILED - Import failed. Keeping " . $activeList . " active.");
+    :error "Import failed";
+};
+
+:local importedCount [:len [/ip firewall address-list find where list=$nextList]];
+
+:log info ("BLOCKLIST-ROTATE: [3/5] OK - Imported " . $importedCount . " entries into " . $nextList . ".");
+
+:log info ("BLOCKLIST-ROTATE: [4/5] Switching raw rules to " . $nextList . "...");
+
+/ip firewall raw set $hs src-address-list=$nextList
+/ip firewall raw set $ph dst-address-list=$nextList
+
+:log info ("BLOCKLIST-ROTATE: [4/5] OK - Hacker Shield + Phone-Home Shield now -> " . $nextList . ".");
+
+:local removeCount [:len [/ip firewall address-list find where list=$removeList]];
+
+:log info ("BLOCKLIST-ROTATE: [5/5] Purging " . $removeCount . " entries from old list " . $removeList . "...");
+
+/system logging disable 0
+:foreach i in=[/ip firewall address-list find where list=$removeList] do={
+    /ip firewall address-list remove $i
+}
+/system logging enable 0
+
+/file remove $dstPath
+
+:log info ("BLOCKLIST-ROTATE: [5/5] OK - Purged " . $removeCount . " entries from " . $removeList . ".");
+:log info ("BLOCKLIST-ROTATE: === Complete: " . $activeList . " -> " . $nextList . " ===");
 ```
 
 
