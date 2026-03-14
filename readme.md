@@ -4,7 +4,6 @@ This repository provides a self-updating MikroTik address list built by aggregat
 
 ## **🚀 Features**
 
-## 🚀 Features
 
 - **Source aggregation:** Pulls IP data from multiple public threat feeds listed in `sources.txt`.
 - **CIDR compression:** Uses Python's `ipaddress` library to aggregate individual IPs and ranges into a compact list of CIDR blocks.
