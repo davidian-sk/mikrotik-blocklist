@@ -33,7 +33,6 @@ The generator creates the following files:
 | `blocklist_b.rsc` | RouterOS import script | Second half of the dual-list rotation method. |
 | `aggregated_cidr_ranges.txt` | Final optimized CIDR ranges | Useful for auditing or reuse in other tools. |
 | `aggregated_ips.txt` | Aggregated plain IP/range output | Useful for inspection or downstream processing. |
-| `sources.txt` | Source feed list | Defines the public feeds used as input. |
 
 ## 2. MikroTik RouterOS Setup
 
