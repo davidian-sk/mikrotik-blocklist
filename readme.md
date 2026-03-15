@@ -374,7 +374,7 @@ add name="Blocklist-Rotate" \
 # **3\. Add Firewall Rule (Router OS)**
 
 
-### **Option A: *(Recommended Method)* High-Performance Raw Rule (for Large Lists)**
+### **High-Performance Raw Rule (for Large Lists)**
 
 These RAW rules drop unwanted traffic before connection tracking. This reduces processing overhead compared with filtering the same traffic later in the firewall pipeline.
 
