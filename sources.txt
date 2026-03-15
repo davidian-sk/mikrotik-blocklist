@@ -1,8 +1,0 @@
-https://feodotracker.abuse.ch/downloads/ipblocklist.txt
-https://blocklist.greensnow.co/greensnow.txt
-https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/5.txt
-https://rules.emergingthreats.net/blockrules/compromised-ips.txt
-https://lists.blocklist.de/lists/strongips.txt
-https://threatview.io/Downloads/IP-High-Confidence-Feed.txt
-https://cinsscore.com/list/ci-badguys.txt
-http://192.168.0.7:41412/mikrotik
