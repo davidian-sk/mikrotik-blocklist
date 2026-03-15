@@ -8,7 +8,6 @@ This repository provides a self-updating MikroTik address list built by aggregat
 - **Source aggregation:** Pulls IP data from multiple public threat feeds listed in `sources.txt`.
 - **CIDR compression:** Uses Python's `ipaddress` library to aggregate individual IPs and ranges into a compact list of CIDR blocks.
 - **RouterOS output:** Generates RouterOS import scripts for use with MikroTik address lists.
-- **Dual deployment options:** Supports both local generation and GitHub-based delivery workflows.
 
 Sources:
 
