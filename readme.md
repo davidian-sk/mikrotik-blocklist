@@ -68,125 +68,9 @@ At any given time, one list is active in the RAW firewall rules, while the other
 
 let's name it
 
-"davidian-sk-blocklist-rotate"
+"Blocklist-Rotate"
 
-```routeros
-:log info "BLOCKLIST-ROTATE: === Starting rotation ===";
-
-:local hs [/ip firewall raw find where comment~"Hacker Shield"];
-:local ph [/ip firewall raw find where comment~"Phone-Home Shield"];
-
-:if (([:len $hs] = 0) or ([:len $ph] = 0)) do={
-    :log error "BLOCKLIST-ROTATE: Required raw rules not found. Aborting.";
-    :error "Missing raw rules";
-};
-
-:local activeList [/ip firewall raw get $hs src-address-list];
-:local nextList;
-:local nextFile;
-:local removeList;
-
-:if ($activeList = "davidian-sk-blocklist_a") do={
-    :set nextList "davidian-sk-blocklist_b";
-    :set nextFile "blocklist_b.rsc";
-    :set removeList "davidian-sk-blocklist_a";
-} else={
-    :if ($activeList = "davidian-sk-blocklist_b") do={
-        :set nextList "davidian-sk-blocklist_a";
-        :set nextFile "blocklist_a.rsc";
-        :set removeList "davidian-sk-blocklist_b";
-    } else={
-        :log error ("BLOCKLIST-ROTATE: Unexpected active list: " . $activeList . ". Aborting.");
-        :error "Unexpected active list";
-    };
-};
-
-:log info ("BLOCKLIST-ROTATE: Active=" . $activeList . " | Rotating to=" . $nextList);
-
-:local dstPath ("usb2/blocklist/" . $nextFile);
-:local url ("https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/" . $nextFile);
-
-:log info ("BLOCKLIST-ROTATE: [1/5] Downloading " . $nextFile . "...");
-/tool fetch url=$url mode=https dst-path=$dstPath;
-
-:local f [/file find name=$dstPath];
-
-:if ([:len $f] = 0) do={
-    :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Download failed. Keeping current protection.";
-    :error "Download failed";
-};
-
-:local size [/file get $f size];
-
-:if ($size = 0) do={
-    :log error "BLOCKLIST-ROTATE: [1/5] FAILED - Downloaded file is empty. Keeping current protection.";
-    :error "Empty download";
-};
-
-:local sizeKb ($size / 1024);
-:log info ("BLOCKLIST-ROTATE: [1/5] OK - Downloaded " . $sizeKb . " KB.");
-
-:local staleCount [:len [/ip firewall address-list find where list=$nextList]];
-
-:if ($staleCount > 0) do={
-    :log info ("BLOCKLIST-ROTATE: [2/5] Found " . $staleCount . " stale entries in " . $nextList . " - clearing...");
-    /system logging disable 0
-    :foreach i in=[/ip firewall address-list find where list=$nextList] do={
-        /ip firewall address-list remove $i
-    }
-    /system logging enable 0
-    :log info ("BLOCKLIST-ROTATE: [2/5] OK - Cleared " . $staleCount . " stale entries.");
-} else={
-    :log info ("BLOCKLIST-ROTATE: [2/5] OK - No stale entries in " . $nextList . ".");
-};
-
-:log info ("BLOCKLIST-ROTATE: [3/5] Importing " . $nextList . "...");
-
-:local importOk true;
-
-/system logging disable 0
-:do {
-    /import file-name=$dstPath
-} on-error={
-    :set importOk false
-}
-/system logging enable 0
-
-:if ($importOk = false) do={
-    :log error ("BLOCKLIST-ROTATE: [3/5] FAILED - Import failed. Keeping " . $activeList . " active.");
-    :error "Import failed";
-};
-
-:local importedCount [:len [/ip firewall address-list find where list=$nextList]];
-
-:log info ("BLOCKLIST-ROTATE: [3/5] OK - Imported " . $importedCount . " entries into " . $nextList . ".");
-
-:log info ("BLOCKLIST-ROTATE: [4/5] Switching raw rules to " . $nextList . "...");
-
-/ip firewall raw set $hs src-address-list=$nextList
-/ip firewall raw set $ph dst-address-list=$nextList
-
-:log info ("BLOCKLIST-ROTATE: [4/5] OK - Hacker Shield + Phone-Home Shield now -> " . $nextList . ".");
-
-:local removeCount [:len [/ip firewall address-list find where list=$removeList]];
-
-:log info ("BLOCKLIST-ROTATE: [5/5] Purging " . $removeCount . " entries from old list " . $removeList . "...");
-
-/system logging disable 0
-:foreach i in=[/ip firewall address-list find where list=$removeList] do={
-    /ip firewall address-list remove $i
-}
-/system logging enable 0
-
-/file remove $dstPath
-
-:log info ("BLOCKLIST-ROTATE: [5/5] OK - Purged " . $removeCount . " entries from " . $removeList . ".");
-:log info ("BLOCKLIST-ROTATE: === Complete: " . $activeList . " -> " . $nextList . " ===");
-```
-
-### Safer Rotation Script (Untested)
-
-The following version adds additional safeguards, but has not yet been validated in production:
+The following version adds additional safeguards
 
 - lock/guard so it won’t run twice at the same time
 
@@ -200,153 +84,279 @@ The following version adds additional safeguards, but has not yet been validated
 
 - cleanup lock on failure
 
+```routeros
+# Final hardened Blocklist-Rotate deployment
+# Single-script version based on the verified working backup logic, with:
+# - lock file protection
+# - minimum entry threshold
+# - suspicious-size guard
+# - silent bulk operations
+# - Discord success/failure notifications
+
+/system script remove [find name="Blocklist-Rotate"]
+/system scheduler remove [find name="Blocklist-Rotate-Schedule"]
+
+/system script add name="Blocklist-Rotate" owner="david" \
+    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    dont-require-permissions=no \
+    source=":local scriptName \"BLOCKLIST-ROTATE\"; \
+:local webhook \"https://discord.com/api/webhooks/REDACTED/redacted\"; \
+:local lockFile \"usb2/blocklist/rotate.lock\"; \
+:local minEntries 1000; \
+:local activeList \"\"; \
+:local nextList \"\"; \
+:local nextFile \"\"; \
+:local removeList \"\"; \
+:local dstPath \"\"; \
+:local sizeKb 0; \
+:local importedCount 0; \
+:local removeCount 0; \
+:local errorText \"\"; \
+:log info (\$scriptName . \": === Starting rotation ===\"); \
+:if ([:len [/file find name=\$lockFile]] > 0) do={ \
+    :set errorText \"Rotation locked\"; \
+    :log warning (\$scriptName . \": Lock file exists, another rotation may already be running. Aborting.\"); \
+    :error \$errorText; \
+}; \
+/file print file=\$lockFile; \
+:do { \
+    :local hs [/ip firewall raw find where chain=prerouting and action=drop and src-address-list~\"^davidian-sk-blocklist_\"]; \
+    :local ph [/ip firewall raw find where chain=prerouting and action=drop and dst-address-list~\"^davidian-sk-blocklist_\"]; \
+    :if (([:len \$hs] = 0) or ([:len \$ph] = 0)) do={ \
+        :set errorText \"Required raw rules not found\"; \
+        :log error (\$scriptName . \": Required blocklist raw rules not found. Aborting.\"); \
+        :error \$errorText; \
+    }; \
+    :set activeList [/ip firewall raw get \$hs src-address-list]; \
+    :if (\$activeList = \"davidian-sk-blocklist_a\") do={ \
+        :set nextList \"davidian-sk-blocklist_b\"; \
+        :set nextFile \"blocklist_b.rsc\"; \
+        :set removeList \"davidian-sk-blocklist_a\"; \
+    } else={ \
+        :if (\$activeList = \"davidian-sk-blocklist_b\") do={ \
+            :set nextList \"davidian-sk-blocklist_a\"; \
+            :set nextFile \"blocklist_a.rsc\"; \
+            :set removeList \"davidian-sk-blocklist_b\"; \
+        } else={ \
+            :set errorText (\"Unexpected active list: \" . \$activeList); \
+            :log error (\$scriptName . \": Unexpected active list: \" . \$activeList . \". Aborting.\"); \
+            :error \$errorText; \
+        }; \
+    }; \
+    :log info (\$scriptName . \": Active=\" . \$activeList . \" | Rotating to=\" . \$nextList); \
+    :set dstPath (\"usb2/blocklist/\" . \$nextFile); \
+    :local url (\"https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/\" . \$nextFile); \
+    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
+    :log info (\$scriptName . \": [1/6] Downloading \" . \$nextFile . \"...\"); \
+    /tool fetch url=\$url mode=https dst-path=\$dstPath; \
+    :local f [/file find name=\$dstPath]; \
+    :if ([:len \$f] = 0) do={ \
+        :set errorText \"Download failed\"; \
+        :log error (\$scriptName . \": [1/6] FAILED - Download failed. Keeping current protection.\"); \
+        :error \$errorText; \
+    }; \
+    :local size [/file get \$f size]; \
+    :if (\$size = 0) do={ \
+        :set errorText \"Downloaded file is empty\"; \
+        :log error (\$scriptName . \": [1/6] FAILED - Downloaded file is empty. Keeping current protection.\"); \
+        :error \$errorText; \
+    }; \
+    :set sizeKb (\$size / 1024); \
+    :log info (\$scriptName . \": [1/6] OK - Downloaded \" . \$sizeKb . \" KB.\"); \
+    :local staleCount [:len [/ip firewall address-list find where list=\$nextList]]; \
+    :if (\$staleCount > 0) do={ \
+        :log info (\$scriptName . \": [2/6] Found \" . \$staleCount . \" stale entries in \" . \$nextList . \" - clearing...\"); \
+        /system logging disable 0; \
+        /ip firewall address-list remove [find where list=\$nextList]; \
+        /system logging enable 0; \
+        :log info (\$scriptName . \": [2/6] OK - Cleared \" . \$staleCount . \" stale entries.\"); \
+    } else={ \
+        :log info (\$scriptName . \": [2/6] OK - No stale entries in \" . \$nextList . \".\"); \
+    }; \
+    :log info (\$scriptName . \": [3/6] Importing \" . \$nextList . \"...\"); \
+    :local importOk true; \
+    /system logging disable 0; \
+    :do { /import file-name=\$dstPath; } on-error={ :set importOk false; }; \
+    /system logging enable 0; \
+    :if (\$importOk = false) do={ \
+        :set errorText \"Import failed\"; \
+        :log error (\$scriptName . \": [3/6] FAILED - Import failed. Keeping \" . \$activeList . \" active.\"); \
+        :error \$errorText; \
+    }; \
+    :set importedCount [:len [/ip firewall address-list find where list=\$nextList]]; \
+    :log info (\$scriptName . \": [3/6] OK - Imported \" . \$importedCount . \" entries into \" . \$nextList . \".\"); \
+    :if (\$importedCount < \$minEntries) do={ \
+        :set errorText (\"Imported only \" . \$importedCount . \" entries, below threshold of \" . \$minEntries); \
+        :log error (\$scriptName . \": [4/6] FAILED - Imported count \" . \$importedCount . \" is below minimum threshold \" . \$minEntries . \". Keeping \" . \$activeList . \" active.\"); \
+        :error \$errorText; \
+    }; \
+    :local activeCount [:len [/ip firewall address-list find where list=\$activeList]]; \
+    :if ((\$activeCount > 0) and (\$importedCount < (\$activeCount / 2))) do={ \
+        :set errorText (\"New list suspiciously small: \" . \$importedCount . \" vs active \" . \$activeCount); \
+        :log warning (\$scriptName . \": [4/6] Imported list is much smaller than active list (\" . \$importedCount . \" vs \" . \$activeCount . \"). Aborting switch.\"); \
+        :error \$errorText; \
+    }; \
+    :log info (\$scriptName . \": [4/6] OK - Sanity checks passed.\"); \
+    :log info (\$scriptName . \": [5/6] Switching raw rules to \" . \$nextList . \"...\"); \
+    /ip firewall raw set \$hs src-address-list=\$nextList; \
+    /ip firewall raw set \$ph dst-address-list=\$nextList; \
+    :log info (\$scriptName . \": [5/6] OK - Blocklist raw rules now -> \" . \$nextList . \".\"); \
+    :set removeCount [:len [/ip firewall address-list find where list=\$removeList]]; \
+    :log info (\$scriptName . \": [6/6] Purging \" . \$removeCount . \" entries from old list \" . \$removeList . \"...\"); \
+    /system logging disable 0; \
+    /ip firewall address-list remove [find where list=\$removeList]; \
+    /system logging enable 0; \
+    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
+    :log info (\$scriptName . \": [6/6] OK - Purged \" . \$removeCount . \" entries from \" . \$removeList . \".\"); \
+    :log info (\$scriptName . \": === Complete: \" . \$activeList . \" -> \" . \$nextList . \" ===\"); \
+    :local successJson (\"{\\\"embeds\\\": [{\\\"title\\\": \\\"Blocklist Rotation Complete\\\",\\\"color\\\": 5763719,\\\"fields\\\": [{\\\"name\\\": \\\"Rotation\\\",\\\"value\\\": \\\"\" . \$activeList . \" -> \" . \$nextList . \"\\\",\\\"inline\\\": false},{\\\"name\\\": \\\"Downloaded\\\",\\\"value\\\": \\\"\" . \$sizeKb . \" KB\\\",\\\"inline\\\": true},{\\\"name\\\": \\\"Imported\\\",\\\"value\\\": \\\"\" . \$importedCount . \" entries\\\",\\\"inline\\\": true},{\\\"name\\\": \\\"Purged old\\\",\\\"value\\\": \\\"\" . \$removeCount . \" entries\\\",\\\"inline\\\": true}]}]}\"); \
+    /tool fetch url=\$webhook http-method=post http-header-field=\"content-type: application/json\" http-data=\$successJson output=none; \
+} on-error={ \
+    :if ([:len \$errorText] = 0) do={ :set errorText \"Rotation aborted\"; }; \
+    :log error (\$scriptName . \": Rotation aborted due to error. Current active rules were left unchanged unless already switched.\"); \
+    :local failRotation \"unknown\"; \
+    :if (([:len \$activeList] > 0) and ([:len \$nextList] > 0)) do={ :set failRotation (\$activeList . \" -> \" . \$nextList); }; \
+    :local failJson (\"{\\\"embeds\\\": [{\\\"title\\\": \\\"Blocklist Rotation Failed\\\",\\\"color\\\": 15548997,\\\"fields\\\": [{\\\"name\\\": \\\"Reason\\\",\\\"value\\\": \\\"\" . \$errorText . \"\\\",\\\"inline\\\": false},{\\\"name\\\": \\\"Rotation\\\",\\\"value\\\": \\\"\" . \$failRotation . \"\\\",\\\"inline\\\": false},{\\\"name\\\": \\\"Downloaded\\\",\\\"value\\\": \\\"\" . \$sizeKb . \" KB\\\",\\\"inline\\\": true},{\\\"name\\\": \\\"Imported\\\",\\\"value\\\": \\\"\" . \$importedCount . \" entries\\\",\\\"inline\\\": true}]}]}\"); \
+    :do { /tool fetch url=\$webhook http-method=post http-header-field=\"content-type: application/json\" http-data=\$failJson output=none; } on-error={}; \
+}; \
+:if ([:len [/file find name=\$lockFile]] > 0) do={ /file remove \$lockFile; }; \
+:if (([:len \$dstPath] > 0) and ([:len [/file find name=\$dstPath]] > 0)) do={ /file remove \$dstPath; };"
+
+/system scheduler add name="Blocklist-Rotate-Schedule" start-date=2026-03-16 start-time=00:02:00 interval=6h \
+    on-event="/system script run Blocklist-Rotate" \
+    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    disabled=no \
+    comment="Every 6 hours at :02 using Blocklist-Rotate"
+```
+
+### Rotation Script - NO DISCORD VERSION
+
+
 routeros
 ```
-:local scriptName "BLOCKLIST-ROTATE";
-:local lockFile "usb2/blocklist/.rotate.lock";
-:local minEntries 1000;
+# Final hardened Blocklist-Rotate no-Discord deployment
+# Single-script version matching the live hardened logic, without Discord and without scheduler changes.
 
-:log info ($scriptName . ": === Starting rotation ===");
+/system script remove [find name="Blocklist-Rotate-No-Discord"]
 
-# Guard against concurrent runs
-:if ([:len [/file find name=$lockFile]] > 0) do={
-    :log warning ($scriptName . ": Lock file exists, another rotation may already be running. Aborting.");
-    :error "Rotation locked";
-}
-
-/file print file="usb2/blocklist/.rotate.lock";
-
-:do {
-
-    :local hs [/ip firewall raw find where comment~"Hacker Shield"];
-    :local ph [/ip firewall raw find where comment~"Phone-Home Shield"];
-
-    :if (([:len $hs] = 0) or ([:len $ph] = 0)) do={
-        :log error ($scriptName . ": Required raw rules not found. Aborting.");
-        :error "Missing raw rules";
-    };
-
-    :local activeList [/ip firewall raw get $hs src-address-list];
-    :local nextList;
-    :local nextFile;
-    :local removeList;
-
-    :if ($activeList = "davidian-sk-blocklist_a") do={
-        :set nextList "davidian-sk-blocklist_b";
-        :set nextFile "blocklist_b.rsc";
-        :set removeList "davidian-sk-blocklist_a";
-    } else={
-        :if ($activeList = "davidian-sk-blocklist_b") do={
-            :set nextList "davidian-sk-blocklist_a";
-            :set nextFile "blocklist_a.rsc";
-            :set removeList "davidian-sk-blocklist_b";
-        } else={
-            :log error ($scriptName . ": Unexpected active list: " . $activeList . ". Aborting.");
-            :error "Unexpected active list";
-        };
-    };
-
-    :log info ($scriptName . ": Active=" . $activeList . " | Rotating to=" . $nextList);
-
-    :local dstPath ("usb2/blocklist/" . $nextFile);
-    :local url ("https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/" . $nextFile);
-
-    # Remove any leftover file first
-    :if ([:len [/file find name=$dstPath]] > 0) do={
-        /file remove $dstPath;
-    };
-
-    :log info ($scriptName . ": [1/6] Downloading " . $nextFile . "...");
-    /tool fetch url=$url mode=https dst-path=$dstPath;
-
-    :local f [/file find name=$dstPath];
-    :if ([:len $f] = 0) do={
-        :log error ($scriptName . ": [1/6] FAILED - Download failed. Keeping current protection.");
-        :error "Download failed";
-    };
-
-    :local size [/file get $f size];
-    :if ($size = 0) do={
-        :log error ($scriptName . ": [1/6] FAILED - Downloaded file is empty. Keeping current protection.");
-        :error "Empty download";
-    };
-
-    :local sizeKb ($size / 1024);
-    :log info ($scriptName . ": [1/6] OK - Downloaded " . $sizeKb . " KB.");
-
-    # Clear target list only
-    :local staleCount [:len [/ip firewall address-list find where list=$nextList]];
-    :if ($staleCount > 0) do={
-        :log info ($scriptName . ": [2/6] Found " . $staleCount . " stale entries in " . $nextList . " - clearing...");
-        :foreach i in=[/ip firewall address-list find where list=$nextList] do={
-            /ip firewall address-list remove $i;
-        };
-        :log info ($scriptName . ": [2/6] OK - Cleared " . $staleCount . " stale entries.");
-    } else={
-        :log info ($scriptName . ": [2/6] OK - No stale entries in " . $nextList . ".");
-    };
-
-    :log info ($scriptName . ": [3/6] Importing " . $nextList . "...");
-    :local importOk true;
-
-    :do {
-        /import file-name=$dstPath;
-    } on-error={
-        :set importOk false;
-    };
-
-    :if ($importOk = false) do={
-        :log error ($scriptName . ": [3/6] FAILED - Import failed. Keeping " . $activeList . " active.");
-        :error "Import failed";
-    };
-
-    :local importedCount [:len [/ip firewall address-list find where list=$nextList]];
-    :log info ($scriptName . ": [3/6] OK - Imported " . $importedCount . " entries into " . $nextList . ".");
-
-    # Sanity threshold check
-    :if ($importedCount < $minEntries) do={
-        :log error ($scriptName . ": [4/6] FAILED - Imported count " . $importedCount . " is below minimum threshold " . $minEntries . ". Keeping " . $activeList . " active.");
-        :error "Imported list below threshold";
-    };
-
-    # Optional comparison against old active list size
-    :local activeCount [:len [/ip firewall address-list find where list=$activeList]];
-    :if (($activeCount > 0) and ($importedCount < ($activeCount / 2))) do={
-        :log warning ($scriptName . ": [4/6] Imported list is much smaller than active list (" . $importedCount . " vs " . $activeCount . "). Aborting switch.");
-        :error "Imported list suspiciously small";
-    };
-
-    :log info ($scriptName . ": [4/6] OK - Sanity checks passed.");
-
-    :log info ($scriptName . ": [5/6] Switching raw rules to " . $nextList . "...");
-    /ip firewall raw set $hs src-address-list=$nextList;
-    /ip firewall raw set $ph dst-address-list=$nextList;
-    :log info ($scriptName . ": [5/6] OK - Hacker Shield + Phone-Home Shield now -> " . $nextList . ".");
-
-    :local removeCount [:len [/ip firewall address-list find where list=$removeList]];
-    :log info ($scriptName . ": [6/6] Purging " . $removeCount . " entries from old list " . $removeList . "...");
-    :foreach i in=[/ip firewall address-list find where list=$removeList] do={
-        /ip firewall address-list remove $i;
-    };
-    :log info ($scriptName . ": [6/6] OK - Purged " . $removeCount . " entries from " . $removeList . ".");
-
-    # Cleanup downloaded file
-    :if ([:len [/file find name=$dstPath]] > 0) do={
-        /file remove $dstPath;
-    };
-
-    :log info ($scriptName . ": === Complete: " . $activeList . " -> " . $nextList . " ===");
-
-} on-error={
-
-    :log error ($scriptName . ": Rotation aborted due to error. Current active rules were left unchanged unless already switched.");
-
-} 
-
-# Always try to remove lock at the end
-:if ([:len [/file find name=$lockFile]] > 0) do={
-    /file remove $lockFile;
-}
+/system script add name="Blocklist-Rotate-No-Discord" owner="david" \
+    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    dont-require-permissions=no \
+    source=":local scriptName \"BLOCKLIST-ROTATE\"; \
+:local lockFile \"usb2/blocklist/rotate.lock\"; \
+:local minEntries 1000; \
+:local activeList \"\"; \
+:local nextList \"\"; \
+:local nextFile \"\"; \
+:local removeList \"\"; \
+:local dstPath \"\"; \
+:local sizeKb 0; \
+:local importedCount 0; \
+:local removeCount 0; \
+:local errorText \"\"; \
+:log info (\$scriptName . \": === Starting rotation ===\"); \
+:if ([:len [/file find name=\$lockFile]] > 0) do={ \
+    :set errorText \"Rotation locked\"; \
+    :log warning (\$scriptName . \": Lock file exists, another rotation may already be running. Aborting.\"); \
+    :error \$errorText; \
+}; \
+/file print file=\$lockFile; \
+:do { \
+    :local hs [/ip firewall raw find where chain=prerouting and action=drop and src-address-list~\"^davidian-sk-blocklist_\"]; \
+    :local ph [/ip firewall raw find where chain=prerouting and action=drop and dst-address-list~\"^davidian-sk-blocklist_\"]; \
+    :if (([:len \$hs] = 0) or ([:len \$ph] = 0)) do={ \
+        :set errorText \"Required raw rules not found\"; \
+        :log error (\$scriptName . \": Required blocklist raw rules not found. Aborting.\"); \
+        :error \$errorText; \
+    }; \
+    :set activeList [/ip firewall raw get \$hs src-address-list]; \
+    :if (\$activeList = \"davidian-sk-blocklist_a\") do={ \
+        :set nextList \"davidian-sk-blocklist_b\"; \
+        :set nextFile \"blocklist_b.rsc\"; \
+        :set removeList \"davidian-sk-blocklist_a\"; \
+    } else={ \
+        :if (\$activeList = \"davidian-sk-blocklist_b\") do={ \
+            :set nextList \"davidian-sk-blocklist_a\"; \
+            :set nextFile \"blocklist_a.rsc\"; \
+            :set removeList \"davidian-sk-blocklist_b\"; \
+        } else={ \
+            :set errorText (\"Unexpected active list: \" . \$activeList); \
+            :log error (\$scriptName . \": Unexpected active list: \" . \$activeList . \". Aborting.\"); \
+            :error \$errorText; \
+        }; \
+    }; \
+    :log info (\$scriptName . \": Active=\" . \$activeList . \" | Rotating to=\" . \$nextList); \
+    :set dstPath (\"usb2/blocklist/\" . \$nextFile); \
+    :local url (\"https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/\" . \$nextFile); \
+    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
+    :log info (\$scriptName . \": [1/6] Downloading \" . \$nextFile . \"...\"); \
+    /tool fetch url=\$url mode=https dst-path=\$dstPath; \
+    :local f [/file find name=\$dstPath]; \
+    :if ([:len \$f] = 0) do={ \
+        :set errorText \"Download failed\"; \
+        :log error (\$scriptName . \": [1/6] FAILED - Download failed. Keeping current protection.\"); \
+        :error \$errorText; \
+    }; \
+    :local size [/file get \$f size]; \
+    :if (\$size = 0) do={ \
+        :set errorText \"Downloaded file is empty\"; \
+        :log error (\$scriptName . \": [1/6] FAILED - Downloaded file is empty. Keeping current protection.\"); \
+        :error \$errorText; \
+    }; \
+    :set sizeKb (\$size / 1024); \
+    :log info (\$scriptName . \": [1/6] OK - Downloaded \" . \$sizeKb . \" KB.\"); \
+    :local staleCount [:len [/ip firewall address-list find where list=\$nextList]]; \
+    :if (\$staleCount > 0) do={ \
+        :log info (\$scriptName . \": [2/6] Found \" . \$staleCount . \" stale entries in \" . \$nextList . \" - clearing...\"); \
+        /system logging disable 0; \
+        /ip firewall address-list remove [find where list=\$nextList]; \
+        /system logging enable 0; \
+        :log info (\$scriptName . \": [2/6] OK - Cleared \" . \$staleCount . \" stale entries.\"); \
+    } else={ \
+        :log info (\$scriptName . \": [2/6] OK - No stale entries in \" . \$nextList . \".\"); \
+    }; \
+    :log info (\$scriptName . \": [3/6] Importing \" . \$nextList . \"...\"); \
+    :local importOk true; \
+    /system logging disable 0; \
+    :do { /import file-name=\$dstPath; } on-error={ :set importOk false; }; \
+    /system logging enable 0; \
+    :if (\$importOk = false) do={ \
+        :set errorText \"Import failed\"; \
+        :log error (\$scriptName . \": [3/6] FAILED - Import failed. Keeping \" . \$activeList . \" active.\"); \
+        :error \$errorText; \
+    }; \
+    :set importedCount [:len [/ip firewall address-list find where list=\$nextList]]; \
+    :log info (\$scriptName . \": [3/6] OK - Imported \" . \$importedCount . \" entries into \" . \$nextList . \".\"); \
+    :if (\$importedCount < \$minEntries) do={ \
+        :set errorText (\"Imported only \" . \$importedCount . \" entries, below threshold of \" . \$minEntries); \
+        :log error (\$scriptName . \": [4/6] FAILED - Imported count \" . \$importedCount . \" is below minimum threshold \" . \$minEntries . \". Keeping \" . \$activeList . \" active.\"); \
+        :error \$errorText; \
+    }; \
+    :local activeCount [:len [/ip firewall address-list find where list=\$activeList]]; \
+    :if ((\$activeCount > 0) and (\$importedCount < (\$activeCount / 2))) do={ \
+        :set errorText (\"New list suspiciously small: \" . \$importedCount . \" vs active \" . \$activeCount); \
+        :log warning (\$scriptName . \": [4/6] Imported list is much smaller than active list (\" . \$importedCount . \" vs \" . \$activeCount . \"). Aborting switch.\"); \
+        :error \$errorText; \
+    }; \
+    :log info (\$scriptName . \": [4/6] OK - Sanity checks passed.\"); \
+    :log info (\$scriptName . \": [5/6] Switching raw rules to \" . \$nextList . \"...\"); \
+    /ip firewall raw set \$hs src-address-list=\$nextList; \
+    /ip firewall raw set \$ph dst-address-list=\$nextList; \
+    :log info (\$scriptName . \": [5/6] OK - Blocklist raw rules now -> \" . \$nextList . \".\"); \
+    :set removeCount [:len [/ip firewall address-list find where list=\$removeList]]; \
+    :log info (\$scriptName . \": [6/6] Purging \" . \$removeCount . \" entries from old list \" . \$removeList . \"...\"); \
+    /system logging disable 0; \
+    /ip firewall address-list remove [find where list=\$removeList]; \
+    /system logging enable 0; \
+    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
+    :log info (\$scriptName . \": [6/6] OK - Purged \" . \$removeCount . \" entries from \" . \$removeList . \".\"); \
+    :log info (\$scriptName . \": === Complete: \" . \$activeList . \" -> \" . \$nextList . \" ===\"); \
+} on-error={ \
+    :if ([:len \$errorText] = 0) do={ :set errorText \"Rotation aborted\"; }; \
+    :log error (\$scriptName . \": Rotation aborted due to error. Current active rules were left unchanged unless already switched.\"); \
+}; \
+:if ([:len [/file find name=\$lockFile]] > 0) do={ /file remove \$lockFile; }; \
+:if (([:len \$dstPath] > 0) and ([:len [/file find name=\$dstPath]] > 0)) do={ /file remove \$dstPath; };"
 ```
 
 You can also use `blocklist.rsc` if you prefer a single-list workflow that downloads the file, removes the current entries, and imports the new list. This method is simpler, but it does not provide the same continuity as the dual-list rotation approach.
