@@ -2,3 +2,5 @@ temp_ips.txt
 ip_aggregator_git.sh
 ip_aggregator_local.sh
 sources.txt
+temp_raw.txt
+temp_clean.txt
