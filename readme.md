@@ -14,19 +14,40 @@ Sources:
 ```
 # Home + work conservative IP blocklist profile
 # Goal: high confidence, low collateral damage
+#
+# Format:
+#   plain URL lines are treated as generic IP/CIDR feeds
+#   typed lines use: type|url
+#
+# Supported types:
+#   generic
+#   ip
+#   tor
+#   urlhaus-ip
+#   dshield
 
-# Abuse.ch Feodo Tracker (botnet C2 IPs, high signal)
-https://feodotracker.abuse.ch/downloads/ipblocklist.txt
+# Abuse.ch Feodo Tracker
+generic|https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
-# Spamhaus DROP (high-confidence criminal netblocks)
-https://www.spamhaus.org/drop/drop.txt
+# Spamhaus DROP
+generic|https://www.spamhaus.org/drop/drop.txt
 
-# IPsum strict tier (IPs seen on 6+ lists; lower FP than level 5)
-https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/6.txt
+# IPsum strict tier
+generic|https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/6.txt
 
-https://rules.emergingthreats.net/blockrules/compromised-ips.txt
+# Emerging Threats compromised IPs
+generic|https://rules.emergingthreats.net/blockrules/compromised-ips.txt
 
+# Tor exit nodes
+tor|https://check.torproject.org/torbulkexitlist
 
+# URLhaus IP blocklist
+urlhaus-ip|https://urlhaus.abuse.ch/downloads/ipblocklist/
+
+# DShield top attackers
+# Operational note: useful, but broader and more collision-prone than the feeds above.
+# Keep enabled only if you want a more aggressive profile in the same shared blocklist.
+# dshield|https://www.dshield.org/block.txt
 ```
   
 ## **📝 Output Files**
