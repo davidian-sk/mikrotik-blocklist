@@ -12,13 +12,24 @@ This repository provides a self-updating MikroTik address list built by aggregat
 Sources:
 
 ```
+# --- Active Malware & C2 ---
 https://feodotracker.abuse.ch/downloads/ipblocklist.txt
-https://blocklist.greensnow.co/greensnow.txt
+https://urlhaus.abuse.ch/downloads/hostfile/
 https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/5.txt
+
+# --- The "Worst of the Worst" (Semicolon Heavy) ---
+https://www.spamhaus.org/drop/drop.txt
+https://www.dshield.org/block.txt
+
+# --- Brute Force & Compromised ---
 https://rules.emergingthreats.net/blockrules/compromised-ips.txt
 https://lists.blocklist.de/lists/strongips.txt
-https://threatview.io/Downloads/IP-High-Confidence-Feed.txt
+https://blocklist.greensnow.co/greensnow.txt
 https://cinsscore.com/list/ci-badguys.txt
+
+# --- High Confidence Aggregate ---
+https://threatview.io/Downloads/IP-High-Confidence-Feed.txt
+https://www.binarydefense.com/banlist.txt
 ```
   
 ## **📝 Output Files**
