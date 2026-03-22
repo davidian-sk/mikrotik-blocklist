@@ -12,42 +12,40 @@ This repository provides a self-updating MikroTik address list built by aggregat
 Sources:
 
 ```
-# Home + work conservative IP blocklist profile
-# Goal: high confidence, low collateral damage
-#
-# Format:
-#   plain URL lines are treated as generic IP/CIDR feeds
-#   typed lines use: type|url
-#
-# Supported types:
-#   generic
-#   ip
-#   tor
-#   urlhaus-ip
-#   dshield
+# === HIGH CONFIDENCE / CORE FEEDS ===
 
-# Abuse.ch Feodo Tracker
-generic|https://feodotracker.abuse.ch/downloads/ipblocklist.txt
+# Spamhaus DROP (known bad networks)
+https://www.spamhaus.org/drop/drop.txt
 
-# Spamhaus DROP
-generic|https://www.spamhaus.org/drop/drop.txt
+# Spamhaus EDROP (extended bad networks)
+https://www.spamhaus.org/drop/edrop.txt
 
-# IPsum strict tier
-generic|https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/6.txt
+# Feodo Tracker (botnet C2)
+https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
-# Emerging Threats compromised IPs
-generic|https://rules.emergingthreats.net/blockrules/compromised-ips.txt
+# EmergingThreats compromised IPs
+https://rules.emergingthreats.net/blockrules/compromised-ips.txt
+
+# URLhaus IP blocklist (malware hosts)
+https://urlhaus.abuse.ch/downloads/ipblocklist/
+
+
+# === MEDIUM CONFIDENCE / USEFUL NOISE REDUCTION ===
+
+# IPsum (Level 6 aggressive filtering)
+https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/6.txt
+
+# Blocklist.de (observed attackers)
+https://lists.blocklist.de/lists/all.txt
+
+# Greensnow (active attackers)
+https://blocklist.greensnow.co/greensnow.txt
+
+
+# === SPECIAL PURPOSE ===
 
 # Tor exit nodes
-tor|https://check.torproject.org/torbulkexitlist
-
-# URLhaus IP blocklist
-urlhaus-ip|https://urlhaus.abuse.ch/downloads/ipblocklist/
-
-# DShield top attackers
-# Operational note: useful, but broader and more collision-prone than the feeds above.
-# Keep enabled only if you want a more aggressive profile in the same shared blocklist.
-# dshield|https://www.dshield.org/block.txt
+https://check.torproject.org/torbulkexitlist
 ```
   
 ## **📝 Output Files**
