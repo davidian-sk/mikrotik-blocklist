@@ -1,0 +1,15 @@
+configured_sources=6
+sources_processed=6
+sources_failed=0
+raw_lines=10700
+clean_lines=9868
+cidr_ranges=7869
+previous_cidr_ranges=7793
+compression_ratio_percent=79.74
+invalid_lines_skipped=0
+too_broad_threshold_min_prefixlen=16
+too_broad_cidrs_detected=12
+too_broad_cidrs_split=12
+split_child_ranges_added=76
+broadest_published_prefix=/16
+broadest_published_range=1.19.0.0/16
