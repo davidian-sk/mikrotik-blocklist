@@ -25,7 +25,6 @@ https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
 # EmergingThreats compromised IPs
 https://rules.emergingthreats.net/blockrules/compromised-ips.txt
-```
 
 # === OPTIONAL POLICY (TOR EXIT NODES) ===
 
@@ -33,7 +32,7 @@ https://rules.emergingthreats.net/blockrules/compromised-ips.txt
 https://check.torproject.org/torbulkexitlist```
   
 ## **📝 Output Files**
-
+```
 The generator creates the following files:
 
 | File Name | Content | Purpose |
