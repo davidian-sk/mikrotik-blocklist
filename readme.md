@@ -12,7 +12,7 @@ This repository provides a self-updating MikroTik address list built by aggregat
 Sources:
 
 ```
-# === CORE (HIGH CONFIDENCE – KEEP THESE) ===
+# === CORE (HIGH CONFIDENCE – LOW MAINTENANCE) ===
 
 # Spamhaus DROP (known bad networks)
 https://www.spamhaus.org/drop/drop.txt
@@ -25,7 +25,12 @@ https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
 # EmergingThreats compromised IPs
 https://rules.emergingthreats.net/blockrules/compromised-ips.txt
-```
+
+
+# === OPTIONAL POLICY (TOR EXIT NODES) ===
+
+# Tor exit nodes (blocks inbound Tor traffic)
+https://check.torproject.org/torbulkexitlist```
   
 ## **📝 Output Files**
 
