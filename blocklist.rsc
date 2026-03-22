@@ -369,7 +369,10 @@ add list=davidian-sk-active-blocklist address=23.129.64.192/29
 add list=davidian-sk-active-blocklist address=23.129.64.201/32
 add list=davidian-sk-active-blocklist address=23.129.64.202/31
 add list=davidian-sk-active-blocklist address=23.129.64.204/30
-add list=davidian-sk-active-blocklist address=23.129.64.208/28
+add list=davidian-sk-active-blocklist address=23.129.64.208/30
+add list=davidian-sk-active-blocklist address=23.129.64.212/31
+add list=davidian-sk-active-blocklist address=23.129.64.215/32
+add list=davidian-sk-active-blocklist address=23.129.64.216/29
 add list=davidian-sk-active-blocklist address=23.129.64.224/31
 add list=davidian-sk-active-blocklist address=23.129.252.0/23
 add list=davidian-sk-active-blocklist address=23.132.164.0/24
