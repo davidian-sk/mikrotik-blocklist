@@ -30,9 +30,9 @@ https://rules.emergingthreats.net/blockrules/compromised-ips.txt
 
 # Tor exit nodes (blocks inbound Tor traffic)
 https://check.torproject.org/torbulkexitlist```
-  
+```  
 ## **📝 Output Files**
-```
+
 The generator creates the following files:
 
 | File Name | Content | Purpose |
