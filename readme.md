@@ -25,7 +25,7 @@ https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
 # EmergingThreats compromised IPs
 https://rules.emergingthreats.net/blockrules/compromised-ips.txt
-
+```
 
 # === OPTIONAL POLICY (TOR EXIT NODES) ===
 
