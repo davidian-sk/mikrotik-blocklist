@@ -12,39 +12,18 @@ This repository provides a self-updating MikroTik address list built by aggregat
 Sources:
 
 ```
-# === HIGH CONFIDENCE / CORE FEEDS ===
-
-# Spamhaus DROP (known bad networks)
+# === CORE (HIGH CONFIDENCE) ===
 https://www.spamhaus.org/drop/drop.txt
-
-# Spamhaus EDROP (extended bad networks)
 https://www.spamhaus.org/drop/edrop.txt
-
-# Feodo Tracker (botnet C2)
 https://feodotracker.abuse.ch/downloads/ipblocklist.txt
-
-# EmergingThreats compromised IPs
 https://rules.emergingthreats.net/blockrules/compromised-ips.txt
 
-# URLhaus IP blocklist (malware hosts)
-https://urlhaus.abuse.ch/downloads/ipblocklist/
-
-
-# === MEDIUM CONFIDENCE / USEFUL NOISE REDUCTION ===
-
-# IPsum (Level 6 aggressive filtering)
+# === MEDIUM (CONTROLLED AGGRESSION) ===
 https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/6.txt
-
-# Blocklist.de (observed attackers)
 https://lists.blocklist.de/lists/all.txt
-
-# Greensnow (active attackers)
 https://blocklist.greensnow.co/greensnow.txt
 
-
-# === SPECIAL PURPOSE ===
-
-# Tor exit nodes
+# === SPECIAL ===
 https://check.torproject.org/torbulkexitlist
 ```
   
