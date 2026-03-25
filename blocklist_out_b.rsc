@@ -1370,7 +1370,6 @@ add list=davidian-sk-blocklist-out_b address=72.13.46.3/32
 add list=davidian-sk-blocklist-out_b address=72.13.46.5/32
 add list=davidian-sk-blocklist-out_b address=72.13.46.6/32
 add list=davidian-sk-blocklist-out_b address=72.13.62.25/32
-add list=davidian-sk-blocklist-out_b address=72.13.62.26/32
 add list=davidian-sk-blocklist-out_b address=72.14.187.58/32
 add list=davidian-sk-blocklist-out_b address=72.37.217.3/32
 add list=davidian-sk-blocklist-out_b address=72.62.43.17/32
@@ -1826,7 +1825,6 @@ add list=davidian-sk-blocklist-out_b address=94.75.225.81/32
 add list=davidian-sk-blocklist-out_b address=94.100.133.123/32
 add list=davidian-sk-blocklist-out_b address=94.102.51.15/32
 add list=davidian-sk-blocklist-out_b address=94.103.87.20/32
-add list=davidian-sk-blocklist-out_b address=94.103.87.196/32
 add list=davidian-sk-blocklist-out_b address=94.103.88.177/32
 add list=davidian-sk-blocklist-out_b address=94.130.23.168/32
 add list=davidian-sk-blocklist-out_b address=94.130.237.182/32
@@ -3022,7 +3020,6 @@ add list=davidian-sk-blocklist-out_b address=146.70.178.124/32
 add list=davidian-sk-blocklist-out_b address=146.70.178.126/32
 add list=davidian-sk-blocklist-out_b address=146.70.178.164/32
 add list=davidian-sk-blocklist-out_b address=146.70.178.166/32
-add list=davidian-sk-blocklist-out_b address=146.70.178.244/32
 add list=davidian-sk-blocklist-out_b address=146.70.178.246/32
 add list=davidian-sk-blocklist-out_b address=146.70.178.252/32
 add list=davidian-sk-blocklist-out_b address=146.70.178.254/32
@@ -3318,7 +3315,6 @@ add list=davidian-sk-blocklist-out_b address=156.242.51.42/32
 add list=davidian-sk-blocklist-out_b address=157.7.200.152/32
 add list=davidian-sk-blocklist-out_b address=157.20.228.20/32
 add list=davidian-sk-blocklist-out_b address=157.66.54.6/32
-add list=davidian-sk-blocklist-out_b address=157.66.54.162/32
 add list=davidian-sk-blocklist-out_b address=157.230.24.5/32
 add list=davidian-sk-blocklist-out_b address=157.230.24.207/32
 add list=davidian-sk-blocklist-out_b address=157.230.30.51/32
