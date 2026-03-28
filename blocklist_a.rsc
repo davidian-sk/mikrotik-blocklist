@@ -5630,11 +5630,9 @@ add list=davidian-sk-blocklist_a address=190.211.254.185/32
 add list=davidian-sk-blocklist_a address=190.214.9.243/32
 add list=davidian-sk-blocklist_a address=190.221.50.123/32
 add list=davidian-sk-blocklist_a address=191.101.31.0/24
-add list=davidian-sk-blocklist_a address=191.102.129.18/32
 add list=davidian-sk-blocklist_a address=191.102.129.47/32
 add list=davidian-sk-blocklist_a address=191.102.129.79/32
 add list=davidian-sk-blocklist_a address=191.102.129.86/32
-add list=davidian-sk-blocklist_a address=191.102.129.99/32
 add list=davidian-sk-blocklist_a address=191.102.129.122/32
 add list=davidian-sk-blocklist_a address=191.102.129.134/32
 add list=davidian-sk-blocklist_a address=191.102.129.142/32
