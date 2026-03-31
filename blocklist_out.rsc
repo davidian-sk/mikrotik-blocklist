@@ -1923,7 +1923,6 @@ add list=davidian-sk-blocklist-out address=95.35.29.192/32
 add list=davidian-sk-blocklist-out address=95.58.62.234/32
 add list=davidian-sk-blocklist-out address=95.58.255.251/32
 add list=davidian-sk-blocklist-out address=95.66.178.169/32
-add list=davidian-sk-blocklist-out address=95.79.30.189/32
 add list=davidian-sk-blocklist-out address=95.79.108.51/32
 add list=davidian-sk-blocklist-out address=95.85.234.50/32
 add list=davidian-sk-blocklist-out address=95.87.248.223/32
@@ -2128,7 +2127,6 @@ add list=davidian-sk-blocklist-out address=103.158.138.179/32
 add list=davidian-sk-blocklist-out address=103.158.171.52/31
 add list=davidian-sk-blocklist-out address=103.163.44.118/32
 add list=davidian-sk-blocklist-out address=103.164.54.199/32
-add list=davidian-sk-blocklist-out address=103.169.160.163/32
 add list=davidian-sk-blocklist-out address=103.171.84.217/32
 add list=davidian-sk-blocklist-out address=103.172.204.219/32
 add list=davidian-sk-blocklist-out address=103.172.204.220/32
@@ -4046,7 +4044,6 @@ add list=davidian-sk-blocklist-out address=175.205.18.22/32
 add list=davidian-sk-blocklist-out address=175.205.103.66/32
 add list=davidian-sk-blocklist-out address=175.206.113.91/32
 add list=davidian-sk-blocklist-out address=175.207.13.86/32
-add list=davidian-sk-blocklist-out address=175.207.214.142/32
 add list=davidian-sk-blocklist-out address=176.9.125.27/32
 add list=davidian-sk-blocklist-out address=176.10.197.168/32
 add list=davidian-sk-blocklist-out address=176.65.132.5/32
@@ -5200,7 +5197,6 @@ add list=davidian-sk-blocklist-out address=213.6.203.226/32
 add list=davidian-sk-blocklist-out address=213.33.204.130/32
 add list=davidian-sk-blocklist-out address=213.103.131.143/32
 add list=davidian-sk-blocklist-out address=213.112.126.21/32
-add list=davidian-sk-blocklist-out address=213.136.93.171/32
 add list=davidian-sk-blocklist-out address=213.152.176.252/32
 add list=davidian-sk-blocklist-out address=213.165.52.102/32
 add list=davidian-sk-blocklist-out address=213.165.69.184/32
