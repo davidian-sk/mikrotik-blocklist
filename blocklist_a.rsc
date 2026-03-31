@@ -332,6 +332,7 @@ add list=davidian-sk-blocklist_a address=31.28.9.212/32
 add list=davidian-sk-blocklist_a address=31.28.253.144/32
 add list=davidian-sk-blocklist_a address=31.40.204.0/24
 add list=davidian-sk-blocklist_a address=31.41.84.98/32
+add list=davidian-sk-blocklist_a address=31.44.238.25/32
 add list=davidian-sk-blocklist_a address=31.56.209.0/24
 add list=davidian-sk-blocklist_a address=31.57.184.0/24
 add list=davidian-sk-blocklist_a address=31.57.216.0/24
@@ -1129,7 +1130,6 @@ add list=davidian-sk-blocklist_a address=45.133.74.53/32
 add list=davidian-sk-blocklist_a address=45.133.246.0/24
 add list=davidian-sk-blocklist_a address=45.134.181.114/32
 add list=davidian-sk-blocklist_a address=45.134.225.36/32
-add list=davidian-sk-blocklist_a address=45.134.225.130/32
 add list=davidian-sk-blocklist_a address=45.135.48.0/22
 add list=davidian-sk-blocklist_a address=45.135.193.0/24
 add list=davidian-sk-blocklist_a address=45.135.194.0/24
@@ -2255,7 +2255,6 @@ add list=davidian-sk-blocklist_a address=91.212.45.214/32
 add list=davidian-sk-blocklist_a address=91.214.109.0/24
 add list=davidian-sk-blocklist_a address=91.215.85.0/24
 add list=davidian-sk-blocklist_a address=91.217.80.200/32
-add list=davidian-sk-blocklist_a address=91.217.249.199/32
 add list=davidian-sk-blocklist_a address=91.218.236.0/22
 add list=davidian-sk-blocklist_a address=91.219.196.17/32
 add list=davidian-sk-blocklist_a address=91.219.236.101/32
@@ -4496,9 +4495,7 @@ add list=davidian-sk-blocklist_a address=162.241.216.68/32
 add list=davidian-sk-blocklist_a address=162.241.216.146/32
 add list=davidian-sk-blocklist_a address=162.241.216.212/32
 add list=davidian-sk-blocklist_a address=162.241.217.21/32
-add list=davidian-sk-blocklist_a address=162.241.217.42/32
 add list=davidian-sk-blocklist_a address=162.241.217.201/32
-add list=davidian-sk-blocklist_a address=162.241.217.207/32
 add list=davidian-sk-blocklist_a address=162.241.218.163/32
 add list=davidian-sk-blocklist_a address=162.241.218.247/32
 add list=davidian-sk-blocklist_a address=162.241.219.110/32
