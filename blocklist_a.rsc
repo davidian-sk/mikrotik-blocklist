@@ -2423,6 +2423,7 @@ add list=davidian-sk-blocklist_a address=94.131.211.168/32
 add list=davidian-sk-blocklist_a address=94.142.241.194/32
 add list=davidian-sk-blocklist_a address=94.142.244.16/32
 add list=davidian-sk-blocklist_a address=94.154.35.0/24
+add list=davidian-sk-blocklist_a address=94.154.172.227/32
 add list=davidian-sk-blocklist_a address=94.154.239.69/32
 add list=davidian-sk-blocklist_a address=94.156.152.223/32
 add list=davidian-sk-blocklist_a address=94.159.59.30/32
