@@ -293,7 +293,6 @@ add list=davidian-sk-blocklist-out_b address=34.78.12.208/32
 add list=davidian-sk-blocklist-out_b address=34.79.36.208/32
 add list=davidian-sk-blocklist-out_b address=34.79.250.32/32
 add list=davidian-sk-blocklist-out_b address=34.85.163.94/32
-add list=davidian-sk-blocklist-out_b address=34.86.212.119/32
 add list=davidian-sk-blocklist-out_b address=34.86.213.47/32
 add list=davidian-sk-blocklist-out_b address=34.90.191.83/32
 add list=davidian-sk-blocklist-out_b address=34.90.199.112/32
@@ -1215,7 +1214,6 @@ add list=davidian-sk-blocklist-out_b address=59.125.252.64/32
 add list=davidian-sk-blocklist-out_b address=60.2.203.254/32
 add list=davidian-sk-blocklist-out_b address=60.8.73.174/32
 add list=davidian-sk-blocklist-out_b address=60.12.106.119/32
-add list=davidian-sk-blocklist-out_b address=60.18.139.82/32
 add list=davidian-sk-blocklist-out_b address=60.165.119.59/32
 add list=davidian-sk-blocklist-out_b address=60.166.8.174/32
 add list=davidian-sk-blocklist-out_b address=60.166.31.198/32
@@ -1233,7 +1231,6 @@ add list=davidian-sk-blocklist-out_b address=60.199.224.2/32
 add list=davidian-sk-blocklist-out_b address=60.199.224.55/32
 add list=davidian-sk-blocklist-out_b address=60.214.127.246/32
 add list=davidian-sk-blocklist-out_b address=60.214.128.238/32
-add list=davidian-sk-blocklist-out_b address=60.223.239.151/32
 add list=davidian-sk-blocklist-out_b address=60.223.250.50/32
 add list=davidian-sk-blocklist-out_b address=60.223.251.132/32
 add list=davidian-sk-blocklist-out_b address=61.36.200.131/32
@@ -4684,7 +4681,6 @@ add list=davidian-sk-blocklist-out_b address=193.36.225.56/31
 add list=davidian-sk-blocklist-out_b address=193.36.225.58/32
 add list=davidian-sk-blocklist-out_b address=193.36.225.60/32
 add list=davidian-sk-blocklist-out_b address=193.36.225.62/31
-add list=davidian-sk-blocklist-out_b address=193.36.225.64/32
 add list=davidian-sk-blocklist-out_b address=193.36.225.66/31
 add list=davidian-sk-blocklist-out_b address=193.36.225.68/30
 add list=davidian-sk-blocklist-out_b address=193.36.225.72/31
