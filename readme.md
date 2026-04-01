@@ -14,34 +14,28 @@ Sources:
 ```
 # === CORE (HIGH CONFIDENCE – LOW MAINTENANCE) ===
 
-# Spamhaus DROP (known bad networks)
-https://www.spamhaus.org/drop/drop.txt
+🌐 [IN] https://www.spamhaus.org/drop/drop.txt
+🌐 [IN] https://www.spamhaus.org/drop/edrop.txt
+🌐 [IN] https://feodotracker.abuse.ch/downloads/ipblocklist.txt
+🌐 [IN] https://rules.emergingthreats.net/blockrules/compromised-ips.txt
+🌐 [IN] https://check.torproject.org/torbulkexitlist
+🌐 [IN] https://www.dshield.org/block.txt
 
-# Spamhaus EDROP (extended bad networks)
-https://www.spamhaus.org/drop/edrop.txt
+🌐 [OUT] https://feodotracker.abuse.ch/downloads/ipblocklist.txt
+🌐 [OUT] https://rules.emergingthreats.net/blockrules/compromised-ips.txt
 
-# Feodo Tracker (botnet C2)
-https://feodotracker.abuse.ch/downloads/ipblocklist.txt
 
-# EmergingThreats compromised IPs
-https://rules.emergingthreats.net/blockrules/compromised-ips.txt
 
-# === OPTIONAL POLICY (TOR EXIT NODES) ===
-
-# Tor exit nodes (blocks inbound Tor traffic)
-https://check.torproject.org/torbulkexitlist```
-```  
 ## **📝 Output Files**
 
 The generator creates the following files:
 
-| File Name | Content | Purpose |
-|---|---|---|
-| `blocklist.rsc` | RouterOS import script | Single-list import file. Suitable for simple replace workflows, but not ideal if you want near-zero downtime. |
-| `blocklist_a.rsc` | RouterOS import script | First half of the dual-list rotation method. |
-| `blocklist_b.rsc` | RouterOS import script | Second half of the dual-list rotation method. |
-| `aggregated_cidr_ranges.txt` | Final optimized CIDR ranges | Useful for auditing or reuse in other tools. |
-| `aggregated_ips.txt` | Aggregated plain IP/range output | Useful for inspection or downstream processing. |
+📦 blocklist.rsc
+📦 blocklist_a.rsc
+📦 blocklist_b.rsc
+📦 blocklist_out.rsc
+📦 blocklist_out_a.rsc
+📦 blocklist_out_b.rsc
 
 ## 2. MikroTik RouterOS Setup
 
@@ -54,8 +48,8 @@ The dual-list method is recommended because it avoids replacing the active list 
 
 Before using the rotation script:
 
-1. Create the address list `davidian-sk-blocklist_a` and add a dummy entry such as `10.0.0.1`.
-2. Create the address list `davidian-sk-blocklist_b` and add a dummy entry such as `10.0.0.2`.
+1. Create the address list `davidian-sk-blocklist_a/davidian-sk-blocklist-out_a` and add a dummy entry such as `10.0.0.1`.
+2. Create the address list `davidian-sk-blocklist_b/davidian-sk-blocklist-out_b` and add a dummy entry such as `10.0.0.2`.
 3. Create two RAW firewall rules:
    - one that drops traffic from source IPs in the active blocklist on the WAN side
    - one that drops LAN traffic destined for IPs in the active blocklist
@@ -65,10 +59,12 @@ Before using the rotation script:
 
 ## How the Dual-List Rotation Works
 
-The rotation method uses two MikroTik address lists:
+The rotation method uses two sdets of MikroTik address lists:
 
 - `davidian-sk-blocklist_a`
 - `davidian-sk-blocklist_b`
+- `davidian-sk-blocklist-out_a`
+- `davidian-sk-blocklist-out_b`
 
 At any given time, one list is active in the RAW firewall rules, while the other is inactive and can be refreshed safely. After a successful download and import, the script switches the firewall rules to the updated list and purges the old one.
 
@@ -95,148 +91,236 @@ The following version adds additional safeguards
 - cleanup lock on failure
 
 ```routeros
-# Final hardened Blocklist-Rotate deployment
-# Single-script version based on the verified working backup logic, with:
-# - lock file protection
-# - minimum entry threshold
-# - suspicious-size guard
-# - silent bulk operations
-# - Discord success/failure notifications
+# ==========================================
+# BLOCKLIST-ROTATE-FINAL-DISCORD
+# 7-stage, low-noise, verified rotation
+# ==========================================
 
-/system script remove [find name="Blocklist-Rotate"]
-/system scheduler remove [find name="Blocklist-Rotate-Schedule"]
+:local scriptName "BLOCKLIST-ROTATE-FINAL-DISCORD"
+:local webhook "https://discord.com/api/webhooks/redacted/redacted"
+:local lockFile "usb2/Tools-Scripts/blocklist_rotate.lock"
+:local baseUrl "https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/"
 
-/system script add name="Blocklist-Rotate" owner="david" \
-    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
-    dont-require-permissions=no \
-    source=":local scriptName \"BLOCKLIST-ROTATE\"; \
-:local webhook \"https://discord.com/api/webhooks/REDACTED/redacted\"; \
-:local lockFile \"usb2/blocklist/rotate.lock\"; \
-:local minEntries 1000; \
-:local activeList \"\"; \
-:local nextList \"\"; \
-:local nextFile \"\"; \
-:local removeList \"\"; \
-:local dstPath \"\"; \
-:local sizeKb 0; \
-:local importedCount 0; \
-:local removeCount 0; \
-:local errorText \"\"; \
-:log info (\$scriptName . \": === Starting rotation ===\"); \
-:if ([:len [/file find name=\$lockFile]] > 0) do={ \
-    :set errorText \"Rotation locked\"; \
-    :log warning (\$scriptName . \": Lock file exists, another rotation may already be running. Aborting.\"); \
-    :error \$errorText; \
-}; \
-/file print file=\$lockFile; \
-:do { \
-    :local hs [/ip firewall raw find where chain=prerouting and action=drop and src-address-list~\"^davidian-sk-blocklist_\"]; \
-    :local ph [/ip firewall raw find where chain=prerouting and action=drop and dst-address-list~\"^davidian-sk-blocklist_\"]; \
-    :if (([:len \$hs] = 0) or ([:len \$ph] = 0)) do={ \
-        :set errorText \"Required raw rules not found\"; \
-        :log error (\$scriptName . \": Required blocklist raw rules not found. Aborting.\"); \
-        :error \$errorText; \
-    }; \
-    :set activeList [/ip firewall raw get \$hs src-address-list]; \
-    :if (\$activeList = \"davidian-sk-blocklist_a\") do={ \
-        :set nextList \"davidian-sk-blocklist_b\"; \
-        :set nextFile \"blocklist_b.rsc\"; \
-        :set removeList \"davidian-sk-blocklist_a\"; \
-    } else={ \
-        :if (\$activeList = \"davidian-sk-blocklist_b\") do={ \
-            :set nextList \"davidian-sk-blocklist_a\"; \
-            :set nextFile \"blocklist_a.rsc\"; \
-            :set removeList \"davidian-sk-blocklist_b\"; \
-        } else={ \
-            :set errorText (\"Unexpected active list: \" . \$activeList); \
-            :log error (\$scriptName . \": Unexpected active list: \" . \$activeList . \". Aborting.\"); \
-            :error \$errorText; \
-        }; \
-    }; \
-    :log info (\$scriptName . \": Active=\" . \$activeList . \" | Rotating to=\" . \$nextList); \
-    :set dstPath (\"usb2/blocklist/\" . \$nextFile); \
-    :local url (\"https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/\" . \$nextFile); \
-    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
-    :log info (\$scriptName . \": [1/6] Downloading \" . \$nextFile . \"...\"); \
-    /tool fetch url=\$url mode=https dst-path=\$dstPath; \
-    :local f [/file find name=\$dstPath]; \
-    :if ([:len \$f] = 0) do={ \
-        :set errorText \"Download failed\"; \
-        :log error (\$scriptName . \": [1/6] FAILED - Download failed. Keeping current protection.\"); \
-        :error \$errorText; \
-    }; \
-    :local size [/file get \$f size]; \
-    :if (\$size = 0) do={ \
-        :set errorText \"Downloaded file is empty\"; \
-        :log error (\$scriptName . \": [1/6] FAILED - Downloaded file is empty. Keeping current protection.\"); \
-        :error \$errorText; \
-    }; \
-    :set sizeKb (\$size / 1024); \
-    :log info (\$scriptName . \": [1/6] OK - Downloaded \" . \$sizeKb . \" KB.\"); \
-    :local staleCount [:len [/ip firewall address-list find where list=\$nextList]]; \
-    :if (\$staleCount > 0) do={ \
-        :log info (\$scriptName . \": [2/6] Found \" . \$staleCount . \" stale entries in \" . \$nextList . \" - clearing...\"); \
-        /system logging disable 0; \
-        /ip firewall address-list remove [find where list=\$nextList]; \
-        /system logging enable 0; \
-        :log info (\$scriptName . \": [2/6] OK - Cleared \" . \$staleCount . \" stale entries.\"); \
-    } else={ \
-        :log info (\$scriptName . \": [2/6] OK - No stale entries in \" . \$nextList . \".\"); \
-    }; \
-    :log info (\$scriptName . \": [3/6] Importing \" . \$nextList . \"...\"); \
-    :local importOk true; \
-    /system logging disable 0; \
-    :do { /import file-name=\$dstPath; } on-error={ :set importOk false; }; \
-    /system logging enable 0; \
-    :if (\$importOk = false) do={ \
-        :set errorText \"Import failed\"; \
-        :log error (\$scriptName . \": [3/6] FAILED - Import failed. Keeping \" . \$activeList . \" active.\"); \
-        :error \$errorText; \
-    }; \
-    :set importedCount [:len [/ip firewall address-list find where list=\$nextList]]; \
-    :log info (\$scriptName . \": [3/6] OK - Imported \" . \$importedCount . \" entries into \" . \$nextList . \".\"); \
-    :if (\$importedCount < \$minEntries) do={ \
-        :set errorText (\"Imported only \" . \$importedCount . \" entries, below threshold of \" . \$minEntries); \
-        :log error (\$scriptName . \": [4/6] FAILED - Imported count \" . \$importedCount . \" is below minimum threshold \" . \$minEntries . \". Keeping \" . \$activeList . \" active.\"); \
-        :error \$errorText; \
-    }; \
-    :local activeCount [:len [/ip firewall address-list find where list=\$activeList]]; \
-    :if ((\$activeCount > 0) and (\$importedCount < (\$activeCount / 2))) do={ \
-        :set errorText (\"New list suspiciously small: \" . \$importedCount . \" vs active \" . \$activeCount); \
-        :log warning (\$scriptName . \": [4/6] Imported list is much smaller than active list (\" . \$importedCount . \" vs \" . \$activeCount . \"). Aborting switch.\"); \
-        :error \$errorText; \
-    }; \
-    :log info (\$scriptName . \": [4/6] OK - Sanity checks passed.\"); \
-    :log info (\$scriptName . \": [5/6] Switching raw rules to \" . \$nextList . \"...\"); \
-    /ip firewall raw set \$hs src-address-list=\$nextList; \
-    /ip firewall raw set \$ph dst-address-list=\$nextList; \
-    :log info (\$scriptName . \": [5/6] OK - Blocklist raw rules now -> \" . \$nextList . \".\"); \
-    :set removeCount [:len [/ip firewall address-list find where list=\$removeList]]; \
-    :log info (\$scriptName . \": [6/6] Purging \" . \$removeCount . \" entries from old list \" . \$removeList . \"...\"); \
-    /system logging disable 0; \
-    /ip firewall address-list remove [find where list=\$removeList]; \
-    /system logging enable 0; \
-    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
-    :log info (\$scriptName . \": [6/6] OK - Purged \" . \$removeCount . \" entries from \" . \$removeList . \".\"); \
-    :log info (\$scriptName . \": === Complete: \" . \$activeList . \" -> \" . \$nextList . \" ===\"); \
-    :local successJson (\"{\\\"embeds\\\": [{\\\"title\\\": \\\"Blocklist Rotation Complete\\\",\\\"color\\\": 5763719,\\\"fields\\\": [{\\\"name\\\": \\\"Rotation\\\",\\\"value\\\": \\\"\" . \$activeList . \" -> \" . \$nextList . \"\\\",\\\"inline\\\": false},{\\\"name\\\": \\\"Downloaded\\\",\\\"value\\\": \\\"\" . \$sizeKb . \" KB\\\",\\\"inline\\\": true},{\\\"name\\\": \\\"Imported\\\",\\\"value\\\": \\\"\" . \$importedCount . \" entries\\\",\\\"inline\\\": true},{\\\"name\\\": \\\"Purged old\\\",\\\"value\\\": \\\"\" . \$removeCount . \" entries\\\",\\\"inline\\\": true}]}]}\"); \
-    /tool fetch url=\$webhook http-method=post http-header-field=\"content-type: application/json\" http-data=\$successJson output=none; \
-} on-error={ \
-    :if ([:len \$errorText] = 0) do={ :set errorText \"Rotation aborted\"; }; \
-    :log error (\$scriptName . \": Rotation aborted due to error. Current active rules were left unchanged unless already switched.\"); \
-    :local failRotation \"unknown\"; \
-    :if (([:len \$activeList] > 0) and ([:len \$nextList] > 0)) do={ :set failRotation (\$activeList . \" -> \" . \$nextList); }; \
-    :local failJson (\"{\\\"embeds\\\": [{\\\"title\\\": \\\"Blocklist Rotation Failed\\\",\\\"color\\\": 15548997,\\\"fields\\\": [{\\\"name\\\": \\\"Reason\\\",\\\"value\\\": \\\"\" . \$errorText . \"\\\",\\\"inline\\\": false},{\\\"name\\\": \\\"Rotation\\\",\\\"value\\\": \\\"\" . \$failRotation . \"\\\",\\\"inline\\\": false},{\\\"name\\\": \\\"Downloaded\\\",\\\"value\\\": \\\"\" . \$sizeKb . \" KB\\\",\\\"inline\\\": true},{\\\"name\\\": \\\"Imported\\\",\\\"value\\\": \\\"\" . \$importedCount . \" entries\\\",\\\"inline\\\": true}]}]}\"); \
-    :do { /tool fetch url=\$webhook http-method=post http-header-field=\"content-type: application/json\" http-data=\$failJson output=none; } on-error={}; \
-}; \
-:if ([:len [/file find name=\$lockFile]] > 0) do={ /file remove \$lockFile; }; \
-:if (([:len \$dstPath] > 0) and ([:len [/file find name=\$dstPath]] > 0)) do={ /file remove \$dstPath; };"
+:local tsDate [/system clock get date]
+:local tsTime [/system clock get time]
+:local ts ($tsDate . " " . $tsTime)
 
-/system scheduler add name="Blocklist-Rotate-Schedule" start-date=2026-03-16 start-time=00:02:00 interval=6h \
-    on-event="/system script run Blocklist-Rotate" \
-    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
-    disabled=no \
-    comment="Every 6 hours at :02 using Blocklist-Rotate"
+:local activeIn ""
+:local nextIn ""
+:local activeOut ""
+:local nextOut ""
+
+:local fileIn ""
+:local fileOut ""
+
+:local ruleIn
+:local ruleOut
+
+:local verifyIn ""
+:local verifyOut ""
+
+:local importedIn 0
+:local importedOut 0
+:local purgedIn 0
+:local purgedOut 0
+:local deltaIn 0
+:local deltaOut 0
+
+:local fetchIn
+:local fetchOut
+
+:local errMsg ""
+:local failDate ""
+:local failTime ""
+:local failTs ""
+:local payload ""
+
+:log info ($scriptName . ": START at " . $ts)
+
+# ==========================================
+# Stage 1/7 - Lock guard
+# ==========================================
+:log info ($scriptName . ": [1/7] Initializing guard and checking lock.")
+
+:if ([:len [/file find where name=$lockFile]] > 0) do={
+    :log warning ($scriptName . ": Lock file exists, aborting.")
+    :error "Locked"
+}
+
+/file print file=$lockFile
+
+:do {
+
+    # ==========================================
+    # Stage 2/7 - Detect current active targets
+    # ==========================================
+    :log info ($scriptName . ": [2/7] Detecting active RAW targets.")
+
+    :set ruleIn [/ip firewall raw find where comment~"WAN source IPs early"]
+    :set ruleOut [/ip firewall raw find where comment~"outbound traffic to malicious"]
+
+    :if ([:len $ruleIn] = 0) do={
+        :set errMsg "Inbound RAW rule not found"
+        :error $errMsg
+    }
+    :if ([:len $ruleOut] = 0) do={
+        :set errMsg "Outbound RAW rule not found"
+        :error $errMsg
+    }
+
+    :set activeIn [/ip firewall raw get $ruleIn src-address-list]
+    :set activeOut [/ip firewall raw get $ruleOut dst-address-list]
+
+    :if ($activeIn = "davidian-sk-blocklist_a") do={
+        :set nextIn "davidian-sk-blocklist_b"
+        :set fileIn "blocklist_b.rsc"
+        :set nextOut "davidian-sk-blocklist-out_b"
+        :set fileOut "blocklist_out_b.rsc"
+    } else={
+        :set nextIn "davidian-sk-blocklist_a"
+        :set fileIn "blocklist_a.rsc"
+        :set nextOut "davidian-sk-blocklist-out_a"
+        :set fileOut "blocklist_out_a.rsc"
+    }
+
+    :log info ($scriptName . ": Active IN=" . $activeIn . " -> Next IN=" . $nextIn)
+    :log info ($scriptName . ": Active OUT=" . $activeOut . " -> Next OUT=" . $nextOut)
+
+    # ==========================================
+    # Stage 3/7 - Fetch next files
+    # ==========================================
+    :log info ($scriptName . ": [3/7] Fetching next blocklist files.")
+
+    :set fetchIn [/tool fetch url=($baseUrl . $fileIn) dst-path=("usb2/blocklist/" . $fileIn) as-value]
+    :set fetchOut [/tool fetch url=($baseUrl . $fileOut) dst-path=("usb2/blocklist/" . $fileOut) as-value]
+
+    :if (($fetchIn->"status") != "finished") do={
+        :set errMsg ("Fetch failed for inbound file " . $fileIn . ": " . ($fetchIn->"status"))
+        :error $errMsg
+    }
+    :if (($fetchOut->"status") != "finished") do={
+        :set errMsg ("Fetch failed for outbound file " . $fileOut . ": " . ($fetchOut->"status"))
+        :error $errMsg
+    }
+
+    :if ([:len [/file find where name=("usb2/blocklist/" . $fileIn)]] = 0) do={
+        :set errMsg ("Downloaded inbound file missing: " . $fileIn)
+        :error $errMsg
+    }
+    :if ([:len [/file find where name=("usb2/blocklist/" . $fileOut)]] = 0) do={
+        :set errMsg ("Downloaded outbound file missing: " . $fileOut)
+        :error $errMsg
+    }
+
+    # ==========================================
+    # Stage 4/7 - Import into staging lists
+    # ==========================================
+    :log info ($scriptName . ": [4/7] Purging staging lists and importing fresh entries.")
+
+    /system logging disable 0
+
+    /ip firewall address-list remove [find where list=$nextIn]
+    /ip firewall address-list remove [find where list=$nextOut]
+
+    /import file-name=("usb2/blocklist/" . $fileIn)
+    /import file-name=("usb2/blocklist/" . $fileOut)
+
+    :set importedIn [:len [/ip firewall address-list find where list=$nextIn]]
+    :set importedOut [:len [/ip firewall address-list find where list=$nextOut]]
+
+    /system logging enable 0
+
+    :if ($importedIn = 0) do={
+        :set errMsg ("Inbound import is empty for list " . $nextIn)
+        :error $errMsg
+    }
+    :if ($importedOut = 0) do={
+        :set errMsg ("Outbound import is empty for list " . $nextOut)
+        :error $errMsg
+    }
+
+    :log info ($scriptName . ": Imported staging counts: IN=" . $importedIn . ", OUT=" . $importedOut)
+
+    # ==========================================
+    # Stage 5/7 - Swap live RAW rules
+    # ==========================================
+    :log info ($scriptName . ": [5/7] Swapping RAW rules to next blocklists.")
+
+    /ip firewall raw set $ruleIn src-address-list=$nextIn
+    /ip firewall raw set $ruleOut dst-address-list=$nextOut
+
+    :set verifyIn [/ip firewall raw get $ruleIn src-address-list]
+    :set verifyOut [/ip firewall raw get $ruleOut dst-address-list]
+
+    :if (($verifyIn != $nextIn) || ($verifyOut != $nextOut)) do={
+        :log error ($scriptName . ": Swap verification failed. Rolling back.")
+        /ip firewall raw set $ruleIn src-address-list=$activeIn
+        /ip firewall raw set $ruleOut dst-address-list=$activeOut
+        :set errMsg ("Swap verification failed. Restored previous lists: " . $activeIn . " / " . $activeOut)
+        :error $errMsg
+    }
+
+    :log info ($scriptName . ": Swap verified: IN=" . $verifyIn . ", OUT=" . $verifyOut)
+
+    # ==========================================
+    # Stage 6/7 - Cleanup old live lists and temp files
+    # ==========================================
+    :log info ($scriptName . ": [6/7] Cleaning old active lists and temporary files.")
+
+    /system logging disable 0
+
+    :set purgedIn [:len [/ip firewall address-list find where list=$activeIn]]
+    :set purgedOut [:len [/ip firewall address-list find where list=$activeOut]]
+
+    /ip firewall address-list remove [find where list=$activeIn]
+    /ip firewall address-list remove [find where list=$activeOut]
+
+    /file remove [find where name=("usb2/blocklist/" . $fileIn)]
+    /file remove [find where name=("usb2/blocklist/" . $fileOut)]
+
+    /system logging enable 0
+
+    :set deltaIn ($importedIn - $purgedIn)
+    :set deltaOut ($importedOut - $purgedOut)
+
+    :log info ($scriptName . ": Cleanup stats: IN imported=" . $importedIn . ", purged=" . $purgedIn . ", delta=" . $deltaIn)
+    :log info ($scriptName . ": Cleanup stats: OUT imported=" . $importedOut . ", purged=" . $purgedOut . ", delta=" . $deltaOut)
+
+    # ==========================================
+    # Stage 7/7 - Notify and unlock
+    # ==========================================
+    :log info ($scriptName . ": [7/7] Sending success notification and cleaning lock.")
+
+    :set payload ("{\"embeds\":[{\"title\":\"\F0\9F\9B\A1\EF\B8\8F Blocklist Dual-Guard Refreshed\",\"color\":5763719,\"fields\":[{\"name\":\"Inbound Guard (" . $activeIn . " -> " . $nextIn . ")\",\"value\":\"" . $importedIn . " Imported\\n" . $purgedIn . " Purged\\nDelta: " . $deltaIn . "\",\"inline\":true},{\"name\":\"Outbound Guard (" . $activeOut . " -> " . $nextOut . ")\",\"value\":\"" . $importedOut . " Imported\\n" . $purgedOut . " Purged\\nDelta: " . $deltaOut . "\",\"inline\":true}],\"footer\":{\"text\":\"" . $scriptName . " | " . [/system clock get date] . " " . [/system clock get time] . "\"}}]}")
+
+    /tool fetch url=$webhook http-method=post http-header-field="content-type: application/json" http-data=$payload output=none
+
+    :if ([:len [/file find where name=$lockFile]] > 0) do={
+        /file remove [find where name=$lockFile]
+    }
+
+    :log info ($scriptName . ": SUCCESS at " . [/system clock get time] . ". Imported " . $importedIn . " IN / " . $importedOut . " OUT, purged " . $purgedIn . " IN / " . $purgedOut . " OUT, delta " . $deltaIn . " IN / " . $deltaOut . " OUT.")
+
+} on-error={
+
+    :set failDate [/system clock get date]
+    :set failTime [/system clock get time]
+    :set failTs ($failDate . " " . $failTime)
+
+    :if ($errMsg = "") do={
+        :set errMsg "Unknown error"
+    }
+
+    :if ([:len [/file find where name=$lockFile]] > 0) do={
+        /file remove [find where name=$lockFile]
+    }
+
+    :log error ($scriptName . ": FAILED at " . $failTs . " | " . $errMsg)
+
+    :set payload ("{\"embeds\":[{\"title\":\"\E2\9D\8C Blocklist Rotation FAILED\",\"color\":15158332,\"fields\":[{\"name\":\"Script\",\"value\":\"" . $scriptName . "\",\"inline\":true},{\"name\":\"Time\",\"value\":\"" . $failTs . "\",\"inline\":true},{\"name\":\"Reason\",\"value\":\"" . $errMsg . "\",\"inline\":false}],\"footer\":{\"text\":\"Rollback attempted where applicable\"}}]}")
+
+    /tool fetch url=$webhook http-method=post http-header-field="content-type: application/json" http-data=$payload output=none
+}
 ```
 
 ### Rotation Script - NO DISCORD VERSION
@@ -244,129 +328,226 @@ The following version adds additional safeguards
 
 routeros
 ```
-# Final hardened Blocklist-Rotate no-Discord deployment
-# Single-script version matching the live hardened logic, without Discord and without scheduler changes.
+# ==========================================
+# BLOCKLIST-ROTATE-FINAL-NODISCORD
+# 7-stage, low-noise, verified rotation
+# ==========================================
 
-/system script remove [find name="Blocklist-Rotate-No-Discord"]
+:local scriptName "BLOCKLIST-ROTATE-FINAL-NODISCORD"
+:local lockFile "usb2/Tools-Scripts/blocklist_rotate.lock"
+:local baseUrl "https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/"
 
-/system script add name="Blocklist-Rotate-No-Discord" owner="david" \
-    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
-    dont-require-permissions=no \
-    source=":local scriptName \"BLOCKLIST-ROTATE\"; \
-:local lockFile \"usb2/blocklist/rotate.lock\"; \
-:local minEntries 1000; \
-:local activeList \"\"; \
-:local nextList \"\"; \
-:local nextFile \"\"; \
-:local removeList \"\"; \
-:local dstPath \"\"; \
-:local sizeKb 0; \
-:local importedCount 0; \
-:local removeCount 0; \
-:local errorText \"\"; \
-:log info (\$scriptName . \": === Starting rotation ===\"); \
-:if ([:len [/file find name=\$lockFile]] > 0) do={ \
-    :set errorText \"Rotation locked\"; \
-    :log warning (\$scriptName . \": Lock file exists, another rotation may already be running. Aborting.\"); \
-    :error \$errorText; \
-}; \
-/file print file=\$lockFile; \
-:do { \
-    :local hs [/ip firewall raw find where chain=prerouting and action=drop and src-address-list~\"^davidian-sk-blocklist_\"]; \
-    :local ph [/ip firewall raw find where chain=prerouting and action=drop and dst-address-list~\"^davidian-sk-blocklist_\"]; \
-    :if (([:len \$hs] = 0) or ([:len \$ph] = 0)) do={ \
-        :set errorText \"Required raw rules not found\"; \
-        :log error (\$scriptName . \": Required blocklist raw rules not found. Aborting.\"); \
-        :error \$errorText; \
-    }; \
-    :set activeList [/ip firewall raw get \$hs src-address-list]; \
-    :if (\$activeList = \"davidian-sk-blocklist_a\") do={ \
-        :set nextList \"davidian-sk-blocklist_b\"; \
-        :set nextFile \"blocklist_b.rsc\"; \
-        :set removeList \"davidian-sk-blocklist_a\"; \
-    } else={ \
-        :if (\$activeList = \"davidian-sk-blocklist_b\") do={ \
-            :set nextList \"davidian-sk-blocklist_a\"; \
-            :set nextFile \"blocklist_a.rsc\"; \
-            :set removeList \"davidian-sk-blocklist_b\"; \
-        } else={ \
-            :set errorText (\"Unexpected active list: \" . \$activeList); \
-            :log error (\$scriptName . \": Unexpected active list: \" . \$activeList . \". Aborting.\"); \
-            :error \$errorText; \
-        }; \
-    }; \
-    :log info (\$scriptName . \": Active=\" . \$activeList . \" | Rotating to=\" . \$nextList); \
-    :set dstPath (\"usb2/blocklist/\" . \$nextFile); \
-    :local url (\"https://raw.githubusercontent.com/davidian-sk/mikrotik-blocklist/main/\" . \$nextFile); \
-    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
-    :log info (\$scriptName . \": [1/6] Downloading \" . \$nextFile . \"...\"); \
-    /tool fetch url=\$url mode=https dst-path=\$dstPath; \
-    :local f [/file find name=\$dstPath]; \
-    :if ([:len \$f] = 0) do={ \
-        :set errorText \"Download failed\"; \
-        :log error (\$scriptName . \": [1/6] FAILED - Download failed. Keeping current protection.\"); \
-        :error \$errorText; \
-    }; \
-    :local size [/file get \$f size]; \
-    :if (\$size = 0) do={ \
-        :set errorText \"Downloaded file is empty\"; \
-        :log error (\$scriptName . \": [1/6] FAILED - Downloaded file is empty. Keeping current protection.\"); \
-        :error \$errorText; \
-    }; \
-    :set sizeKb (\$size / 1024); \
-    :log info (\$scriptName . \": [1/6] OK - Downloaded \" . \$sizeKb . \" KB.\"); \
-    :local staleCount [:len [/ip firewall address-list find where list=\$nextList]]; \
-    :if (\$staleCount > 0) do={ \
-        :log info (\$scriptName . \": [2/6] Found \" . \$staleCount . \" stale entries in \" . \$nextList . \" - clearing...\"); \
-        /system logging disable 0; \
-        /ip firewall address-list remove [find where list=\$nextList]; \
-        /system logging enable 0; \
-        :log info (\$scriptName . \": [2/6] OK - Cleared \" . \$staleCount . \" stale entries.\"); \
-    } else={ \
-        :log info (\$scriptName . \": [2/6] OK - No stale entries in \" . \$nextList . \".\"); \
-    }; \
-    :log info (\$scriptName . \": [3/6] Importing \" . \$nextList . \"...\"); \
-    :local importOk true; \
-    /system logging disable 0; \
-    :do { /import file-name=\$dstPath; } on-error={ :set importOk false; }; \
-    /system logging enable 0; \
-    :if (\$importOk = false) do={ \
-        :set errorText \"Import failed\"; \
-        :log error (\$scriptName . \": [3/6] FAILED - Import failed. Keeping \" . \$activeList . \" active.\"); \
-        :error \$errorText; \
-    }; \
-    :set importedCount [:len [/ip firewall address-list find where list=\$nextList]]; \
-    :log info (\$scriptName . \": [3/6] OK - Imported \" . \$importedCount . \" entries into \" . \$nextList . \".\"); \
-    :if (\$importedCount < \$minEntries) do={ \
-        :set errorText (\"Imported only \" . \$importedCount . \" entries, below threshold of \" . \$minEntries); \
-        :log error (\$scriptName . \": [4/6] FAILED - Imported count \" . \$importedCount . \" is below minimum threshold \" . \$minEntries . \". Keeping \" . \$activeList . \" active.\"); \
-        :error \$errorText; \
-    }; \
-    :local activeCount [:len [/ip firewall address-list find where list=\$activeList]]; \
-    :if ((\$activeCount > 0) and (\$importedCount < (\$activeCount / 2))) do={ \
-        :set errorText (\"New list suspiciously small: \" . \$importedCount . \" vs active \" . \$activeCount); \
-        :log warning (\$scriptName . \": [4/6] Imported list is much smaller than active list (\" . \$importedCount . \" vs \" . \$activeCount . \"). Aborting switch.\"); \
-        :error \$errorText; \
-    }; \
-    :log info (\$scriptName . \": [4/6] OK - Sanity checks passed.\"); \
-    :log info (\$scriptName . \": [5/6] Switching raw rules to \" . \$nextList . \"...\"); \
-    /ip firewall raw set \$hs src-address-list=\$nextList; \
-    /ip firewall raw set \$ph dst-address-list=\$nextList; \
-    :log info (\$scriptName . \": [5/6] OK - Blocklist raw rules now -> \" . \$nextList . \".\"); \
-    :set removeCount [:len [/ip firewall address-list find where list=\$removeList]]; \
-    :log info (\$scriptName . \": [6/6] Purging \" . \$removeCount . \" entries from old list \" . \$removeList . \"...\"); \
-    /system logging disable 0; \
-    /ip firewall address-list remove [find where list=\$removeList]; \
-    /system logging enable 0; \
-    :if ([:len [/file find name=\$dstPath]] > 0) do={ /file remove \$dstPath; }; \
-    :log info (\$scriptName . \": [6/6] OK - Purged \" . \$removeCount . \" entries from \" . \$removeList . \".\"); \
-    :log info (\$scriptName . \": === Complete: \" . \$activeList . \" -> \" . \$nextList . \" ===\"); \
-} on-error={ \
-    :if ([:len \$errorText] = 0) do={ :set errorText \"Rotation aborted\"; }; \
-    :log error (\$scriptName . \": Rotation aborted due to error. Current active rules were left unchanged unless already switched.\"); \
-}; \
-:if ([:len [/file find name=\$lockFile]] > 0) do={ /file remove \$lockFile; }; \
-:if (([:len \$dstPath] > 0) and ([:len [/file find name=\$dstPath]] > 0)) do={ /file remove \$dstPath; };"
+:local tsDate [/system clock get date]
+:local tsTime [/system clock get time]
+:local ts ($tsDate . " " . $tsTime)
+
+:local activeIn ""
+:local nextIn ""
+:local activeOut ""
+:local nextOut ""
+
+:local fileIn ""
+:local fileOut ""
+
+:local ruleIn
+:local ruleOut
+
+:local verifyIn ""
+:local verifyOut ""
+
+:local importedIn 0
+:local importedOut 0
+:local purgedIn 0
+:local purgedOut 0
+:local deltaIn 0
+:local deltaOut 0
+
+:local fetchIn
+:local fetchOut
+
+:local errMsg ""
+:local failDate ""
+:local failTime ""
+:local failTs ""
+
+:log info ($scriptName . ": START at " . $ts)
+
+# ==========================================
+# Stage 1/7 - Lock guard
+# ==========================================
+:log info ($scriptName . ": [1/7] Initializing guard and checking lock.")
+
+:if ([:len [/file find where name=$lockFile]] > 0) do={
+    :log warning ($scriptName . ": Lock file exists, aborting.")
+    :error "Locked"
+}
+
+/file print file=$lockFile
+
+:do {
+
+    # ==========================================
+    # Stage 2/7 - Detect current active targets
+    # ==========================================
+    :log info ($scriptName . ": [2/7] Detecting active RAW targets.")
+
+    :set ruleIn [/ip firewall raw find where comment~"WAN source IPs early"]
+    :set ruleOut [/ip firewall raw find where comment~"outbound traffic to malicious"]
+
+    :if ([:len $ruleIn] = 0) do={
+        :set errMsg "Inbound RAW rule not found"
+        :error $errMsg
+    }
+    :if ([:len $ruleOut] = 0) do={
+        :set errMsg "Outbound RAW rule not found"
+        :error $errMsg
+    }
+
+    :set activeIn [/ip firewall raw get $ruleIn src-address-list]
+    :set activeOut [/ip firewall raw get $ruleOut dst-address-list]
+
+    :if ($activeIn = "davidian-sk-blocklist_a") do={
+        :set nextIn "davidian-sk-blocklist_b"
+        :set fileIn "blocklist_b.rsc"
+        :set nextOut "davidian-sk-blocklist-out_b"
+        :set fileOut "blocklist_out_b.rsc"
+    } else={
+        :set nextIn "davidian-sk-blocklist_a"
+        :set fileIn "blocklist_a.rsc"
+        :set nextOut "davidian-sk-blocklist-out_a"
+        :set fileOut "blocklist_out_a.rsc"
+    }
+
+    :log info ($scriptName . ": Active IN=" . $activeIn . " -> Next IN=" . $nextIn)
+    :log info ($scriptName . ": Active OUT=" . $activeOut . " -> Next OUT=" . $nextOut)
+
+    # ==========================================
+    # Stage 3/7 - Fetch next files
+    # ==========================================
+    :log info ($scriptName . ": [3/7] Fetching next blocklist files.")
+
+    :set fetchIn [/tool fetch url=($baseUrl . $fileIn) dst-path=("usb2/blocklist/" . $fileIn) as-value]
+    :set fetchOut [/tool fetch url=($baseUrl . $fileOut) dst-path=("usb2/blocklist/" . $fileOut) as-value]
+
+    :if (($fetchIn->"status") != "finished") do={
+        :set errMsg ("Fetch failed for inbound file " . $fileIn . ": " . ($fetchIn->"status"))
+        :error $errMsg
+    }
+    :if (($fetchOut->"status") != "finished") do={
+        :set errMsg ("Fetch failed for outbound file " . $fileOut . ": " . ($fetchOut->"status"))
+        :error $errMsg
+    }
+
+    :if ([:len [/file find where name=("usb2/blocklist/" . $fileIn)]] = 0) do={
+        :set errMsg ("Downloaded inbound file missing: " . $fileIn)
+        :error $errMsg
+    }
+    :if ([:len [/file find where name=("usb2/blocklist/" . $fileOut)]] = 0) do={
+        :set errMsg ("Downloaded outbound file missing: " . $fileOut)
+        :error $errMsg
+    }
+
+    # ==========================================
+    # Stage 4/7 - Import into staging lists
+    # ==========================================
+    :log info ($scriptName . ": [4/7] Purging staging lists and importing fresh entries.")
+
+    /system logging disable 0
+
+    /ip firewall address-list remove [find where list=$nextIn]
+    /ip firewall address-list remove [find where list=$nextOut]
+
+    /import file-name=("usb2/blocklist/" . $fileIn)
+    /import file-name=("usb2/blocklist/" . $fileOut)
+
+    :set importedIn [:len [/ip firewall address-list find where list=$nextIn]]
+    :set importedOut [:len [/ip firewall address-list find where list=$nextOut]]
+
+    /system logging enable 0
+
+    :if ($importedIn = 0) do={
+        :set errMsg ("Inbound import is empty for list " . $nextIn)
+        :error $errMsg
+    }
+    :if ($importedOut = 0) do={
+        :set errMsg ("Outbound import is empty for list " . $nextOut)
+        :error $errMsg
+    }
+
+    :log info ($scriptName . ": Imported staging counts: IN=" . $importedIn . ", OUT=" . $importedOut)
+
+    # ==========================================
+    # Stage 5/7 - Swap live RAW rules
+    # ==========================================
+    :log info ($scriptName . ": [5/7] Swapping RAW rules to next blocklists.")
+
+    /ip firewall raw set $ruleIn src-address-list=$nextIn
+    /ip firewall raw set $ruleOut dst-address-list=$nextOut
+
+    :set verifyIn [/ip firewall raw get $ruleIn src-address-list]
+    :set verifyOut [/ip firewall raw get $ruleOut dst-address-list]
+
+    :if (($verifyIn != $nextIn) || ($verifyOut != $nextOut)) do={
+        :log error ($scriptName . ": Swap verification failed. Rolling back.")
+        /ip firewall raw set $ruleIn src-address-list=$activeIn
+        /ip firewall raw set $ruleOut dst-address-list=$activeOut
+        :set errMsg ("Swap verification failed. Restored previous lists: " . $activeIn . " / " . $activeOut)
+        :error $errMsg
+    }
+
+    :log info ($scriptName . ": Swap verified: IN=" . $verifyIn . ", OUT=" . $verifyOut)
+
+    # ==========================================
+    # Stage 6/7 - Cleanup old live lists and temp files
+    # ==========================================
+    :log info ($scriptName . ": [6/7] Cleaning old active lists and temporary files.")
+
+    /system logging disable 0
+
+    :set purgedIn [:len [/ip firewall address-list find where list=$activeIn]]
+    :set purgedOut [:len [/ip firewall address-list find where list=$activeOut]]
+
+    /ip firewall address-list remove [find where list=$activeIn]
+    /ip firewall address-list remove [find where list=$activeOut]
+
+    /file remove [find where name=("usb2/blocklist/" . $fileIn)]
+    /file remove [find where name=("usb2/blocklist/" . $fileOut)]
+
+    /system logging enable 0
+
+    :set deltaIn ($importedIn - $purgedIn)
+    :set deltaOut ($importedOut - $purgedOut)
+
+    :log info ($scriptName . ": Cleanup stats: IN imported=" . $importedIn . ", purged=" . $purgedIn . ", delta=" . $deltaIn)
+    :log info ($scriptName . ": Cleanup stats: OUT imported=" . $importedOut . ", purged=" . $purgedOut . ", delta=" . $deltaOut)
+
+    # ==========================================
+    # Stage 7/7 - Unlock and finish
+    # ==========================================
+    :log info ($scriptName . ": [7/7] Cleaning lock and finishing.")
+
+    :if ([:len [/file find where name=$lockFile]] > 0) do={
+        /file remove [find where name=$lockFile]
+    }
+
+    :log info ($scriptName . ": SUCCESS at " . [/system clock get time] . ". Imported " . $importedIn . " IN / " . $importedOut . " OUT, purged " . $purgedIn . " IN / " . $purgedOut . " OUT, delta " . $deltaIn . " IN / " . $deltaOut . " OUT.")
+
+} on-error={
+
+    :set failDate [/system clock get date]
+    :set failTime [/system clock get time]
+    :set failTs ($failDate . " " . $failTime)
+
+    :if ($errMsg = "") do={
+        :set errMsg "Unknown error"
+    }
+
+    :if ([:len [/file find where name=$lockFile]] > 0) do={
+        /file remove [find where name=$lockFile]
+    }
+
+    :log error ($scriptName . ": FAILED at " . $failTs . " | " . $errMsg)
+}
 ```
 
 You can also use `blocklist.rsc` if you prefer a single-list workflow that downloads the file, removes the current entries, and imports the new list. This method is simpler, but it does not provide the same continuity as the dual-list rotation approach.
@@ -404,6 +585,7 @@ The second rule blocks LAN devices from connecting to known malicious destinatio
 
 ```routeros
 /ip firewall raw
-add chain=prerouting in-interface-list=WAN src-address-list=davidian-sk-blocklist_a action=drop comment="RAW-SEC: Drop known malicious WAN source IPs early"
-add chain=prerouting in-interface-list=LAN dst-address-list=davidian-sk-blocklist_a action=drop comment="RAW-SEC: Drop LAN traffic to malicious destinations"
+
+add action=drop chain=prerouting in-interface-list=WAN src-address-list=davidian-sk-blocklist_a comment="RAW-SEC: Drop known malicious WAN source IPs early"
+add action=drop chain=prerouting dst-address-list=davidian-sk-blocklist-out_a dst-address=!224.0.0.0/4 dst-address-type=!broadcast src-address-list=!DNS-Servers comment="RAW-SEC: Drop outbound traffic to malicious blocklist"
 ```
