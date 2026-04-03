@@ -4516,7 +4516,9 @@ add list=davidian-sk-blocklist-out address=192.42.116.176/29
 add list=davidian-sk-blocklist-out address=192.42.116.184/31
 add list=davidian-sk-blocklist-out address=192.42.116.186/32
 add list=davidian-sk-blocklist-out address=192.42.116.191/32
-add list=davidian-sk-blocklist-out address=192.42.116.192/29
+add list=davidian-sk-blocklist-out address=192.42.116.192/32
+add list=davidian-sk-blocklist-out address=192.42.116.194/31
+add list=davidian-sk-blocklist-out address=192.42.116.196/30
 add list=davidian-sk-blocklist-out address=192.42.116.200/30
 add list=davidian-sk-blocklist-out address=192.42.116.210/31
 add list=davidian-sk-blocklist-out address=192.42.116.212/30
