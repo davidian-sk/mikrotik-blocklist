@@ -1989,7 +1989,8 @@ add list=davidian-sk-blocklist_b address=81.199.26.4/32
 add list=davidian-sk-blocklist_b address=81.199.26.6/31
 add list=davidian-sk-blocklist_b address=81.199.26.8/29
 add list=davidian-sk-blocklist_b address=81.199.26.51/32
-add list=davidian-sk-blocklist_b address=81.199.26.52/30
+add list=davidian-sk-blocklist_b address=81.199.26.53/32
+add list=davidian-sk-blocklist_b address=81.199.26.54/31
 add list=davidian-sk-blocklist_b address=81.199.26.56/32
 add list=davidian-sk-blocklist_b address=81.199.26.58/31
 add list=davidian-sk-blocklist_b address=81.199.26.60/31
@@ -3246,7 +3247,6 @@ add list=davidian-sk-blocklist_b address=114.219.157.97/32
 add list=davidian-sk-blocklist_b address=114.231.216.0/22
 add list=davidian-sk-blocklist_b address=114.239.188.0/24
 add list=davidian-sk-blocklist_b address=115.74.245.129/32
-add list=davidian-sk-blocklist_b address=115.75.18.93/32
 add list=davidian-sk-blocklist_b address=115.77.97.146/32
 add list=davidian-sk-blocklist_b address=115.91.91.182/32
 add list=davidian-sk-blocklist_b address=115.140.161.61/32
@@ -3777,7 +3777,6 @@ add list=davidian-sk-blocklist_b address=138.199.60.187/32
 add list=davidian-sk-blocklist_b address=138.201.36.87/32
 add list=davidian-sk-blocklist_b address=138.201.120.30/32
 add list=davidian-sk-blocklist_b address=138.201.133.126/32
-add list=davidian-sk-blocklist_b address=138.201.135.169/32
 add list=davidian-sk-blocklist_b address=138.201.137.152/32
 add list=davidian-sk-blocklist_b address=138.201.194.13/32
 add list=davidian-sk-blocklist_b address=138.204.127.54/32
@@ -6528,7 +6527,6 @@ add list=davidian-sk-blocklist_b address=202.103.55.158/32
 add list=davidian-sk-blocklist_b address=202.122.64.0/19
 add list=davidian-sk-blocklist_b address=202.131.96.220/32
 add list=davidian-sk-blocklist_b address=202.131.208.0/20
-add list=davidian-sk-blocklist_b address=202.141.252.141/32
 add list=davidian-sk-blocklist_b address=202.148.32.0/20
 add list=davidian-sk-blocklist_b address=202.152.192.0/20
 add list=davidian-sk-blocklist_b address=202.159.80.0/20
