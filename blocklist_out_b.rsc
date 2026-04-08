@@ -1487,7 +1487,6 @@ add list=davidian-sk-blocklist-out_b address=72.13.46.2/31
 add list=davidian-sk-blocklist-out_b address=72.13.46.5/32
 add list=davidian-sk-blocklist-out_b address=72.13.46.6/32
 add list=davidian-sk-blocklist-out_b address=72.13.62.25/32
-add list=davidian-sk-blocklist-out_b address=72.13.62.26/32
 add list=davidian-sk-blocklist-out_b address=72.14.187.58/32
 add list=davidian-sk-blocklist-out_b address=72.37.217.3/32
 add list=davidian-sk-blocklist-out_b address=72.211.49.235/32
@@ -1497,7 +1496,6 @@ add list=davidian-sk-blocklist-out_b address=73.13.220.220/32
 add list=davidian-sk-blocklist-out_b address=73.27.33.174/32
 add list=davidian-sk-blocklist-out_b address=73.129.57.71/32
 add list=davidian-sk-blocklist-out_b address=73.137.7.97/32
-add list=davidian-sk-blocklist-out_b address=73.161.96.107/32
 add list=davidian-sk-blocklist-out_b address=73.176.157.57/32
 add list=davidian-sk-blocklist-out_b address=73.195.211.98/32
 add list=davidian-sk-blocklist-out_b address=73.196.144.25/32
@@ -2298,7 +2296,6 @@ add list=davidian-sk-blocklist-out_b address=103.179.56.51/32
 add list=davidian-sk-blocklist-out_b address=103.182.132.154/32
 add list=davidian-sk-blocklist-out_b address=103.183.74.130/32
 add list=davidian-sk-blocklist-out_b address=103.183.75.90/32
-add list=davidian-sk-blocklist-out_b address=103.186.30.230/32
 add list=davidian-sk-blocklist-out_b address=103.187.91.2/32
 add list=davidian-sk-blocklist-out_b address=103.187.147.214/32
 add list=davidian-sk-blocklist-out_b address=103.189.235.176/32
@@ -4740,7 +4737,6 @@ add list=davidian-sk-blocklist-out_b address=192.0.91.203/32
 add list=davidian-sk-blocklist-out_b address=192.0.103.4/32
 add list=davidian-sk-blocklist-out_b address=192.0.115.196/32
 add list=davidian-sk-blocklist-out_b address=192.0.119.68/32
-add list=davidian-sk-blocklist-out_b address=192.3.101.25/32
 add list=davidian-sk-blocklist-out_b address=192.34.58.254/32
 add list=davidian-sk-blocklist-out_b address=192.34.128.202/32
 add list=davidian-sk-blocklist-out_b address=192.42.116.173/32
