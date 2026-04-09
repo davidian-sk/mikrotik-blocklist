@@ -1,10 +1,10 @@
 configured_sources=3
 sources_processed=3
 sources_failed=0
-raw_lines=7260
-clean_lines=7255
-cidr_ranges=5654
-previous_cidr_ranges=5653
+raw_lines=7254
+clean_lines=7249
+cidr_ranges=5649
+previous_cidr_ranges=5654
 compression_ratio_percent=77.93
 invalid_lines_skipped=0
 too_broad_threshold_min_prefixlen=16
