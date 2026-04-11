@@ -3270,7 +3270,6 @@ add list=davidian-sk-blocklist_b address=109.248.49.171/32
 add list=davidian-sk-blocklist_b address=109.248.54.6/32
 add list=davidian-sk-blocklist_b address=109.248.55.205/32
 add list=davidian-sk-blocklist_b address=109.248.128.64/32
-add list=davidian-sk-blocklist_b address=109.248.142.60/32
 add list=davidian-sk-blocklist_b address=109.248.142.166/32
 add list=davidian-sk-blocklist_b address=109.248.142.184/32
 add list=davidian-sk-blocklist_b address=109.248.143.16/32
