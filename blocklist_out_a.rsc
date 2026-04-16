@@ -524,7 +524,6 @@ add list=davidian-sk-blocklist-out_a address=36.91.166.34/32
 add list=davidian-sk-blocklist-out_a address=36.103.243.179/32
 add list=davidian-sk-blocklist-out_a address=36.104.147.6/32
 add list=davidian-sk-blocklist-out_a address=36.108.170.78/32
-add list=davidian-sk-blocklist-out_a address=36.111.32.232/32
 add list=davidian-sk-blocklist-out_a address=36.111.32.237/32
 add list=davidian-sk-blocklist-out_a address=36.111.32.238/32
 add list=davidian-sk-blocklist-out_a address=36.111.67.189/32
@@ -1394,7 +1393,6 @@ add list=davidian-sk-blocklist-out_a address=68.40.189.43/32
 add list=davidian-sk-blocklist-out_a address=68.78.37.77/32
 add list=davidian-sk-blocklist-out_a address=68.178.199.26/32
 add list=davidian-sk-blocklist-out_a address=68.178.246.186/32
-add list=davidian-sk-blocklist-out_a address=68.183.80.103/32
 add list=davidian-sk-blocklist-out_a address=68.233.116.124/32
 add list=davidian-sk-blocklist-out_a address=69.49.112.62/32
 add list=davidian-sk-blocklist-out_a address=69.49.112.70/31
@@ -1743,7 +1741,6 @@ add list=davidian-sk-blocklist-out_a address=87.251.64.149/32
 add list=davidian-sk-blocklist-out_a address=87.251.78.138/32
 add list=davidian-sk-blocklist-out_a address=88.80.26.2/31
 add list=davidian-sk-blocklist-out_a address=88.80.26.4/32
-add list=davidian-sk-blocklist-out_a address=88.97.252.76/32
 add list=davidian-sk-blocklist-out_a address=88.99.13.2/32
 add list=davidian-sk-blocklist-out_a address=88.99.39.252/32
 add list=davidian-sk-blocklist-out_a address=88.99.95.199/32
@@ -5199,7 +5196,6 @@ add list=davidian-sk-blocklist-out_a address=216.24.212.26/31
 add list=davidian-sk-blocklist-out_a address=216.24.212.29/32
 add list=davidian-sk-blocklist-out_a address=216.24.212.30/32
 add list=davidian-sk-blocklist-out_a address=216.24.212.32/31
-add list=davidian-sk-blocklist-out_a address=216.24.212.34/32
 add list=davidian-sk-blocklist-out_a address=216.24.212.39/32
 add list=davidian-sk-blocklist-out_a address=216.24.212.41/32
 add list=davidian-sk-blocklist-out_a address=216.24.212.45/32
