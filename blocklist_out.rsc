@@ -57,7 +57,6 @@ add list=davidian-sk-blocklist-out address=5.32.99.14/32
 add list=davidian-sk-blocklist-out address=5.32.107.6/32
 add list=davidian-sk-blocklist-out address=5.35.37.46/32
 add list=davidian-sk-blocklist-out address=5.35.46.173/32
-add list=davidian-sk-blocklist-out address=5.45.77.43/32
 add list=davidian-sk-blocklist-out address=5.45.98.162/32
 add list=davidian-sk-blocklist-out address=5.45.102.93/32
 add list=davidian-sk-blocklist-out address=5.45.104.176/32
@@ -946,7 +945,6 @@ add list=davidian-sk-blocklist-out address=37.28.177.141/32
 add list=davidian-sk-blocklist-out address=37.44.238.2/32
 add list=davidian-sk-blocklist-out address=37.48.70.156/32
 add list=davidian-sk-blocklist-out address=37.60.244.188/32
-add list=davidian-sk-blocklist-out address=37.77.56.238/32
 add list=davidian-sk-blocklist-out address=37.79.255.104/32
 add list=davidian-sk-blocklist-out address=37.110.142.162/32
 add list=davidian-sk-blocklist-out address=37.111.53.110/32
@@ -1365,7 +1363,6 @@ add list=davidian-sk-blocklist-out address=45.142.193.141/32
 add list=davidian-sk-blocklist-out address=45.144.233.139/32
 add list=davidian-sk-blocklist-out address=45.146.54.4/32
 add list=davidian-sk-blocklist-out address=45.146.54.13/32
-add list=davidian-sk-blocklist-out address=45.146.54.21/32
 add list=davidian-sk-blocklist-out address=45.146.54.26/32
 add list=davidian-sk-blocklist-out address=45.146.54.31/32
 add list=davidian-sk-blocklist-out address=45.146.54.105/32
@@ -2656,7 +2653,7 @@ add list=davidian-sk-blocklist-out address=98.159.37.221/32
 add list=davidian-sk-blocklist-out address=98.159.37.222/32
 add list=davidian-sk-blocklist-out address=98.159.37.224/31
 add list=davidian-sk-blocklist-out address=98.159.37.227/32
-add list=davidian-sk-blocklist-out address=98.159.37.228/31
+add list=davidian-sk-blocklist-out address=98.159.37.229/32
 add list=davidian-sk-blocklist-out address=98.159.37.231/32
 add list=davidian-sk-blocklist-out address=98.159.37.233/32
 add list=davidian-sk-blocklist-out address=98.159.37.235/32
@@ -5386,7 +5383,6 @@ add list=davidian-sk-blocklist-out address=188.130.142.14/32
 add list=davidian-sk-blocklist-out address=188.130.142.106/32
 add list=davidian-sk-blocklist-out address=188.130.142.248/32
 add list=davidian-sk-blocklist-out address=188.130.143.175/32
-add list=davidian-sk-blocklist-out address=188.130.143.245/32
 add list=davidian-sk-blocklist-out address=188.130.184.167/32
 add list=davidian-sk-blocklist-out address=188.130.185.41/32
 add list=davidian-sk-blocklist-out address=188.130.189.9/32
@@ -5543,7 +5539,6 @@ add list=davidian-sk-blocklist-out address=193.28.89.40/32
 add list=davidian-sk-blocklist-out address=193.29.107.41/32
 add list=davidian-sk-blocklist-out address=193.29.107.131/32
 add list=davidian-sk-blocklist-out address=193.32.126.214/32
-add list=davidian-sk-blocklist-out address=193.32.162.71/32
 add list=davidian-sk-blocklist-out address=193.32.162.125/32
 add list=davidian-sk-blocklist-out address=193.36.132.21/32
 add list=davidian-sk-blocklist-out address=193.36.225.10/31
@@ -6343,7 +6338,6 @@ add list=davidian-sk-blocklist-out address=218.200.200.92/32
 add list=davidian-sk-blocklist-out address=218.206.136.24/32
 add list=davidian-sk-blocklist-out address=218.248.19.102/32
 add list=davidian-sk-blocklist-out address=218.255.103.194/32
-add list=davidian-sk-blocklist-out address=219.70.241.11/32
 add list=davidian-sk-blocklist-out address=219.71.91.175/32
 add list=davidian-sk-blocklist-out address=219.76.191.29/32
 add list=davidian-sk-blocklist-out address=219.94.128.60/32
@@ -6428,7 +6422,6 @@ add list=davidian-sk-blocklist-out address=223.15.245.170/32
 add list=davidian-sk-blocklist-out address=223.70.230.130/32
 add list=davidian-sk-blocklist-out address=223.71.254.162/32
 add list=davidian-sk-blocklist-out address=223.82.97.51/32
-add list=davidian-sk-blocklist-out address=223.86.148.242/32
 add list=davidian-sk-blocklist-out address=223.99.212.58/32
 add list=davidian-sk-blocklist-out address=223.100.248.64/32
 add list=davidian-sk-blocklist-out address=223.107.146.186/32
