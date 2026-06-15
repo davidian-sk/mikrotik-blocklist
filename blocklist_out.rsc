@@ -1243,6 +1243,7 @@ add list=davidian-sk-blocklist-out address=45.87.249.200/32
 add list=davidian-sk-blocklist-out address=45.91.22.6/32
 add list=davidian-sk-blocklist-out address=45.94.31.68/32
 add list=davidian-sk-blocklist-out address=45.119.83.158/32
+add list=davidian-sk-blocklist-out address=45.119.85.39/32
 add list=davidian-sk-blocklist-out address=45.119.212.99/32
 add list=davidian-sk-blocklist-out address=45.120.115.150/32
 add list=davidian-sk-blocklist-out address=45.120.216.232/32
@@ -1625,7 +1626,6 @@ add list=davidian-sk-blocklist-out address=49.247.36.49/32
 add list=davidian-sk-blocklist-out address=49.247.37.22/32
 add list=davidian-sk-blocklist-out address=49.248.35.162/32
 add list=davidian-sk-blocklist-out address=49.249.85.2/32
-add list=davidian-sk-blocklist-out address=50.6.3.103/32
 add list=davidian-sk-blocklist-out address=50.6.138.26/32
 add list=davidian-sk-blocklist-out address=50.6.138.91/32
 add list=davidian-sk-blocklist-out address=50.6.160.232/32
@@ -2980,6 +2980,7 @@ add list=davidian-sk-blocklist-out address=103.163.220.229/32
 add list=davidian-sk-blocklist-out address=103.163.220.230/32
 add list=davidian-sk-blocklist-out address=103.164.54.199/32
 add list=davidian-sk-blocklist-out address=103.168.241.32/32
+add list=davidian-sk-blocklist-out address=103.169.160.74/32
 add list=davidian-sk-blocklist-out address=103.171.85.124/32
 add list=davidian-sk-blocklist-out address=103.172.20.218/32
 add list=davidian-sk-blocklist-out address=103.172.151.230/32
@@ -2991,6 +2992,7 @@ add list=davidian-sk-blocklist-out address=103.172.205.103/32
 add list=davidian-sk-blocklist-out address=103.172.236.15/32
 add list=davidian-sk-blocklist-out address=103.172.236.241/32
 add list=davidian-sk-blocklist-out address=103.173.67.83/32
+add list=davidian-sk-blocklist-out address=103.173.227.188/32
 add list=davidian-sk-blocklist-out address=103.174.34.49/32
 add list=davidian-sk-blocklist-out address=103.174.51.19/32
 add list=davidian-sk-blocklist-out address=103.174.114.50/32
@@ -3333,6 +3335,7 @@ add list=davidian-sk-blocklist-out address=109.248.205.76/32
 add list=davidian-sk-blocklist-out address=109.248.205.196/32
 add list=davidian-sk-blocklist-out address=109.248.205.212/32
 add list=davidian-sk-blocklist-out address=110.14.192.20/32
+add list=davidian-sk-blocklist-out address=110.25.105.161/32
 add list=davidian-sk-blocklist-out address=110.40.182.83/32
 add list=davidian-sk-blocklist-out address=110.49.3.66/32
 add list=davidian-sk-blocklist-out address=110.93.211.242/32
@@ -4527,6 +4530,7 @@ add list=davidian-sk-blocklist-out address=154.28.229.220/32
 add list=davidian-sk-blocklist-out address=154.28.229.228/32
 add list=davidian-sk-blocklist-out address=154.29.232.160/32
 add list=davidian-sk-blocklist-out address=154.61.72.241/32
+add list=davidian-sk-blocklist-out address=154.118.162.194/32
 add list=davidian-sk-blocklist-out address=154.144.225.226/32
 add list=davidian-sk-blocklist-out address=154.144.243.93/32
 add list=davidian-sk-blocklist-out address=154.144.255.208/31
@@ -5215,6 +5219,7 @@ add list=davidian-sk-blocklist-out address=181.218.9.86/32
 add list=davidian-sk-blocklist-out address=182.18.161.165/32
 add list=davidian-sk-blocklist-out address=182.18.180.44/32
 add list=davidian-sk-blocklist-out address=182.42.105.85/32
+add list=davidian-sk-blocklist-out address=182.42.105.144/32
 add list=davidian-sk-blocklist-out address=182.42.110.255/32
 add list=davidian-sk-blocklist-out address=182.42.111.156/32
 add list=davidian-sk-blocklist-out address=182.42.113.10/32
@@ -5711,7 +5716,6 @@ add list=davidian-sk-blocklist-out address=192.185.4.27/32
 add list=davidian-sk-blocklist-out address=192.185.4.41/32
 add list=davidian-sk-blocklist-out address=192.185.4.68/32
 add list=davidian-sk-blocklist-out address=192.185.4.137/32
-add list=davidian-sk-blocklist-out address=192.185.176.174/32
 add list=davidian-sk-blocklist-out address=192.185.176.176/32
 add list=davidian-sk-blocklist-out address=192.206.141.63/32
 add list=davidian-sk-blocklist-out address=192.210.239.206/32
