@@ -2129,7 +2129,6 @@ add list=davidian-sk-blocklist_b address=60.167.166.161/32
 add list=davidian-sk-blocklist_b address=60.171.135.254/32
 add list=davidian-sk-blocklist_b address=60.172.1.210/32
 add list=davidian-sk-blocklist_b address=60.172.41.103/32
-add list=davidian-sk-blocklist_b address=60.172.52.101/32
 add list=davidian-sk-blocklist_b address=60.172.54.36/32
 add list=davidian-sk-blocklist_b address=60.172.230.184/32
 add list=davidian-sk-blocklist_b address=60.173.105.206/32
@@ -3703,7 +3702,7 @@ add list=davidian-sk-blocklist_b address=106.75.189.197/32
 add list=davidian-sk-blocklist_b address=106.95.0.0/16
 add list=davidian-sk-blocklist_b address=106.112.194.160/32
 add list=davidian-sk-blocklist_b address=106.246.89.68/31
-add list=davidian-sk-blocklist_b address=106.246.224.218/31
+add list=davidian-sk-blocklist_b address=106.246.224.218/32
 add list=davidian-sk-blocklist_b address=106.248.238.187/32
 add list=davidian-sk-blocklist_b address=107.135.117.245/32
 add list=davidian-sk-blocklist_b address=107.150.105.5/32
@@ -5085,7 +5084,6 @@ add list=davidian-sk-blocklist_b address=152.32.159.79/32
 add list=davidian-sk-blocklist_b address=152.32.159.177/32
 add list=davidian-sk-blocklist_b address=152.32.159.180/32
 add list=davidian-sk-blocklist_b address=152.32.162.142/32
-add list=davidian-sk-blocklist_b address=152.32.164.139/32
 add list=davidian-sk-blocklist_b address=152.32.170.230/32
 add list=davidian-sk-blocklist_b address=152.32.171.99/32
 add list=davidian-sk-blocklist_b address=152.32.174.186/32
@@ -6557,7 +6555,6 @@ add list=davidian-sk-blocklist_b address=188.126.240.80/32
 add list=davidian-sk-blocklist_b address=188.130.128.18/32
 add list=davidian-sk-blocklist_b address=188.130.142.14/32
 add list=davidian-sk-blocklist_b address=188.130.142.106/32
-add list=davidian-sk-blocklist_b address=188.130.143.5/32
 add list=davidian-sk-blocklist_b address=188.130.143.175/32
 add list=davidian-sk-blocklist_b address=188.130.143.245/32
 add list=davidian-sk-blocklist_b address=188.130.184.167/32
