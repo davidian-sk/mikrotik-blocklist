@@ -3820,7 +3820,6 @@ add list=davidian-sk-active-blocklist address=109.248.49.171/32
 add list=davidian-sk-active-blocklist address=109.248.55.205/32
 add list=davidian-sk-active-blocklist address=109.248.142.100/32
 add list=davidian-sk-active-blocklist address=109.248.142.184/32
-add list=davidian-sk-active-blocklist address=109.248.142.217/32
 add list=davidian-sk-active-blocklist address=109.248.143.37/32
 add list=davidian-sk-active-blocklist address=109.248.143.85/32
 add list=davidian-sk-active-blocklist address=109.248.204.102/32
