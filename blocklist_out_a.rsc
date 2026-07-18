@@ -26,7 +26,6 @@ add list=davidian-sk-blocklist-out_a address=2.57.122.112/32
 add list=davidian-sk-blocklist-out_a address=2.57.122.234/32
 add list=davidian-sk-blocklist-out_a address=2.57.168.28/32
 add list=davidian-sk-blocklist-out_a address=2.58.56.35/32
-add list=davidian-sk-blocklist-out_a address=2.58.56.43/32
 add list=davidian-sk-blocklist-out_a address=2.58.56.220/32
 add list=davidian-sk-blocklist-out_a address=2.135.121.157/32
 add list=davidian-sk-blocklist-out_a address=2.196.207.166/32
@@ -2970,7 +2969,6 @@ add list=davidian-sk-blocklist-out_a address=109.233.21.109/32
 add list=davidian-sk-blocklist-out_a address=109.234.164.108/32
 add list=davidian-sk-blocklist-out_a address=109.237.27.11/32
 add list=davidian-sk-blocklist-out_a address=109.248.14.67/32
-add list=davidian-sk-blocklist-out_a address=109.248.49.40/32
 add list=davidian-sk-blocklist-out_a address=109.248.49.171/32
 add list=davidian-sk-blocklist-out_a address=109.248.55.205/32
 add list=davidian-sk-blocklist-out_a address=109.248.142.60/32
@@ -4611,7 +4609,6 @@ add list=davidian-sk-blocklist-out_a address=176.9.125.27/32
 add list=davidian-sk-blocklist-out_a address=176.10.197.168/32
 add list=davidian-sk-blocklist-out_a address=176.53.159.197/32
 add list=davidian-sk-blocklist-out_a address=176.53.159.198/32
-add list=davidian-sk-blocklist-out_a address=176.65.132.76/32
 add list=davidian-sk-blocklist-out_a address=176.65.139.181/32
 add list=davidian-sk-blocklist-out_a address=176.65.139.183/32
 add list=davidian-sk-blocklist-out_a address=176.65.148.2/32
@@ -4901,7 +4898,6 @@ add list=davidian-sk-blocklist-out_a address=185.82.219.109/32
 add list=davidian-sk-blocklist-out_a address=185.91.69.5/32
 add list=davidian-sk-blocklist-out_a address=185.91.69.33/32
 add list=davidian-sk-blocklist-out_a address=185.91.69.110/32
-add list=davidian-sk-blocklist-out_a address=185.91.69.113/32
 add list=davidian-sk-blocklist-out_a address=185.91.69.164/32
 add list=davidian-sk-blocklist-out_a address=185.100.85.24/31
 add list=davidian-sk-blocklist-out_a address=185.100.87.41/32
