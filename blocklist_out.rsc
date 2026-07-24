@@ -2099,7 +2099,6 @@ add list=davidian-sk-blocklist-out address=65.20.233.110/32
 add list=davidian-sk-blocklist-out address=65.20.237.191/32
 add list=davidian-sk-blocklist-out address=65.20.250.93/32
 add list=davidian-sk-blocklist-out address=65.20.250.180/32
-add list=davidian-sk-blocklist-out address=65.21.16.207/32
 add list=davidian-sk-blocklist-out address=65.21.31.180/32
 add list=davidian-sk-blocklist-out address=65.21.46.73/32
 add list=davidian-sk-blocklist-out address=65.21.113.194/32
@@ -3347,7 +3346,6 @@ add list=davidian-sk-blocklist-out address=106.51.92.114/32
 add list=davidian-sk-blocklist-out address=106.75.23.247/32
 add list=davidian-sk-blocklist-out address=106.75.86.153/32
 add list=davidian-sk-blocklist-out address=106.75.169.149/32
-add list=davidian-sk-blocklist-out address=106.75.189.197/32
 add list=davidian-sk-blocklist-out address=106.112.194.160/32
 add list=davidian-sk-blocklist-out address=106.246.89.68/31
 add list=davidian-sk-blocklist-out address=106.246.224.218/32
@@ -4906,7 +4904,6 @@ add list=davidian-sk-blocklist-out address=165.154.120.29/32
 add list=davidian-sk-blocklist-out address=165.154.120.226/32
 add list=davidian-sk-blocklist-out address=165.154.128.17/32
 add list=davidian-sk-blocklist-out address=165.154.128.199/32
-add list=davidian-sk-blocklist-out address=165.154.129.130/32
 add list=davidian-sk-blocklist-out address=165.154.134.19/32
 add list=davidian-sk-blocklist-out address=165.154.134.152/32
 add list=davidian-sk-blocklist-out address=165.154.134.156/32
@@ -5317,7 +5314,6 @@ add list=davidian-sk-blocklist-out address=177.207.248.5/32
 add list=davidian-sk-blocklist-out address=177.207.250.1/32
 add list=davidian-sk-blocklist-out address=177.229.197.38/32
 add list=davidian-sk-blocklist-out address=177.234.139.99/32
-add list=davidian-sk-blocklist-out address=177.234.139.139/32
 add list=davidian-sk-blocklist-out address=178.17.171.102/32
 add list=davidian-sk-blocklist-out address=178.17.174.14/32
 add list=davidian-sk-blocklist-out address=178.17.174.164/32
