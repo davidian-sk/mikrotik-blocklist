@@ -2452,7 +2452,8 @@ add list=davidian-sk-blocklist_a address=92.119.36.133/32
 add list=davidian-sk-blocklist_a address=92.119.36.143/32
 add list=davidian-sk-blocklist_a address=92.119.36.146/32
 add list=davidian-sk-blocklist_a address=92.119.36.158/31
-add list=davidian-sk-blocklist_a address=92.119.36.160/30
+add list=davidian-sk-blocklist_a address=92.119.36.160/31
+add list=davidian-sk-blocklist_a address=92.119.36.162/32
 add list=davidian-sk-blocklist_a address=92.119.164.131/32
 add list=davidian-sk-blocklist_a address=92.119.164.208/32
 add list=davidian-sk-blocklist_a address=92.119.165.34/32
@@ -2489,6 +2490,7 @@ add list=davidian-sk-blocklist_a address=93.119.118.0/23
 add list=davidian-sk-blocklist_a address=93.119.120.0/23
 add list=davidian-sk-blocklist_a address=93.123.109.0/24
 add list=davidian-sk-blocklist_a address=93.152.219.0/24
+add list=davidian-sk-blocklist_a address=93.152.223.0/24
 add list=davidian-sk-blocklist_a address=93.158.213.25/32
 add list=davidian-sk-blocklist_a address=93.158.213.26/32
 add list=davidian-sk-blocklist_a address=93.174.93.12/32
@@ -2566,7 +2568,6 @@ add list=davidian-sk-blocklist_a address=95.164.131.0/24
 add list=davidian-sk-blocklist_a address=95.164.162.0/24
 add list=davidian-sk-blocklist_a address=95.165.182.238/32
 add list=davidian-sk-blocklist_a address=95.169.180.0/24
-add list=davidian-sk-blocklist_a address=95.174.67.90/32
 add list=davidian-sk-blocklist_a address=95.182.92.198/32
 add list=davidian-sk-blocklist_a address=95.182.126.88/32
 add list=davidian-sk-blocklist_a address=95.210.105.202/32
@@ -4353,7 +4354,6 @@ add list=davidian-sk-blocklist_a address=162.62.213.187/32
 add list=davidian-sk-blocklist_a address=162.62.231.139/32
 add list=davidian-sk-blocklist_a address=162.71.0.0/19
 add list=davidian-sk-blocklist_a address=162.144.93.134/32
-add list=davidian-sk-blocklist_a address=162.155.21.148/32
 add list=davidian-sk-blocklist_a address=162.216.18.62/32
 add list=davidian-sk-blocklist_a address=162.216.149.15/32
 add list=davidian-sk-blocklist_a address=162.216.149.24/32
