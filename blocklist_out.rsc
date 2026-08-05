@@ -1081,7 +1081,6 @@ add list=davidian-sk-blocklist-out address=45.84.107.172/32
 add list=davidian-sk-blocklist-out address=45.84.107.182/32
 add list=davidian-sk-blocklist-out address=45.84.107.198/32
 add list=davidian-sk-blocklist-out address=45.84.107.222/32
-add list=davidian-sk-blocklist-out address=45.86.200.150/32
 add list=davidian-sk-blocklist-out address=45.86.202.162/32
 add list=davidian-sk-blocklist-out address=45.86.202.177/32
 add list=davidian-sk-blocklist-out address=45.86.202.226/31
@@ -1895,7 +1894,6 @@ add list=davidian-sk-blocklist-out address=91.208.75.153/32
 add list=davidian-sk-blocklist-out address=91.208.75.156/32
 add list=davidian-sk-blocklist-out address=91.208.75.178/32
 add list=davidian-sk-blocklist-out address=91.208.75.239/32
-add list=davidian-sk-blocklist-out address=91.211.87.6/32
 add list=davidian-sk-blocklist-out address=91.219.196.17/32
 add list=davidian-sk-blocklist-out address=91.219.236.101/32
 add list=davidian-sk-blocklist-out address=91.219.237.39/32
@@ -3889,7 +3887,6 @@ add list=davidian-sk-blocklist-out address=180.100.213.183/32
 add list=davidian-sk-blocklist-out address=180.100.217.164/32
 add list=davidian-sk-blocklist-out address=180.153.91.15/32
 add list=davidian-sk-blocklist-out address=180.167.207.234/32
-add list=davidian-sk-blocklist-out address=180.168.60.146/32
 add list=davidian-sk-blocklist-out address=180.183.245.232/32
 add list=davidian-sk-blocklist-out address=180.184.134.158/32
 add list=davidian-sk-blocklist-out address=180.184.161.95/32
@@ -5095,7 +5092,6 @@ add list=davidian-sk-blocklist-out address=219.129.96.2/32
 add list=davidian-sk-blocklist-out address=219.129.236.174/32
 add list=davidian-sk-blocklist-out address=219.144.16.16/32
 add list=davidian-sk-blocklist-out address=219.150.93.157/32
-add list=davidian-sk-blocklist-out address=219.248.65.30/32
 add list=davidian-sk-blocklist-out address=220.80.223.144/32
 add list=davidian-sk-blocklist-out address=220.93.167.144/32
 add list=davidian-sk-blocklist-out address=220.116.26.179/32
