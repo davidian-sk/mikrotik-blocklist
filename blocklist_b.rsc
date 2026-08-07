@@ -1614,7 +1614,6 @@ add list=davidian-sk-blocklist_b address=47.254.15.174/32
 add list=davidian-sk-blocklist_b address=47.254.173.155/32
 add list=davidian-sk-blocklist_b address=48.209.223.15/32
 add list=davidian-sk-blocklist_b address=48.209.223.21/32
-add list=davidian-sk-blocklist_b address=48.209.223.68/32
 add list=davidian-sk-blocklist_b address=48.209.223.71/32
 add list=davidian-sk-blocklist_b address=49.51.33.159/32
 add list=davidian-sk-blocklist_b address=49.51.36.179/32
