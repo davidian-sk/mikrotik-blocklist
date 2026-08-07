@@ -3351,7 +3351,6 @@ add list=davidian-sk-blocklist-out_a address=149.88.19.85/32
 add list=davidian-sk-blocklist-out_a address=149.88.19.87/32
 add list=davidian-sk-blocklist-out_a address=149.88.19.89/32
 add list=davidian-sk-blocklist-out_a address=149.88.19.91/32
-add list=davidian-sk-blocklist-out_a address=149.88.23.79/32
 add list=davidian-sk-blocklist-out_a address=149.88.23.82/32
 add list=davidian-sk-blocklist-out_a address=149.88.23.84/32
 add list=davidian-sk-blocklist-out_a address=149.88.23.89/32
