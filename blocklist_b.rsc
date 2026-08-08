@@ -5541,7 +5541,6 @@ add list=davidian-sk-blocklist_b address=185.238.231.238/32
 add list=davidian-sk-blocklist_b address=185.238.231.240/31
 add list=davidian-sk-blocklist_b address=185.238.231.245/32
 add list=davidian-sk-blocklist_b address=185.238.231.246/32
-add list=davidian-sk-blocklist_b address=185.238.231.250/32
 add list=davidian-sk-blocklist_b address=185.239.44.0/22
 add list=davidian-sk-blocklist_b address=185.239.84.0/22
 add list=davidian-sk-blocklist_b address=185.241.208.0/24
