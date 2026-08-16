@@ -1941,9 +1941,7 @@ add list=davidian-sk-blocklist-out address=92.113.119.57/32
 add list=davidian-sk-blocklist-out address=92.118.39.32/32
 add list=davidian-sk-blocklist-out address=92.118.39.78/32
 add list=davidian-sk-blocklist-out address=92.118.39.145/32
-add list=davidian-sk-blocklist-out address=92.118.39.205/32
 add list=davidian-sk-blocklist-out address=92.118.39.213/32
-add list=davidian-sk-blocklist-out address=92.118.39.223/32
 add list=davidian-sk-blocklist-out address=92.118.39.233/32
 add list=davidian-sk-blocklist-out address=92.119.36.24/32
 add list=davidian-sk-blocklist-out address=92.119.36.41/32
