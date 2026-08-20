@@ -964,7 +964,6 @@ add list=davidian-sk-blocklist-out_a address=45.3.51.179/32
 add list=davidian-sk-blocklist-out_a address=45.8.17.2/32
 add list=davidian-sk-blocklist-out_a address=45.8.17.8/32
 add list=davidian-sk-blocklist-out_a address=45.8.17.14/32
-add list=davidian-sk-blocklist-out_a address=45.8.17.16/32
 add list=davidian-sk-blocklist-out_a address=45.8.17.34/32
 add list=davidian-sk-blocklist-out_a address=45.8.17.38/32
 add list=davidian-sk-blocklist-out_a address=45.8.17.192/32
@@ -1573,7 +1572,6 @@ add list=davidian-sk-blocklist-out_a address=59.36.78.66/32
 add list=davidian-sk-blocklist-out_a address=59.46.182.10/32
 add list=davidian-sk-blocklist-out_a address=59.55.128.147/32
 add list=davidian-sk-blocklist-out_a address=59.120.178.166/32
-add list=davidian-sk-blocklist-out_a address=59.125.102.142/32
 add list=davidian-sk-blocklist-out_a address=59.125.102.226/31
 add list=davidian-sk-blocklist-out_a address=59.144.79.102/32
 add list=davidian-sk-blocklist-out_a address=59.144.126.227/32
@@ -2313,7 +2311,6 @@ add list=davidian-sk-blocklist-out_a address=98.159.37.134/32
 add list=davidian-sk-blocklist-out_a address=98.159.37.136/31
 add list=davidian-sk-blocklist-out_a address=98.159.37.167/32
 add list=davidian-sk-blocklist-out_a address=98.159.37.177/32
-add list=davidian-sk-blocklist-out_a address=98.159.37.209/32
 add list=davidian-sk-blocklist-out_a address=98.159.37.235/32
 add list=davidian-sk-blocklist-out_a address=98.159.37.245/32
 add list=davidian-sk-blocklist-out_a address=98.170.57.241/32
@@ -4487,7 +4484,6 @@ add list=davidian-sk-blocklist-out_a address=185.144.27.63/32
 add list=davidian-sk-blocklist-out_a address=185.150.28.13/32
 add list=davidian-sk-blocklist-out_a address=185.154.110.17/32
 add list=davidian-sk-blocklist-out_a address=185.154.110.142/32
-add list=davidian-sk-blocklist-out_a address=185.165.169.239/32
 add list=davidian-sk-blocklist-out_a address=185.165.171.84/32
 add list=davidian-sk-blocklist-out_a address=185.170.114.25/32
 add list=davidian-sk-blocklist-out_a address=185.170.167.18/32
@@ -4548,7 +4544,8 @@ add list=davidian-sk-blocklist-out_a address=185.220.101.186/32
 add list=davidian-sk-blocklist-out_a address=185.220.101.188/32
 add list=davidian-sk-blocklist-out_a address=185.220.101.190/31
 add list=davidian-sk-blocklist-out_a address=185.221.21.17/32
-add list=davidian-sk-blocklist-out_a address=185.223.152.4/30
+add list=davidian-sk-blocklist-out_a address=185.223.152.4/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.6/31
 add list=davidian-sk-blocklist-out_a address=185.223.152.8/32
 add list=davidian-sk-blocklist-out_a address=185.223.152.12/32
 add list=davidian-sk-blocklist-out_a address=185.223.152.16/31
@@ -4602,9 +4599,17 @@ add list=davidian-sk-blocklist-out_a address=185.223.152.190/31
 add list=davidian-sk-blocklist-out_a address=185.223.152.192/32
 add list=davidian-sk-blocklist-out_a address=185.223.152.194/31
 add list=davidian-sk-blocklist-out_a address=185.223.152.196/30
-add list=davidian-sk-blocklist-out_a address=185.223.152.200/29
-add list=davidian-sk-blocklist-out_a address=185.223.152.208/28
-add list=davidian-sk-blocklist-out_a address=185.223.152.224/30
+add list=davidian-sk-blocklist-out_a address=185.223.152.200/30
+add list=davidian-sk-blocklist-out_a address=185.223.152.204/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.206/31
+add list=davidian-sk-blocklist-out_a address=185.223.152.209/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.212/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.214/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.216/30
+add list=davidian-sk-blocklist-out_a address=185.223.152.220/31
+add list=davidian-sk-blocklist-out_a address=185.223.152.223/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.225/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.227/32
 add list=davidian-sk-blocklist-out_a address=185.225.69.232/32
 add list=davidian-sk-blocklist-out_a address=185.227.134.106/32
 add list=davidian-sk-blocklist-out_a address=185.228.3.56/31
