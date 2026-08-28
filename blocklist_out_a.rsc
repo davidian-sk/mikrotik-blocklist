@@ -959,7 +959,6 @@ add list=davidian-sk-blocklist-out_a address=45.64.134.75/32
 add list=davidian-sk-blocklist-out_a address=45.66.35.20/31
 add list=davidian-sk-blocklist-out_a address=45.66.35.22/32
 add list=davidian-sk-blocklist-out_a address=45.66.35.35/32
-add list=davidian-sk-blocklist-out_a address=45.79.98.252/32
 add list=davidian-sk-blocklist-out_a address=45.79.115.59/32
 add list=davidian-sk-blocklist-out_a address=45.79.115.134/32
 add list=davidian-sk-blocklist-out_a address=45.79.128.205/32
@@ -2016,7 +2015,6 @@ add list=davidian-sk-blocklist-out_a address=98.159.37.116/30
 add list=davidian-sk-blocklist-out_a address=98.159.37.120/29
 add list=davidian-sk-blocklist-out_a address=98.159.37.128/30
 add list=davidian-sk-blocklist-out_a address=98.159.37.132/31
-add list=davidian-sk-blocklist-out_a address=98.159.37.134/32
 add list=davidian-sk-blocklist-out_a address=98.159.37.136/31
 add list=davidian-sk-blocklist-out_a address=98.159.37.209/32
 add list=davidian-sk-blocklist-out_a address=98.159.37.216/32
@@ -3099,7 +3097,6 @@ add list=davidian-sk-blocklist-out_a address=146.70.160.222/32
 add list=davidian-sk-blocklist-out_a address=146.70.160.238/32
 add list=davidian-sk-blocklist-out_a address=146.70.160.244/32
 add list=davidian-sk-blocklist-out_a address=146.70.178.126/32
-add list=davidian-sk-blocklist-out_a address=146.70.178.164/32
 add list=davidian-sk-blocklist-out_a address=146.70.178.246/32
 add list=davidian-sk-blocklist-out_a address=146.70.178.252/32
 add list=davidian-sk-blocklist-out_a address=146.70.178.254/32
@@ -5028,7 +5025,6 @@ add list=davidian-sk-blocklist-out_a address=216.24.210.253/32
 add list=davidian-sk-blocklist-out_a address=216.24.212.49/32
 add list=davidian-sk-blocklist-out_a address=216.24.212.52/31
 add list=davidian-sk-blocklist-out_a address=216.24.212.75/32
-add list=davidian-sk-blocklist-out_a address=216.24.212.240/32
 add list=davidian-sk-blocklist-out_a address=216.26.231.101/32
 add list=davidian-sk-blocklist-out_a address=216.26.232.87/32
 add list=davidian-sk-blocklist-out_a address=216.26.233.112/32
