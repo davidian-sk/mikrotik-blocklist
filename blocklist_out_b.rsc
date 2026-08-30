@@ -4093,7 +4093,7 @@ add list=davidian-sk-blocklist-out_b address=173.239.218.170/32
 add list=davidian-sk-blocklist-out_b address=173.239.218.173/32
 add list=davidian-sk-blocklist-out_b address=173.239.218.177/32
 add list=davidian-sk-blocklist-out_b address=173.239.218.181/32
-add list=davidian-sk-blocklist-out_b address=173.239.218.182/31
+add list=davidian-sk-blocklist-out_b address=173.239.218.183/32
 add list=davidian-sk-blocklist-out_b address=173.239.218.184/32
 add list=davidian-sk-blocklist-out_b address=173.239.240.12/32
 add list=davidian-sk-blocklist-out_b address=173.239.240.30/31
