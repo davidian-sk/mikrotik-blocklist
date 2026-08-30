@@ -536,6 +536,7 @@ add list=davidian-sk-blocklist_b address=34.140.135.44/32
 add list=davidian-sk-blocklist_b address=34.140.139.154/32
 add list=davidian-sk-blocklist_b address=34.140.184.142/32
 add list=davidian-sk-blocklist_b address=34.140.190.158/32
+add list=davidian-sk-blocklist_b address=34.141.178.234/32
 add list=davidian-sk-blocklist_b address=34.141.215.197/32
 add list=davidian-sk-blocklist_b address=34.142.110.144/32
 add list=davidian-sk-blocklist_b address=34.146.217.105/32
@@ -1567,6 +1568,7 @@ add list=davidian-sk-blocklist_b address=48.209.223.71/32
 add list=davidian-sk-blocklist_b address=48.209.223.76/32
 add list=davidian-sk-blocklist_b address=48.209.223.79/32
 add list=davidian-sk-blocklist_b address=48.209.223.92/32
+add list=davidian-sk-blocklist_b address=49.0.85.146/32
 add list=davidian-sk-blocklist_b address=49.12.66.195/32
 add list=davidian-sk-blocklist_b address=49.13.10.198/32
 add list=davidian-sk-blocklist_b address=49.13.22.245/32
@@ -6137,7 +6139,6 @@ add list=davidian-sk-blocklist_b address=194.53.137.102/32
 add list=davidian-sk-blocklist_b address=194.53.137.156/32
 add list=davidian-sk-blocklist_b address=194.55.167.14/32
 add list=davidian-sk-blocklist_b address=194.56.216.2/32
-add list=davidian-sk-blocklist_b address=194.58.47.54/32
 add list=davidian-sk-blocklist_b address=194.60.87.40/32
 add list=davidian-sk-blocklist_b address=194.62.244.0/22
 add list=davidian-sk-blocklist_b address=194.85.250.0/24
@@ -6258,7 +6259,8 @@ add list=davidian-sk-blocklist_b address=198.17.197.0/24
 add list=davidian-sk-blocklist_b address=198.20.16.0/20
 add list=davidian-sk-blocklist_b address=198.20.67.197/32
 add list=davidian-sk-blocklist_b address=198.20.67.198/32
-add list=davidian-sk-blocklist_b address=198.20.67.200/30
+add list=davidian-sk-blocklist_b address=198.20.67.201/32
+add list=davidian-sk-blocklist_b address=198.20.67.202/31
 add list=davidian-sk-blocklist_b address=198.23.232.204/32
 add list=davidian-sk-blocklist_b address=198.37.0.0/22
 add list=davidian-sk-blocklist_b address=198.41.4.0/22
