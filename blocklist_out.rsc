@@ -1965,9 +1965,7 @@ add list=davidian-sk-blocklist-out address=85.203.15.63/32
 add list=davidian-sk-blocklist-out address=85.203.15.65/32
 add list=davidian-sk-blocklist-out address=85.203.15.69/32
 add list=davidian-sk-blocklist-out address=85.203.15.90/32
-add list=davidian-sk-blocklist-out address=85.203.15.159/32
 add list=davidian-sk-blocklist-out address=85.203.15.183/32
-add list=davidian-sk-blocklist-out address=85.203.15.224/32
 add list=davidian-sk-blocklist-out address=85.203.15.234/32
 add list=davidian-sk-blocklist-out address=85.203.15.236/32
 add list=davidian-sk-blocklist-out address=85.203.15.242/32
