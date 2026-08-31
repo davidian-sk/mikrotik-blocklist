@@ -4530,7 +4530,6 @@ add list=davidian-sk-blocklist-out_a address=185.194.178.32/31
 add list=davidian-sk-blocklist-out_a address=185.194.178.36/32
 add list=davidian-sk-blocklist-out_a address=185.194.178.38/32
 add list=davidian-sk-blocklist-out_a address=185.194.178.40/31
-add list=davidian-sk-blocklist-out_a address=185.194.178.42/32
 add list=davidian-sk-blocklist-out_a address=185.194.178.44/31
 add list=davidian-sk-blocklist-out_a address=185.194.178.52/31
 add list=davidian-sk-blocklist-out_a address=185.194.205.201/32
