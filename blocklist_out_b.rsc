@@ -741,7 +741,6 @@ add list=davidian-sk-blocklist-out_b address=37.221.149.95/32
 add list=davidian-sk-blocklist-out_b address=37.228.129.63/32
 add list=davidian-sk-blocklist-out_b address=37.228.129.189/32
 add list=davidian-sk-blocklist-out_b address=38.128.66.244/32
-add list=davidian-sk-blocklist-out_b address=38.156.233.82/32
 add list=davidian-sk-blocklist-out_b address=39.97.250.212/32
 add list=davidian-sk-blocklist-out_b address=39.98.173.163/32
 add list=davidian-sk-blocklist-out_b address=39.99.254.170/32
@@ -769,7 +768,6 @@ add list=davidian-sk-blocklist-out_b address=41.220.3.101/32
 add list=davidian-sk-blocklist-out_b address=41.224.62.206/32
 add list=davidian-sk-blocklist-out_b address=41.225.17.210/32
 add list=davidian-sk-blocklist-out_b address=42.83.147.53/32
-add list=davidian-sk-blocklist-out_b address=42.83.147.56/32
 add list=davidian-sk-blocklist-out_b address=42.101.60.58/32
 add list=davidian-sk-blocklist-out_b address=42.123.121.114/32
 add list=davidian-sk-blocklist-out_b address=42.123.123.77/32
@@ -1300,7 +1298,6 @@ add list=davidian-sk-blocklist-out_b address=48.209.223.21/32
 add list=davidian-sk-blocklist-out_b address=48.209.223.43/32
 add list=davidian-sk-blocklist-out_b address=48.209.223.68/32
 add list=davidian-sk-blocklist-out_b address=48.209.223.71/32
-add list=davidian-sk-blocklist-out_b address=48.209.223.79/32
 add list=davidian-sk-blocklist-out_b address=49.12.66.195/32
 add list=davidian-sk-blocklist-out_b address=49.13.10.198/32
 add list=davidian-sk-blocklist-out_b address=49.13.22.245/32
@@ -4390,7 +4387,6 @@ add list=davidian-sk-blocklist-out_b address=185.106.102.102/32
 add list=davidian-sk-blocklist-out_b address=185.112.144.11/32
 add list=davidian-sk-blocklist-out_b address=185.112.146.167/32
 add list=davidian-sk-blocklist-out_b address=185.113.9.199/32
-add list=davidian-sk-blocklist-out_b address=185.121.232.229/32
 add list=davidian-sk-blocklist-out_b address=185.129.61.1/32
 add list=davidian-sk-blocklist-out_b address=185.129.61.2/31
 add list=davidian-sk-blocklist-out_b address=185.129.61.4/30
