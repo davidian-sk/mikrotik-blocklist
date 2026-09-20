@@ -34,7 +34,6 @@ add list=davidian-sk-blocklist-out address=5.2.67.226/32
 add list=davidian-sk-blocklist-out address=5.9.55.228/32
 add list=davidian-sk-blocklist-out address=5.11.162.163/32
 add list=davidian-sk-blocklist-out address=5.32.61.6/32
-add list=davidian-sk-blocklist-out address=5.32.99.14/32
 add list=davidian-sk-blocklist-out address=5.35.46.173/32
 add list=davidian-sk-blocklist-out address=5.39.9.94/32
 add list=davidian-sk-blocklist-out address=5.45.98.162/32
@@ -1300,7 +1299,6 @@ add list=davidian-sk-blocklist-out address=49.86.41.90/32
 add list=davidian-sk-blocklist-out address=49.86.41.124/32
 add list=davidian-sk-blocklist-out address=49.124.149.202/32
 add list=davidian-sk-blocklist-out address=49.124.149.217/32
-add list=davidian-sk-blocklist-out address=49.124.150.247/32
 add list=davidian-sk-blocklist-out address=49.124.151.11/32
 add list=davidian-sk-blocklist-out address=49.124.151.14/32
 add list=davidian-sk-blocklist-out address=49.124.151.25/32
@@ -1591,7 +1589,6 @@ add list=davidian-sk-blocklist-out address=64.62.197.178/32
 add list=davidian-sk-blocklist-out address=64.62.197.197/32
 add list=davidian-sk-blocklist-out address=64.62.197.234/32
 add list=davidian-sk-blocklist-out address=64.64.108.24/32
-add list=davidian-sk-blocklist-out address=64.64.108.44/32
 add list=davidian-sk-blocklist-out address=64.72.74.162/32
 add list=davidian-sk-blocklist-out address=64.89.161.91/32
 add list=davidian-sk-blocklist-out address=64.89.162.145/32
@@ -3682,7 +3679,6 @@ add list=davidian-sk-blocklist-out address=149.88.106.136/32
 add list=davidian-sk-blocklist-out address=149.88.106.138/32
 add list=davidian-sk-blocklist-out address=149.88.106.146/32
 add list=davidian-sk-blocklist-out address=149.88.106.148/32
-add list=davidian-sk-blocklist-out address=149.88.106.163/32
 add list=davidian-sk-blocklist-out address=149.88.106.166/32
 add list=davidian-sk-blocklist-out address=149.88.106.168/32
 add list=davidian-sk-blocklist-out address=149.88.106.173/32
@@ -3695,7 +3691,6 @@ add list=davidian-sk-blocklist-out address=149.102.230.136/32
 add list=davidian-sk-blocklist-out address=149.102.230.138/32
 add list=davidian-sk-blocklist-out address=149.202.79.129/32
 add list=davidian-sk-blocklist-out address=150.95.27.209/32
-add list=davidian-sk-blocklist-out address=150.109.46.88/32
 add list=davidian-sk-blocklist-out address=150.109.230.210/32
 add list=davidian-sk-blocklist-out address=150.138.115.76/32
 add list=davidian-sk-blocklist-out address=150.139.194.15/32
@@ -4550,7 +4545,6 @@ add list=davidian-sk-blocklist-out address=185.194.178.30/31
 add list=davidian-sk-blocklist-out address=185.194.178.32/31
 add list=davidian-sk-blocklist-out address=185.194.178.34/32
 add list=davidian-sk-blocklist-out address=185.194.178.36/31
-add list=davidian-sk-blocklist-out address=185.194.178.38/32
 add list=davidian-sk-blocklist-out address=185.194.178.40/29
 add list=davidian-sk-blocklist-out address=185.194.178.48/32
 add list=davidian-sk-blocklist-out address=185.194.178.50/31
@@ -5231,7 +5225,7 @@ add list=davidian-sk-blocklist-out address=204.137.14.106/32
 add list=davidian-sk-blocklist-out address=204.194.29.4/32
 add list=davidian-sk-blocklist-out address=204.199.57.196/32
 add list=davidian-sk-blocklist-out address=205.169.39.3/32
-add list=davidian-sk-blocklist-out address=205.169.39.4/31
+add list=davidian-sk-blocklist-out address=205.169.39.5/32
 add list=davidian-sk-blocklist-out address=205.169.39.47/32
 add list=davidian-sk-blocklist-out address=205.169.39.50/32
 add list=davidian-sk-blocklist-out address=205.169.39.57/32
@@ -5525,7 +5519,6 @@ add list=davidian-sk-blocklist-out address=216.73.163.64/32
 add list=davidian-sk-blocklist-out address=216.73.163.69/32
 add list=davidian-sk-blocklist-out address=216.73.163.73/32
 add list=davidian-sk-blocklist-out address=216.73.163.74/32
-add list=davidian-sk-blocklist-out address=216.73.163.80/32
 add list=davidian-sk-blocklist-out address=216.73.163.137/32
 add list=davidian-sk-blocklist-out address=216.73.163.140/32
 add list=davidian-sk-blocklist-out address=216.73.163.164/32
