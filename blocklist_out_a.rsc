@@ -1014,7 +1014,6 @@ add list=davidian-sk-blocklist-out_a address=45.119.85.159/32
 add list=davidian-sk-blocklist-out_a address=45.119.212.99/32
 add list=davidian-sk-blocklist-out_a address=45.120.216.232/32
 add list=davidian-sk-blocklist-out_a address=45.126.43.35/32
-add list=davidian-sk-blocklist-out_a address=45.128.39.213/32
 add list=davidian-sk-blocklist-out_a address=45.128.133.242/32
 add list=davidian-sk-blocklist-out_a address=45.128.199.72/32
 add list=davidian-sk-blocklist-out_a address=45.128.199.85/32
@@ -1509,6 +1508,7 @@ add list=davidian-sk-blocklist-out_a address=65.49.1.10/32
 add list=davidian-sk-blocklist-out_a address=65.49.1.24/32
 add list=davidian-sk-blocklist-out_a address=65.49.1.38/32
 add list=davidian-sk-blocklist-out_a address=65.49.1.52/32
+add list=davidian-sk-blocklist-out_a address=65.49.1.71/32
 add list=davidian-sk-blocklist-out_a address=65.49.1.94/32
 add list=davidian-sk-blocklist-out_a address=65.49.1.108/32
 add list=davidian-sk-blocklist-out_a address=65.49.1.132/32
@@ -1593,7 +1593,6 @@ add list=davidian-sk-blocklist-out_a address=71.235.225.181/32
 add list=davidian-sk-blocklist-out_a address=72.37.217.3/32
 add list=davidian-sk-blocklist-out_a address=72.145.76.1/32
 add list=davidian-sk-blocklist-out_a address=72.145.76.10/32
-add list=davidian-sk-blocklist-out_a address=72.145.76.34/32
 add list=davidian-sk-blocklist-out_a address=72.195.34.42/32
 add list=davidian-sk-blocklist-out_a address=72.195.101.99/32
 add list=davidian-sk-blocklist-out_a address=72.211.49.235/32
@@ -1791,7 +1790,6 @@ add list=davidian-sk-blocklist-out_a address=85.8.130.94/32
 add list=davidian-sk-blocklist-out_a address=85.11.167.154/32
 add list=davidian-sk-blocklist-out_a address=85.19.195.12/32
 add list=davidian-sk-blocklist-out_a address=85.25.43.170/32
-add list=davidian-sk-blocklist-out_a address=85.25.43.199/32
 add list=davidian-sk-blocklist-out_a address=85.25.93.236/32
 add list=davidian-sk-blocklist-out_a address=85.25.177.176/32
 add list=davidian-sk-blocklist-out_a address=85.25.185.20/32
@@ -1879,7 +1877,6 @@ add list=davidian-sk-blocklist-out_a address=89.238.165.139/32
 add list=davidian-sk-blocklist-out_a address=89.246.241.14/32
 add list=davidian-sk-blocklist-out_a address=89.248.164.165/32
 add list=davidian-sk-blocklist-out_a address=89.248.168.227/32
-add list=davidian-sk-blocklist-out_a address=89.251.0.159/32
 add list=davidian-sk-blocklist-out_a address=90.151.171.108/32
 add list=davidian-sk-blocklist-out_a address=90.226.223.18/32
 add list=davidian-sk-blocklist-out_a address=90.230.168.26/32
@@ -4374,8 +4371,11 @@ add list=davidian-sk-blocklist-out_a address=185.223.152.204/30
 add list=davidian-sk-blocklist-out_a address=185.223.152.208/30
 add list=davidian-sk-blocklist-out_a address=185.223.152.212/32
 add list=davidian-sk-blocklist-out_a address=185.223.152.214/32
-add list=davidian-sk-blocklist-out_a address=185.223.152.216/29
-add list=davidian-sk-blocklist-out_a address=185.223.152.224/30
+add list=davidian-sk-blocklist-out_a address=185.223.152.216/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.218/31
+add list=davidian-sk-blocklist-out_a address=185.223.152.220/30
+add list=davidian-sk-blocklist-out_a address=185.223.152.224/32
+add list=davidian-sk-blocklist-out_a address=185.223.152.226/31
 add list=davidian-sk-blocklist-out_a address=185.225.69.232/32
 add list=davidian-sk-blocklist-out_a address=185.225.203.84/32
 add list=davidian-sk-blocklist-out_a address=185.226.160.147/32
@@ -5263,7 +5263,7 @@ add list=davidian-sk-blocklist-out_a address=216.244.66.233/32
 add list=davidian-sk-blocklist-out_a address=216.244.66.234/31
 add list=davidian-sk-blocklist-out_a address=216.244.66.236/30
 add list=davidian-sk-blocklist-out_a address=216.244.66.240/30
-add list=davidian-sk-blocklist-out_a address=216.244.66.244/31
+add list=davidian-sk-blocklist-out_a address=216.244.66.245/32
 add list=davidian-sk-blocklist-out_a address=216.244.66.248/31
 add list=davidian-sk-blocklist-out_a address=216.244.66.250/32
 add list=davidian-sk-blocklist-out_a address=217.12.221.131/32
