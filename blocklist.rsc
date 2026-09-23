@@ -1983,7 +1983,6 @@ add list=davidian-sk-active-blocklist address=78.17.93.124/32
 add list=davidian-sk-active-blocklist address=78.17.93.169/32
 add list=davidian-sk-active-blocklist address=78.17.93.170/32
 add list=davidian-sk-active-blocklist address=78.17.93.226/32
-add list=davidian-sk-active-blocklist address=78.25.125.137/32
 add list=davidian-sk-active-blocklist address=78.40.143.0/24
 add list=davidian-sk-active-blocklist address=78.46.201.135/32
 add list=davidian-sk-active-blocklist address=78.57.171.154/32
