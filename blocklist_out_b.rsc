@@ -3774,7 +3774,6 @@ add list=davidian-sk-blocklist-out_b address=190.129.74.148/32
 add list=davidian-sk-blocklist-out_b address=190.129.75.225/32
 add list=davidian-sk-blocklist-out_b address=190.129.122.185/32
 add list=davidian-sk-blocklist-out_b address=190.151.113.6/32
-add list=davidian-sk-blocklist-out_b address=190.167.151.19/32
 add list=davidian-sk-blocklist-out_b address=190.171.165.205/32
 add list=davidian-sk-blocklist-out_b address=190.181.25.210/32
 add list=davidian-sk-blocklist-out_b address=190.181.26.2/32
