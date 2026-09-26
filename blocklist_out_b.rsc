@@ -1385,7 +1385,6 @@ add list=davidian-sk-blocklist-out_b address=85.93.93.14/32
 add list=davidian-sk-blocklist-out_b address=85.93.218.204/32
 add list=davidian-sk-blocklist-out_b address=85.142.100.82/32
 add list=davidian-sk-blocklist-out_b address=85.159.164.28/32
-add list=davidian-sk-blocklist-out_b address=85.185.153.60/32
 add list=davidian-sk-blocklist-out_b address=85.203.15.63/32
 add list=davidian-sk-blocklist-out_b address=85.203.15.90/32
 add list=davidian-sk-blocklist-out_b address=85.204.70.92/32
