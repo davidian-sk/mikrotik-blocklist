@@ -3330,7 +3330,6 @@ add list=davidian-sk-blocklist-out address=152.32.159.177/32
 add list=davidian-sk-blocklist-out address=152.32.159.180/32
 add list=davidian-sk-blocklist-out address=152.32.170.230/32
 add list=davidian-sk-blocklist-out address=152.32.174.171/32
-add list=davidian-sk-blocklist-out address=152.32.175.99/32
 add list=davidian-sk-blocklist-out address=152.32.180.86/32
 add list=davidian-sk-blocklist-out address=152.32.180.98/32
 add list=davidian-sk-blocklist-out address=152.32.180.138/32
