@@ -2628,6 +2628,8 @@ add list=davidian-sk-active-blocklist address=98.170.57.241/32
 add list=davidian-sk-active-blocklist address=98.192.74.183/32
 add list=davidian-sk-active-blocklist address=98.204.134.124/32
 add list=davidian-sk-active-blocklist address=100.28.191.174/32
+add list=davidian-sk-active-blocklist address=100.29.192.0/32
+add list=davidian-sk-active-blocklist address=100.29.192.255/32
 add list=davidian-sk-active-blocklist address=100.49.117.77/32
 add list=davidian-sk-active-blocklist address=100.50.17.159/32
 add list=davidian-sk-active-blocklist address=100.51.6.16/32
