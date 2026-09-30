@@ -2508,8 +2508,6 @@ add list=davidian-sk-blocklist-out_b address=103.237.144.204/32
 add list=davidian-sk-blocklist-out_b address=103.241.168.70/32
 add list=davidian-sk-blocklist-out_b address=103.245.17.222/32
 add list=davidian-sk-blocklist-out_b address=103.251.143.14/32
-add list=davidian-sk-blocklist-out_b address=103.252.127.145/32
-add list=davidian-sk-blocklist-out_b address=103.252.127.146/32
 add list=davidian-sk-blocklist-out_b address=103.253.24.90/32
 add list=davidian-sk-blocklist-out_b address=104.28.24.68/31
 add list=davidian-sk-blocklist-out_b address=104.28.202.178/31
