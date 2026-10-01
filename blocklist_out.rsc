@@ -5020,7 +5020,6 @@ add list=davidian-sk-blocklist-out address=199.195.251.119/32
 add list=davidian-sk-blocklist-out address=199.195.253.124/32
 add list=davidian-sk-blocklist-out address=199.195.253.156/32
 add list=davidian-sk-blocklist-out address=199.195.253.180/32
-add list=davidian-sk-blocklist-out address=199.231.188.242/32
 add list=davidian-sk-blocklist-out address=200.21.254.245/32
 add list=davidian-sk-blocklist-out address=200.27.142.120/32
 add list=davidian-sk-blocklist-out address=200.40.204.66/32
