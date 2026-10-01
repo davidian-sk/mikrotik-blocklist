@@ -6959,6 +6959,8 @@ add list=davidian-sk-blocklist_b address=205.237.8.0/24
 add list=davidian-sk-blocklist_b address=205.237.10.0/23
 add list=davidian-sk-blocklist_b address=205.237.12.0/22
 add list=davidian-sk-blocklist_b address=205.237.16.0/22
+add list=davidian-sk-blocklist_b address=205.237.106.0/32
+add list=davidian-sk-blocklist_b address=205.237.106.255/32
 add list=davidian-sk-blocklist_b address=206.41.128.0/20
 add list=davidian-sk-blocklist_b address=206.41.160.0/19
 add list=davidian-sk-blocklist_b address=206.42.55.92/32
