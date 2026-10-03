@@ -162,7 +162,7 @@ add list=davidian-sk-blocklist-out address=23.155.8.104/32
 add list=davidian-sk-blocklist-out address=23.170.200.122/32
 add list=davidian-sk-blocklist-out address=23.171.177.250/32
 add list=davidian-sk-blocklist-out address=23.191.200.2/32
-add list=davidian-sk-blocklist-out address=23.191.200.4/32
+add list=davidian-sk-blocklist-out address=23.191.200.4/31
 add list=davidian-sk-blocklist-out address=23.191.200.7/32
 add list=davidian-sk-blocklist-out address=23.191.200.8/29
 add list=davidian-sk-blocklist-out address=23.191.200.16/28
@@ -707,7 +707,6 @@ add list=davidian-sk-blocklist-out address=38.128.66.244/32
 add list=davidian-sk-blocklist-out address=39.97.250.212/32
 add list=davidian-sk-blocklist-out address=39.98.173.163/32
 add list=davidian-sk-blocklist-out address=39.99.254.170/32
-add list=davidian-sk-blocklist-out address=39.101.69.5/32
 add list=davidian-sk-blocklist-out address=39.109.109.136/32
 add list=davidian-sk-blocklist-out address=39.109.116.214/32
 add list=davidian-sk-blocklist-out address=39.152.193.72/32
@@ -2960,7 +2959,6 @@ add list=davidian-sk-blocklist-out address=125.21.59.218/32
 add list=davidian-sk-blocklist-out address=125.35.109.214/32
 add list=davidian-sk-blocklist-out address=125.39.179.192/32
 add list=davidian-sk-blocklist-out address=125.69.76.148/32
-add list=davidian-sk-blocklist-out address=125.88.160.13/32
 add list=davidian-sk-blocklist-out address=125.91.33.72/32
 add list=davidian-sk-blocklist-out address=125.91.106.241/32
 add list=davidian-sk-blocklist-out address=125.139.124.120/32
@@ -5085,6 +5083,7 @@ add list=davidian-sk-blocklist-out address=212.30.36.200/31
 add list=davidian-sk-blocklist-out address=212.30.36.203/32
 add list=davidian-sk-blocklist-out address=212.30.36.204/31
 add list=davidian-sk-blocklist-out address=212.30.36.223/32
+add list=davidian-sk-blocklist-out address=212.30.37.161/32
 add list=davidian-sk-blocklist-out address=212.39.27.171/32
 add list=davidian-sk-blocklist-out address=212.69.167.80/32
 add list=davidian-sk-blocklist-out address=212.73.134.204/32
