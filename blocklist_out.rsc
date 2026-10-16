@@ -826,6 +826,7 @@ add list=davidian-sk-blocklist-out address=103.243.152.0/22
 add list=davidian-sk-blocklist-out address=103.243.240.0/22
 add list=davidian-sk-blocklist-out address=103.246.244.0/22
 add list=davidian-sk-blocklist-out address=103.248.68.0/22
+add list=davidian-sk-blocklist-out address=103.248.76.0/22
 add list=davidian-sk-blocklist-out address=103.249.72.0/22
 add list=davidian-sk-blocklist-out address=103.250.224.0/22
 add list=davidian-sk-blocklist-out address=103.253.216.0/22
