@@ -451,6 +451,7 @@ add list=davidian-sk-blocklist-out address=64.77.128.0/18
 add list=davidian-sk-blocklist-out address=64.89.160.0/22
 add list=davidian-sk-blocklist-out address=64.92.224.0/20
 add list=davidian-sk-blocklist-out address=64.116.200.0/21
+add list=davidian-sk-blocklist-out address=64.204.37.0/24
 add list=davidian-sk-blocklist-out address=64.227.191.20/32
 add list=davidian-sk-blocklist-out address=64.250.144.0/20
 add list=davidian-sk-blocklist-out address=65.166.249.0/24
