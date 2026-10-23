@@ -1288,7 +1288,7 @@ add list=davidian-sk-blocklist-out address=185.169.4.0/24
 add list=davidian-sk-blocklist-out address=185.177.239.0/24
 add list=davidian-sk-blocklist-out address=185.189.73.0/24
 add list=davidian-sk-blocklist-out address=185.192.36.0/22
-add list=davidian-sk-blocklist-out address=185.192.100.0/24
+add list=davidian-sk-blocklist-out address=185.192.100.0/23
 add list=davidian-sk-blocklist-out address=185.192.103.0/24
 add list=davidian-sk-blocklist-out address=185.212.240.0/22
 add list=davidian-sk-blocklist-out address=185.215.132.0/22
