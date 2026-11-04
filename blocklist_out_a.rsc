@@ -417,6 +417,7 @@ add list=davidian-sk-blocklist-out_a address=45.203.220.220/32
 add list=davidian-sk-blocklist-out_a address=45.221.116.0/22
 add list=davidian-sk-blocklist-out_a address=45.230.66.0/24
 add list=davidian-sk-blocklist-out_a address=45.248.88.0/22
+add list=davidian-sk-blocklist-out_a address=46.29.26.0/24
 add list=davidian-sk-blocklist-out_a address=46.151.182.0/23
 add list=davidian-sk-blocklist-out_a address=46.173.240.0/20
 add list=davidian-sk-blocklist-out_a address=46.174.204.0/22
