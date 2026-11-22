@@ -1,0 +1,17 @@
+# Local working files of the aggregator (not part of the published lists)
+temp_ips.txt
+temp_raw.txt
+temp_clean.txt
+ip_aggregator_git.sh
+squash_history.sh
+sources.txt
+sources_out.txt
+.ip_aggregator.lock
+
+# Optional logs
+*.log
+
+# Editor junk
+*.swp
+*~
+.DS_Store
